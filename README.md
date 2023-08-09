@@ -33,8 +33,12 @@ When using these scripts, make sure to modify paths, usernames, etc. in these fi
 \
 Also check if you need to modify things in\
 \
-*RadioFilesGenerator.py*\
-*SimulationMaker.py*
+*utils/RadioFilesGenerator.py*\
+*utils/SimulationMaker.py*
+
+6. Select your antenna layout\
+   Inside _utils/RadioFilesGenerator.py_, select or adapt the antenna layout.\
+   [starshapes under development!]
 
 ## How to run
 Once you have set all paths and input values according to your needs, run
