@@ -1,22 +1,14 @@
-# README.md multiple corsika simulations on Horeka
+# CoreasSpellcaster
+Unleash the magic of simultaneous shower simulations with this Coreas generator.
 
-@author: Federico Bontempo <federico.bontempo@kit.edu> \
-				 PhD student KIT Germany\
-@date: October 2022
+### Author
+Jelena Köhler @jelenakhlr\
+@date: August 2023
 
-@co-author: Jelena Köhler <jelena.koehler@kit.edu>\
-PhD student at KIT Germany\
-@date: June 2023
--------------------------------------------------------------------------------
+original version by @fedbont94\
+forked from https://github.com/fedbont94/Horeka
 
-## Radio generator edits by Jelena
-
-Submitting the sims with the classic version of this program takes too long with Corsika :( \
-It's actually better to do one job per shower - for Coreas at least. \
-So **FOR RADIO**: use this whole thing to create the input and sh files \
-and let it submit the jobs with *submit_jobs.py* \
-
-# Before you start
+## Before you start
 1. Download **miniradiotools** from https://github.com/jelenakhlr/miniradiotools
 
 2. Check paths:\
@@ -33,9 +25,7 @@ Also check if you need to modify things in
 *RadioFilesGenerator.py*\
 *SimulationMaker.py*
 
--------------------------------------------------------------------------------
 ## General Information
-by Federico\
 This folder contains all the necessary scripts to run a multiple corsika simulations and detector response simulations in a single submission.
 
 How to submit a job to the cluster:\
