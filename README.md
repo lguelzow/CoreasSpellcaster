@@ -12,16 +12,16 @@ forked from https://github.com/fedbont94/Horeka
 1. Download **miniradiotools** from https://github.com/jelenakhlr/miniradiotools
 
 2. Check paths:\
-When using these scripts, make sure to modify paths, usernames, etc. in these files:
-
+When using these scripts, make sure to modify paths, usernames, etc. in these files:\
+\
 *SubFile.sub*\
 *corsikaSim.sh*\
 *ExecuteSubfile.sh*\
 *utils/FileWriter.py*\
 *MakeCorsikaSim.py*\
-
-Also check if you need to modify things in
-
+\
+Also check if you need to modify things in\
+\
 *RadioFilesGenerator.py*\
 *SimulationMaker.py*
 
