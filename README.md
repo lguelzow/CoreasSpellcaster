@@ -25,6 +25,12 @@ Also check if you need to modify things in
 *RadioFilesGenerator.py*\
 *SimulationMaker.py*
 
+## How to run
+Once you have set all paths and input values according to your needs, run
+
+./ExecuteSubFile.sh
+
+
 ## General Information
 This folder contains all the necessary scripts to run a multiple corsika simulations and detector response simulations in a single submission.
 
