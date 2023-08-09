@@ -25,8 +25,8 @@ Also check if you need to modify things in
 *RadioFilesGenerator.py*\
 *SimulationMaker.py*
 
-3. Compile the version of Corsika you need (and make sure to include that in the paths above)
-Make sure to use the PARALLEL option and to compile with MPILIBRARY when using the radio-mpi branch of this repository
+3. Compile the version of Corsika you need (and make sure to include that in the paths above)\
+Make sure to use the **PARALLEL** option and to compile with **MPILIBRARY** when using the _radio-mpi branch_ of this repository
 
 ## How to run
 Once you have set all paths and input values according to your needs, run
