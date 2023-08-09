@@ -9,13 +9,17 @@ original version by @fedbont94\
 forked from https://github.com/fedbont94/Horeka
 
 ## Before you start
-0. Select the proper branch\
+1. Select the proper branch\
 _"radio-mpi"_ for the mpi version\
 _"radio-non-mpi"_ for the non-mpi version
 
-1. Download **miniradiotools** from https://github.com/jelenakhlr/miniradiotools
+2. Compile the version of Corsika you need\
+for mpi: Make sure to use the **PARALLEL** option and to compile with **MPILIBRARY**\
+(do not use these for non-mpi)
 
-2. Check paths:\
+3. Download **miniradiotools** from https://github.com/jelenakhlr/miniradiotools
+
+4. Check paths:\
 When using these scripts, make sure to modify paths, usernames, etc. in these files:\
 \
 *SubFile.sub*\
@@ -28,9 +32,6 @@ Also check if you need to modify things in\
 \
 *RadioFilesGenerator.py*\
 *SimulationMaker.py*
-
-3. Compile the version of Corsika you need (and make sure to include that in the paths above)\
-Make sure to use the **PARALLEL** option and to compile with **MPILIBRARY** when using the _radio-mpi branch_ of this repository
 
 ## How to run
 Once you have set all paths and input values according to your needs, run
