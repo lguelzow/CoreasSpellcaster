@@ -15,11 +15,13 @@ _"radio-non-mpi"_ for the non-mpi version
 
 2. Compile the version of Corsika you need\
 for mpi: Make sure to use the **PARALLEL** option and to compile with **MPILIBRARY**\
-(do not use these for non-mpi)
+(do not use these for non-mpi)\
+For more info, see the Corsika manual: https://web.iap.kit.edu/corsika/usersguide/usersguide.pdf\
+and the Coreas manual: https://web.ikp.kit.edu/huege/downloads/coreas-manual.pdf
 
-3. Download **miniradiotools** from https://github.com/jelenakhlr/miniradiotools
+4. Download **miniradiotools** from https://github.com/jelenakhlr/miniradiotools
 
-4. Check paths:\
+5. Check paths:\
 When using these scripts, make sure to modify paths, usernames, etc. in these files:\
 \
 *SubFile.sub*\
