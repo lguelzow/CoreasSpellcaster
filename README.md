@@ -56,15 +56,15 @@ _MakeDetectorResponse.py_ - Is the main script that for detector response simula
 
 
 _utils/FileWriter.py_ -       Contains a class that can be used to create and write a Corsika inp file and create "data", "temp", "log", "inp" folders. \
-                            (more documentation in the script)
-_utils/SimulationMaker.p_y -  Contains a class that can be used for generating the submission stings and sh executable files. \
+                            (more documentation in the script)\
+_utils/SimulationMaker.py_ -  Contains a class that can be used for generating the submission stings and sh executable files. \
                             It also has the generator function which yields the keys and string to submit, 
                             made via the combinations of file and energies \
-                            (more documentation in the script)
+                            (more documentation in the script)\
 _utils/Submitter.py_ -        Contains a class that can be used to spawns subprocesses for multiple instances instead of multiple job submissions.
-                            (more documentation in the script)
+                            (more documentation in the script)\
 
 _utils/DetectorSimulator.py_ - Contains a class that can be used to simulate the detector response for a given corsika file. \
-                            (more documentation in the script)
+                            (more documentation in the script)\
 _utils/MultiProcesses.py_ -   Contains a class that can be used to spawn multiple processes for the detector response simulation. \
-                            (more documentation in the script)
+                            (more documentation in the script)\
