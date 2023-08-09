@@ -29,7 +29,7 @@ When using these scripts, make sure to modify paths, usernames, etc. in these fi
 *corsikaSim.sh*\
 *ExecuteSubfile.sh*\
 *utils/FileWriter.py*\
-*MakeCorsikaSim.py*
+*MakeCorsikaSim.py*\
 \
 Also check if you need to modify things in\
 \
