@@ -132,11 +132,11 @@ class RadioFilesGenerator:
         .list files are structured like "AntennaPosition = x y z name"
 
         """
+        azimuth_stshp = self.azimuth + 270
         # TODO: put in a proper path for the starshapes. But this works, so it's fine for now.
-        create_stshp_list(self.zenith, self.azimuth, filename=f"{self.directory}/{self.log10_E1}/SIM{self.runNumber}.list", 
+        create_stshp_list(self.zenith, azimuth_stshp, filename=f"{self.directory}/{self.log10_E1}/SIM{self.runNumber}.list", 
                         obslevel=int(self.obslev), # for Dunhuang, in cm for corsika
                         obsplane = "sp",
-                        Auger_input = False,
                         inclination=np.deg2rad(61.60523), # for Dunhuang
                         Rmin=0., Rmax=50000., n_rings=20, # for positions in starshape (in cm)
                         arm_orientations=np.deg2rad([0, 45, 90, 135, 180, 225, 270, 315]), # for positions in starshape
