@@ -132,7 +132,7 @@ class RadioFilesGenerator:
         .list files are structured like "AntennaPosition = x y z name"
 
         """
-        # TODO: remove the ../ and put in a proper path. But this works, so it's fine for now.
+        # TODO: put in a proper path for the starshapes. But this works, so it's fine for now.
         create_stshp_list(self.zenith, self.azimuth, filename=f"{self.directory}/{self.log10_E1}/SIM{self.runNumber}.list", 
                         obslevel=int(self.obslev), # for Dunhuang, in cm for corsika
                         obsplane = "sp",
