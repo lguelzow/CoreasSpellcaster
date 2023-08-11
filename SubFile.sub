@@ -10,4 +10,4 @@
 ######SBATCH --export=NONE
 #######################SBATCH --gres=gpu:4
 
-/home/hk-project-radiohfi/bg5912/Horeka/corsikaSim.sh
+/home/hk-project-radiohfi/bg5912/CoreasSpellcaster/corsikaSim.sh

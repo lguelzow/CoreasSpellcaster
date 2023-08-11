@@ -107,8 +107,8 @@ class SubFilesGenerator:
                 + f"echo created {datdir}\n"
                 + f"mv {inpdir}/DAT??????-* {datdir}\n" # move all annoying files to datdir
                 + f"mv {inpdir}/corsika_timetable-* {datdir}\n"
-                + f"rm -r {inpdir}/../data/ \n" # remove the obsolete data directory
-                + f"rm -r {inpdir}/../temp/ \n" # remove the obsolete temp directory
+                + f"rm -r {inpdir}/../../data/ \n" # remove the obsolete data directory
+                + f"rm -r {inpdir}/../../temp/ \n" # remove the obsolete temp directory
             )
 
         # Make the file executable

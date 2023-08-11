@@ -4,7 +4,7 @@
 # module load compiler/gnu/10.2
 # module load mpi/openmpi/4.1
 PYTHON=/home/hk-project-radiohfi/bg5912/virtual_env/bin/python3
-SCRIPT=/home/hk-project-radiohfi/bg5912/Horeka/MakeCorsikaSim.py
+SCRIPT=/home/hk-project-radiohfi/bg5912/CoreasSpellcaster/MakeCorsikaSim.py
 
 #TODO Make sure this is the right corsika path
 cd /home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/
@@ -25,7 +25,7 @@ $PYTHON $SCRIPT \
                 --energyStart 8.0 \
                 --energyEnd 9.0 \
                 --energyStep 0.1 \
-                --azimuth 38.00000000 \
+                --azimuth 0.00000000 \
                 --zenith 65.00000000 \
                 --obslev 156400 \
                 --logDirProcesses "/home/hk-project-radiohfi/bg5912/work/sims/GRAND/lukas/logs/" \
