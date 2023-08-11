@@ -136,6 +136,7 @@ class RadioFilesGenerator:
         create_stshp_list(self.zenith, self.azimuth, filename=f"{self.directory}/{self.log10_E1}/../starshapes/SIM{self.runNumber}.list", 
                         obslevel=int(self.obslev), # for Dunhuang, in cm for corsika
                         obsplane = "sp",
+                        Auger_input = True,
                         inclination=np.deg2rad(61.60523), # for Dunhuang
                         Rmin=0., Rmax=50000., n_rings=20, # for positions in starshape (in cm)
                         arm_orientations=np.deg2rad([0, 45, 90, 135, 180, 225, 270, 315]), # for positions in starshape
@@ -165,11 +166,11 @@ class RadioFilesGenerator:
         # Opening and writing in the file
         with open(list_name, 'w') as f:
             # write the positions (x, y, z) and names of the starshape antennas to the .list file
-            # for i in range(self.starshapeInfo["x"].shape[0]):
-            #     f.write(f"AntennaPosition = {self.starshapeInfo['x'][i]} {self.starshapeInfo['y'][i]} {self.starshapeInfo['z'][i]} {self.starshapeInfo['name'][i]}\n") 
+            for i in range(self.starshapeInfo["x"].shape[0]):
+                f.write(f"AntennaPosition = {self.starshapeInfo['x'][i]} {self.starshapeInfo['y'][i]} {self.starshapeInfo['z'][i]} {self.starshapeInfo['name'][i]}\n") 
             # write the positions (x, y, z) and names of the detector's antennas to the .list file
-            for i in range(self.antennaInfo["x"].shape[0]):
-                f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} {self.antennaInfo['z'][i]} {self.antennaInfo['name'][i]}\n") 
+            # for i in range(self.antennaInfo["x"].shape[0]):
+            #     f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} {self.antennaInfo['z'][i]} {self.antennaInfo['name'][i]}\n") 
             
 
     def writeReasList(self):
