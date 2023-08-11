@@ -41,10 +41,16 @@ Also check if you need to modify things in\
    [starshapes under development!]
 
 ## How to run
-Once you have set all paths and input values according to your needs, run
+### Submit a whole batch of showers
+Once you have set all paths and input values according to your needs, simply run
 
 ./ExecuteSubFile.sh
 
+### Submit a single shower
+If you want to go rogue and manually submit a shower, you need to make sure you have the sub file and the inp, reas and list file ready.\
+Then you can submit the sub file on Horeka (or the cluster of your preference) using the command:
+
+# sbatch -p cpuonly -A <your project> ./SIMxxxxxx.sh
 
 ## General Information
 by @fedbont94
