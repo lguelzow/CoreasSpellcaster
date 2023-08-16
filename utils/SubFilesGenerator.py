@@ -27,13 +27,6 @@ class SubFilesGenerator:
         self.corsikaExe = corsikaExe
 
 
-        """
-        Generate sub files for Horeka 
-        (by Jelena)
-
-        """
-
-
     def subWriter(self):
 
         # create the SIMxxxxxx ID
@@ -50,6 +43,7 @@ class SubFilesGenerator:
 
         # directory containing the simulation files (input + output)
         inpdir = f"{self.inpdir}/{self.log10_E1}/"
+        logdir = f"{self.logdir}/{self.log10_E1}/"
         # create a directory to move all annoying files to after the sim is completed
         datdir = f"{self.inpdir}/{self.log10_E1}/{dat}/"
 
@@ -78,8 +72,8 @@ class SubFilesGenerator:
             file.write(""
                 + f"#!/bin/bash\n" 
                 + f"#SBATCH --job-name={self.runNumber}\n"
-                + f"#SBATCH --output=/home/hk-project-radiohfi/bg5912/work/sims/GRAND/lukas/logs/_log%j.out\n"
-                + f"#SBATCH --error=/home/hk-project-radiohfi/bg5912/work/sims/GRAND/lukas/logs/_log%j.err\n"
+                + f"#SBATCH --output={logdir}_log%j.out\n"
+                + f"#SBATCH --error={logdir}_log%j.err\n"
                 + f"#SBATCH --nodes=1\n"
                 + f"#SBATCH --ntasks-per-node=76\n"
                 + f"#SBATCH --cpus-per-task=1\n"

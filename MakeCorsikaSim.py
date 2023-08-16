@@ -246,7 +246,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--logDirProcesses",
         type=str,
-        default="/home/hk-project-radiohfi/bg5912/work/sims/GRAND/lukas/logs/",
+        default="/home/hk-project-radiohfi/bg5912/work/sims/logs/",
         help="Directory where log files of the multiple subProcesses are stored",
     )
     parser.add_argument(

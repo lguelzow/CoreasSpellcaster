@@ -131,6 +131,8 @@ class RadioFilesGenerator:
         .list files are structured like "AntennaPosition = x y z name"
 
         """
+        # create the SIMxxxxxx ID
+        sim = f"SIM{self.runNumber}"
         # * * * * * * * * * * * * * *
         """
         In the best case, you don't need to touch any of this, but here's some explanation on the next few lines of code:
@@ -143,10 +145,8 @@ class RadioFilesGenerator:
         """
         # * * * * * * * * * * * * * *
 
-        # TODO: put in a proper path for the starshapes. But this works, so it's fine for now.
-
         radiotools_azimuth = self.azimuth + 270 
-        corsika_azimuth = create_stshp_list(self.zenith, radiotools_azimuth, filename=f"{self.directory}/{self.log10_E1}/SIM{self.runNumber}.list", 
+        corsika_azimuth = create_stshp_list(self.zenith, radiotools_azimuth, filename=f"{self.directory}/{self.log10_E1}/{sim}_starshape.list", 
                         obslevel=int(self.obslev), # for Dunhuang, in cm for corsika
                         obsplane = "gp",
                         inclination=61.60523, # for Dunhuang
@@ -166,7 +166,7 @@ class RadioFilesGenerator:
 
 
         # use the starshape file we just generated and read the antenna positions and names from it:
-        file = np.genfromtxt(f"{self.directory}/{self.log10_E1}/SIM{self.runNumber}.list", dtype = "str")
+        file = np.genfromtxt(f"{self.directory}/{self.log10_E1}/{sim}_starshape.list", dtype = "str")
         
         # get antenna positions from file
         # file[:,0] and file[:,1] are useless (they are simply "AntennaPosition" and "=")
