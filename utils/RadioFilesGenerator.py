@@ -34,7 +34,7 @@ class RadioFilesGenerator:
         self.log10_E1 = log10_E1
         self.pathAntennas = pathAntennas
         self.zenith = zenith
-        self.azimuth = azimuth
+        self.azimuth= azimuth
         self.antennaInfo = {}
         self.starshapeInfo = {}
 
@@ -53,6 +53,7 @@ class RadioFilesGenerator:
         in the .reas file and (approximately) the same for the z component of the antennas in the .list file. 
         Otherwise, CORSIKA will just crash without any explanation.
         """
+
 
     def reasWriter(self):
 

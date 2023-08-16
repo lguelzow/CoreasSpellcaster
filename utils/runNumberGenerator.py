@@ -14,14 +14,14 @@ RunNumber: <012345>
    where 0: x.0  (log GeV) - corresponds to E18eV
 
 <2>: zenith: 0-9
-   where 0: 65; ...; 8: 85
+    in ranges (see below)
 
 <3>: azimuth: 0-9
-   where 0: 0; ...; 8: 360
+    in ranges (see below)
 
 <4>: empty (0)
 
-<5>: shower variation
+<5>: shower variation: 0-9
 
 *********
 

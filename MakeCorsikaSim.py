@@ -100,57 +100,52 @@ def mainCorsikaSim(args):
                 decimals=1 # the rounding has to have one single decimal point for the folder. 
     )
     
-    def process_with_azimuth(azimuth):
-        fW = FileWriter(
-            username=args.username,                 # User name on server
-            dirRun=args.pathCorsika,
-            dirSimulations=args.dirSimulations,
-            primary=args.primary,                   # 1 is gamma, 14 is proton, 402 is He, 1608 is Oxygen, 5626 is Fe
-            dataset=args.dataset,                   # changed on 28 Jan 2020 according to IC std: 13000.0 +000 H, +100 He, +200 O, +300 Fe, +400 Gamma
-            primIdDict = args.primIdDict,
+    fW = FileWriter(
+        username=args.username,                 # User name on server
+        dirRun=args.pathCorsika,
+        dirSimulations=args.dirSimulations,
+        primary=args.primary,                   # 1 is gamma, 14 is proton, 402 is He, 1608 is Oxygen, 5626 is Fe
+        dataset=args.dataset,                   # changed on 28 Jan 2020 according to IC std: 13000.0 +000 H, +100 He, +200 O, +300 Fe, +400 Gamma
+        primIdDict = args.primIdDict,
 
-            azimuth=azimuth,
-            zenith =args.zenith,
-            obslev =args.obslev,
+        # azimuth = azimuth,
+        azimuthStart = args.azimuthStart,
+        azimuthEnd = args.azimuthEnd,
+        azimuthStep = args.azimuthStep,
+        
+        zenith =args.zenith,
+        obslev =args.obslev,
 
-            pathAntennas=args.pathAntennas,
-        )
+        pathAntennas=args.pathAntennas,
+    )
 
-        simMaker = SimulationMaker(
-            startNumber=args.startNumber, 
-            endNumber=args.endNumber, 
-            energies=energies, 
-            fW=fW, # The fileWriter class 
-            pathCorsika = args.pathCorsika,
-            corsikaExe = args.corsikaExe,
+    simMaker = SimulationMaker(
+        startNumber=args.startNumber, 
+        endNumber=args.endNumber, 
+        energies=energies, 
+        fW=fW, # The fileWriter class 
+        pathCorsika = args.pathCorsika,
+        corsikaExe = args.corsikaExe,
 
-            zenith = args.zenith,
-            azimuth = azimuth,
-            primary_particle = args.primary,
-        )
+        zenith = args.zenith,
+        azimuthStart = args.azimuthStart,
+        azimuthEnd = args.azimuthEnd,
+        azimuthStep = args.azimuthStep,
 
-        submitter = Submitter(
-            MakeKeySubString=simMaker.generator,
-            logDir=args.logDirProcesses,
-            parallel_sim=args.parallelSim,
-        )
+        primary_particle = args.primary,
+    )
 
-        # Starts the spawn of the simulations
-        submitter.startProcesses()
-        # Loops over the running processes and checks if any process is complete.
-        # If so, it will spawn the next one
-        submitter.checkRunningProcesses()
+    submitter = Submitter(
+        MakeKeySubString=simMaker.generator,
+        logDir=args.logDirProcesses,
+        parallel_sim=args.parallelSim,
+    )
 
-    def generate_azimuth_values(start, end, num_values):
-        azimuth_values = [random.uniform(start, end) for _ in range(num_values)]
-        rounded_azimuth_values = np.round(azimuth_values, 2)  # Round to two decimal places to avoid issues with starshapes
-        return rounded_azimuth_values
-
-    num_values = args.endNumber - args.startNumber
-    azimuth_values = generate_azimuth_values(args.azimuthStart, args.azimuthEnd, num_values)
-
-    for azimuth in azimuth_values:
-        process_with_azimuth(azimuth)
+    # Starts the spawn of the simulations
+    submitter.startProcesses()
+    # Loops over the running processes and checks if any process is complete.
+    # If so, it will spawn the next one
+    submitter.checkRunningProcesses()
     
 
 
@@ -246,8 +241,8 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--azimuthStep", 
-        type=float, 
-        default=45.0, 
+        type=int, 
+        default=45, 
         help="Step size for azimuth range"
     )
 

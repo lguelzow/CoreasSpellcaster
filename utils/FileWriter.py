@@ -6,6 +6,7 @@ This class can be used to create and write a Corsika inp file and create "data",
 @date: October 2022
 """
 import pathlib
+import numpy as np
 from utils.RadioFilesGenerator import RadioFilesGenerator
 from utils.SubFilesGenerator import SubFilesGenerator
 
@@ -28,7 +29,9 @@ class FileWriter:
         
         obslev,                         # Observation level in cm
         pathAntennas,                   # Path to antennas
-        azimuth,                        # azimuth angle
+        azimuthStart,
+        azimuthEnd,
+        azimuthStep,  
         zenith,                         # zenith angle
     ):
         self.username = username
@@ -37,7 +40,9 @@ class FileWriter:
         self.directories = {"sim":dirSimulations}
         self.primIdDict= primIdDict
         
-        self.azimuth = azimuth
+        self.azimuthStart = azimuthStart,
+        self.azimuthEnd = azimuthEnd,
+        self.azimuthStep = azimuthStep,
         self.zenith = zenith
         self.obslev = obslev
         self.pathAntennas = pathAntennas
@@ -58,7 +63,7 @@ class FileWriter:
     # TODO: get rid of data and temp
 
 
-    def writeFile(self, runNumber, log10_E1, log10_E2):
+    def writeFile(self, runNumber, log10_E1, log10_E2, azimuth):
         """
         Creates and writes a Corsika inp file that can be used as Corsika input
         """
@@ -86,8 +91,9 @@ class FileWriter:
 
         thin1 = 1.000E-06
         par = 1E-3
+        
+        print("Filewriter using azimuth", azimuth)
 
-        # TODO: zenith and azimuth need to be chosen at random
 
         # Opening and writing in the file 
         with open(inp_name, "w") as file:
@@ -105,7 +111,7 @@ class FileWriter:
                 + f"PRMPAR  {self.primary}\n"
                 + f"ERANGE  {en1:.11E}    {en1:.11E}\n"  # in GeV
                 + f"THETAP  {self.zenith}    {self.zenith}\n"  
-                + f"PHIP    {self.azimuth} {self.azimuth}\n"  
+                + f"PHIP    {azimuth} {azimuth}\n"  
                 + f"ECUTS   3.0E-01 1.0E-02 2.5E-04 2.5E-04\n"
                 + f"PARALLEL 1E3 {par * en1:.11E} 1 F\n" # ECTMAX like Felix did
                 + f"ELMFLG  T    T\n"   # Disable NKG since it gets deactivated anyway when CURVED is selected at corsika setup
@@ -136,7 +142,10 @@ class FileWriter:
             log10_E1 = log10_E1,
             pathAntennas = self.pathAntennas,
             zenith = self.zenith,
-            azimuth = self.azimuth,
+            azimuth = azimuth,
+            # azimuthStart = self.azimuthStart,
+            # azimuthEnd = self.azimuthEnd,
+            # azimuthStep = self.azimuthStep,
         )
 
         RadGen.writeReasList()

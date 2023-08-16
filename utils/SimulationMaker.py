@@ -46,7 +46,9 @@ class SimulationMaker:
                  pathCorsika, 
                  corsikaExe, 
                  zenith, 
-                 azimuth, 
+                 azimuthStart,
+                 azimuthEnd,
+                 azimuthStep, 
                  primary_particle
     ):
         
@@ -57,7 +59,9 @@ class SimulationMaker:
         self.pathCorsika = pathCorsika
         self.corsikaExe = corsikaExe
         self.zenith = zenith
-        self.azimuth = azimuth
+        self.azimuthStart = azimuthStart
+        self.azimuthEnd = azimuthEnd
+        self.azimuthStep = azimuthStep
         self.primary_particle = primary_particle
         self.runNumGen = runNumberGenerator()
 
@@ -69,6 +73,12 @@ class SimulationMaker:
         It yields the key and the String to submit
         The yield function returns every time a different value as the for loop proceeds
         """
+        # Create a list of azimuth values from the given range and round to two decimals
+        azimuth_values = np.arange(self.azimuthStart, self.azimuthEnd + self.azimuthStep, self.azimuthStep)
+        azimuth_values = np.around(azimuth_values, decimals=2).tolist()  # Round to two decimal places and convert to list
+
+
+        print("azimuthvals", azimuth_values)
         # This is a loop over all energies and gives the low and high limit values.
         # Eg. 5.0 and 5.1
         for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
@@ -76,12 +86,14 @@ class SimulationMaker:
             self.fW.makeFolders(log10_E1)
 
             # It loops over all the unique numbers 
-            for runIndex in range(self.startNumber, self.endNumber):
+            for runIndex in range(self.startNumber, self.endNumber, 10):
+                # Get the next azimuth value from the list
+                azimuth=azimuth_values.pop(0)
+                print("SimMaker using azimuth", azimuth)
                 # Creates the file name for the simulation
                 particleID = self.runNumGen.getPrimaryID(self.primary_particle)
                 zenithID = self.runNumGen.getZenithID(self.zenith)
-                azimuthID = self.runNumGen.getAzimuthID(self.azimuth)
-                # 
+                azimuthID = self.runNumGen.getAzimuthID(azimuth) 
                 print(particleID, azimuthID, runIndex)
                 runNumber = format(int(particleID * 1E5 + zenithID * 1E4 + azimuthID * 1E3 + runIndex), '06d')
                 print(runNumber)
@@ -94,7 +106,7 @@ class SimulationMaker:
 
                 ):
                     # It writes the Corsika input file 
-                    self.fW.writeFile(runNumber, log10_E1, log10_E2)
+                    self.fW.writeFile(runNumber, log10_E1, log10_E2, azimuth)
                     # The unique key for the the Submitter is created as followed. 
                     # It has not practical use, but MUST be unique 
                     key = f"{log10_E1}_{runNumber}"
