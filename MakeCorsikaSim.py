@@ -62,12 +62,6 @@ def __checkInputs(args):
             but aware that the Corsika seed number is exceeding 900.000.000 (the max allowed value)")
     return
 
-def generate_azimuth_values(start, end, step):
-    current_azimuth = start
-    while current_azimuth <= end:
-        print(f"Using azimuth {current_azimuth}")
-        yield current_azimuth
-        current_azimuth += step
 
 def mainCorsikaSim(args):
     """
@@ -105,14 +99,7 @@ def mainCorsikaSim(args):
                 decimals=1 # the rounding has to have one single decimal point for the folder. 
     )
     
-    azimuth_start = args.azimuthStart
-    azimuth_end = args.azimuthEnd
-    azimuth_step = 45.0  # You can adjust the step size as needed
-
-    azimuth_values = generate_azimuth_values(args.azimuthStart, args.azimuthEnd, args.azimuthStep)
-
-    for azimuth in azimuth_values:
-
+    def process_with_azimuth(azimuth):
         fW = FileWriter(
             username=args.username,                 # User name on server
             dirRun=args.pathCorsika,
@@ -141,17 +128,30 @@ def mainCorsikaSim(args):
             primary_particle = args.primary,
         )
 
-    submitter = Submitter(
-        MakeKeySubString=simMaker.generator,
-        logDir=args.logDirProcesses,
-        parallel_sim=args.parallelSim,
-    )
+        submitter = Submitter(
+            MakeKeySubString=simMaker.generator,
+            logDir=args.logDirProcesses,
+            parallel_sim=args.parallelSim,
+        )
 
-    # Starts the spawn of the simulations
-    submitter.startProcesses()
-    # Loops over the running processes and checks if any process is complete.
-    # If so, it will spawn the next one
-    submitter.checkRunningProcesses()
+        # Starts the spawn of the simulations
+        submitter.startProcesses()
+        # Loops over the running processes and checks if any process is complete.
+        # If so, it will spawn the next one
+        submitter.checkRunningProcesses()
+
+    def generate_azimuth_values(start, end, step):
+            current_azimuth = start
+            while current_azimuth <= end:
+                print(f"Using azimuth {current_azimuth}")
+                yield current_azimuth
+                current_azimuth += step
+
+    azimuth_values = generate_azimuth_values(args.azimuthStart, args.azimuthEnd, args.azimuthStep)
+
+    for azimuth in azimuth_values:
+        process_with_azimuth(azimuth)
+    
 
 
 if __name__ == "__main__":
@@ -285,6 +285,7 @@ if __name__ == "__main__":
         help="Number of parallel simulation processes",
     )
 
-    mainCorsikaSim(args=parser.parse_args())
+    args = parser.parse_args()
+    mainCorsikaSim(args)
 
     print("-------------------- Program finished --------------------")
