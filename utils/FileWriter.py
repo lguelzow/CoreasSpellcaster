@@ -28,8 +28,8 @@ class FileWriter:
         
         obslev,                         # Observation level in cm
         pathAntennas,                   # Path to antennas
-        azimuth,                        # zenith angle
-        zenith,                         # azimuth angle
+        azimuth,                        # azimuth angle
+        zenith,                         # zenith angle
     ):
         self.username = username
         self.primary = primary

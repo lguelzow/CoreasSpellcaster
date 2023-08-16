@@ -62,6 +62,13 @@ def __checkInputs(args):
             but aware that the Corsika seed number is exceeding 900.000.000 (the max allowed value)")
     return
 
+def generate_azimuth_values(start, end, step):
+    current_azimuth = start
+    while current_azimuth <= end:
+        print(f"Using azimuth {current_azimuth}")
+        yield current_azimuth
+        current_azimuth += step
+
 def mainCorsikaSim(args):
     """
     Some Documentation of the main function for the Corsika Simulator
@@ -98,33 +105,41 @@ def mainCorsikaSim(args):
                 decimals=1 # the rounding has to have one single decimal point for the folder. 
     )
     
-    fW = FileWriter(
-        username=args.username,                 # User name on server
-        dirRun=args.pathCorsika,
-        dirSimulations=args.dirSimulations,
-        primary=args.primary,                   # 1 is gamma, 14 is proton, 402 is He, 1608 is Oxygen, 5626 is Fe
-        dataset=args.dataset,                   # changed on 28 Jan 2020 according to IC std: 13000.0 +000 H, +100 He, +200 O, +300 Fe, +400 Gamma
-        primIdDict = args.primIdDict,
-    
-        azimuth=args.azimuth,
-        zenith =args.zenith,
-        obslev =args.obslev,
+    azimuth_start = args.azimuthStart
+    azimuth_end = args.azimuthEnd
+    azimuth_step = 45.0  # You can adjust the step size as needed
 
-        pathAntennas=args.pathAntennas,
-    )
+    azimuth_values = generate_azimuth_values(args.azimuthStart, args.azimuthEnd, args.azimuthStep)
 
-    simMaker = SimulationMaker(
-        startNumber=args.startNumber, 
-        endNumber=args.endNumber, 
-        energies=energies, 
-        fW=fW, # The fileWriter class 
-        pathCorsika = args.pathCorsika,
-        corsikaExe = args.corsikaExe,
+    for azimuth in azimuth_values:
 
-        zenith = args.zenith,
-        azimuth = args.azimuth,
-        primary_particle = args.primary,
-    )
+        fW = FileWriter(
+            username=args.username,                 # User name on server
+            dirRun=args.pathCorsika,
+            dirSimulations=args.dirSimulations,
+            primary=args.primary,                   # 1 is gamma, 14 is proton, 402 is He, 1608 is Oxygen, 5626 is Fe
+            dataset=args.dataset,                   # changed on 28 Jan 2020 according to IC std: 13000.0 +000 H, +100 He, +200 O, +300 Fe, +400 Gamma
+            primIdDict = args.primIdDict,
+
+            azimuth=azimuth,
+            zenith =args.zenith,
+            obslev =args.obslev,
+
+            pathAntennas=args.pathAntennas,
+        )
+
+        simMaker = SimulationMaker(
+            startNumber=args.startNumber, 
+            endNumber=args.endNumber, 
+            energies=energies, 
+            fW=fW, # The fileWriter class 
+            pathCorsika = args.pathCorsika,
+            corsikaExe = args.corsikaExe,
+
+            zenith = args.zenith,
+            azimuth = azimuth,
+            primary_particle = args.primary,
+        )
 
     submitter = Submitter(
         MakeKeySubString=simMaker.generator,
@@ -216,10 +231,24 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "--azimuth", 
+        "--azimuthStart", 
         type=float, 
         default=0.00000000, 
-        help="Value of azimuth (do not change unless you know what you are doing)"
+        help="Start value of azimuth range (do not change unless you know what you are doing)"
+    )
+
+    parser.add_argument(
+        "--azimuthEnd", 
+        type=float, 
+        default=315.00000000, 
+        help="End value of azimuth range (do not change unless you know what you are doing)"
+    )
+
+    parser.add_argument(
+        "--azimuthStep", 
+        type=float, 
+        default=45.0, 
+        help="Step size for azimuth range"
     )
 
     parser.add_argument(

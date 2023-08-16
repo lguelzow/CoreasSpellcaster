@@ -17,7 +17,7 @@ $PYTHON $SCRIPT \
                 --username bg5912 \
                 --primary 14 \
                 --dataset 14000.0 \
-                --dirSimulations "/home/hk-project-radiohfi/bg5912/work/sims/GRAND/lukas/sim_storage/" \
+                --dirSimulations "/home/hk-project-radiohfi/bg5912/work/sims/GRAND/magicsims/sim_storage/" \
                 --pathCorsika "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/" \
                 --corsikaExe "/mpi_corsika77420Linux_SIBYLL_urqmd_thin_coreas_parallel_runner" \
                 --startNumber 0 \
@@ -25,8 +25,7 @@ $PYTHON $SCRIPT \
                 --energyStart 8.0 \
                 --energyEnd 9.0 \
                 --energyStep 0.1 \
-                --azimuth 0.00000000 \
                 --zenith 65.00000000 \
                 --obslev 156400 \
-                --logDirProcesses "/home/hk-project-radiohfi/bg5912/work/sims/GRAND/lukas/logs/" \
+                --logDirProcesses "/home/hk-project-radiohfi/bg5912/work/sims/GRAND/magicsims/logs/" \
                 --parallelSim 1
