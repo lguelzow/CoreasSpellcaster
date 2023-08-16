@@ -89,15 +89,16 @@ class SubFilesGenerator:
                 + f"INPUT_FILE='{inpFile}'\n"
                 + f"LOG_FILE='{logFile}'\n"
                 + f"\n"
-                + f"# Run the MPI-Corsika executable\n"
+                + f"echo **************** Conjuring Cosmic Showers  ****************\n"
                 + f"echo starting job number {self.runNumber} \n"
                 + f"echo time: $(date)\n" # print current time
+                + f"# Run the MPI-Corsika executable\n"
                 + f"mpirun --bind-to core:overload-allowed --map-by core -report-bindings -np $SLURM_NTASKS $MPI_CORSIKA_EXEC $INPUT_FILE > $LOG_FILE\n"
                 # $CORSIKA_EXEC < $INPUT_FILE > $LOG_FILE\n d
                 + f"\n"
                 + f"echo job number {self.runNumber} complete\n"
                 + f"echo time: $(date)\n" # print current time
-                + f"echo - - - -  Cleansing Cauldron - - - - "
+                + f"echo - - - -  Cleansing Cauldron - - - - \n"
                 + f"mkdir {datdir}\n" # create datdir directory
                 + f"echo created {datdir}\n"
                 + f"echo moving binaries and corsika_timetables to {datdir}\n"
@@ -106,7 +107,7 @@ class SubFilesGenerator:
                 + f"rm -r {inpdir}/../../data/ \n" # remove the obsolete data directory
                 + f"rm -r {inpdir}/../../temp/ \n" # remove the obsolete temp directory
                 + f"rm -r {inpdir}/../../starshapes/ \n" # remove the obsolete starshapes directory # TODO: figure out where this comes from and get rid of it
-                + f"echo **************** Enchantment Successfully Executed ****************"
+                + f"echo **************** Enchantment Successfully Executed ****************\n"
             )
 
         # Make the file executable
