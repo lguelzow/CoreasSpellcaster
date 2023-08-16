@@ -14,6 +14,7 @@ the detector antennas are moved at random for each run.
 import numpy as np
 import random
 from miniradiotools.starshapes import create_stshp_list
+import sys
 
 class RadioFilesGenerator:
 
@@ -132,15 +133,40 @@ class RadioFilesGenerator:
         .list files are structured like "AntennaPosition = x y z name"
 
         """
-        
+        # * * * * * * * * * * * * * *
+        """
+        In the best case, you don't need to touch any of this, but here's some explanation on the next few lines of code:
+
+        miniradiotools takes (corsika_azimuth - 270) due to coordinate system fun. 
+        create_stshp_list takes that value as input and returns the value you're supposed to use for corsika when using that starshape.list
+        so here we need to take our self.azimuth + 270 as input for create_stshp_list for it to work properly.
+        as double check, we compare the corsika_azimuth the function returns with our self.azimuth.
+        if they're the same, we're good to go!
+        """
+        # * * * * * * * * * * * * * *
+
+        radiotools_azimuth = self.azimuth + 270 
         # TODO: put in a proper path for the starshapes. But this works, so it's fine for now.
-        create_stshp_list(self.zenith, self.azimuth, filename=f"{self.directory}/{self.log10_E1}/SIM{self.runNumber}.list", 
+        corsika_azimuth = create_stshp_list(self.zenith, radiotools_azimuth, filename=f"{self.directory}/{self.log10_E1}/SIM{self.runNumber}.list", 
                         obslevel=int(self.obslev), # for Dunhuang, in cm for corsika
                         obsplane = "gp",
                         inclination=61.60523, # for Dunhuang
                         vxB_plot=False
                         )
+        
+        # check if self.azimuth is the same as the corsika_azimuth from the starshapes
+        # if it is: yay!
+        if self.azimuth == corsika_azimuth:
+            print(f"Shower azimuth = starshape azimuth: {corsika_azimuth}")
+            print("Continue generating shower.")
+        # if it isn't, we have a problem:
+        else:
+            print(f"Shower azimuth {self.azimuth}")
+            print(f"Starshape azimuth {corsika_azimuth}")
+            sys.exit(f"Shower and starshape azimuth are not the same! Please check the inputs and try again.")
 
+
+        # use the starshape file we just generated and read the antenna positions and names from it:
         file = np.genfromtxt(f"{self.directory}/{self.log10_E1}/SIM{self.runNumber}.list", dtype = "str")
         
         # get antenna positions from file
