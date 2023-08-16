@@ -31,4 +31,3 @@ $PYTHON $SCRIPT \
                 --logDirProcesses "/home/hk-project-radiohfi/bg5912/work/sims/GRAND/lukas/logs/" \
                 --parallelSim 1
 
-# "/lsdf/kit/ikp/projects/IceCube/sim/gamma-sim/" \
