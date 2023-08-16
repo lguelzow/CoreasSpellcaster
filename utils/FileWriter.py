@@ -31,7 +31,6 @@ class FileWriter:
         azimuth,                        # zenith angle
         zenith,                         # azimuth angle
     ):
-        self.dataset = dataset
         self.username = username
         self.primary = primary
         self.dirRun = dirRun

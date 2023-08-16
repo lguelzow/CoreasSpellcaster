@@ -103,6 +103,7 @@ def mainCorsikaSim(args):
         dirRun=args.pathCorsika,
         dirSimulations=args.dirSimulations,
         primary=args.primary,                   # 1 is gamma, 14 is proton, 402 is He, 1608 is Oxygen, 5626 is Fe
+        dataset=args.dataset,                   # changed on 28 Jan 2020 according to IC std: 13000.0 +000 H, +100 He, +200 O, +300 Fe, +400 Gamma
         primIdDict = args.primIdDict,
     
         azimuth=args.azimuth,
@@ -158,7 +159,12 @@ if __name__ == "__main__":
         default=14,
         help="primary type: 1 is gamma, 14 is proton, 402 is He, 1608 is Oxygen, 5626 is Fe",
     )
-
+    parser.add_argument(
+        "--dataset",
+        type=float,
+        default=13000.0,
+        help="dataset number: eg. 13000.0 H, 13100.0 He, 13200.0 Oxygen, 13300.0 Fe, 13400.0 Gamma",
+    )
     parser.add_argument(
         "--dirSimulations",
         type=str,
