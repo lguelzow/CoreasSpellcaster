@@ -39,7 +39,7 @@ class Submitter:
         It is the first function to be called.
         It starts as many processes as chosen.
         """
-        print("Start Process")
+        print("**************** Channeling Celestial Energies ****************")
         for _ in range(self.parallelRunningSims):
             self.startSingleProcess()
 
@@ -60,7 +60,7 @@ class Submitter:
             key, processString = next(self.key_processString_generator, (None, None))
 
         if (key is not None) and (processString is not None):
-            print("\n==================== New Process ====================")
+            print("\n==================== Conjuring Cosmic Shower ====================")
             print(key)
             self.processDict[key] = subprocess.Popen(
                 processString.split(),

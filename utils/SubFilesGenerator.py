@@ -97,12 +97,16 @@ class SubFilesGenerator:
                 + f"\n"
                 + f"echo job number {self.runNumber} complete\n"
                 + f"echo time: $(date)\n" # print current time
+                + f"echo - - - -  Cleansing Cauldron - - - - "
                 + f"mkdir {datdir}\n" # create datdir directory
                 + f"echo created {datdir}\n"
+                + f"echo moving binaries and corsika_timetables to {datdir}\n"
                 + f"mv {inpdir}/DAT??????-* {datdir}\n" # move all annoying files to datdir
                 + f"mv {inpdir}/corsika_timetable-* {datdir}\n"
                 + f"rm -r {inpdir}/../../data/ \n" # remove the obsolete data directory
                 + f"rm -r {inpdir}/../../temp/ \n" # remove the obsolete temp directory
+                + f"rm -r {inpdir}/../../starshapes/ \n" # remove the obsolete starshapes directory # TODO: figure out where this comes from and get rid of it
+                + f"echo **************** Enchantment Successfully Executed ****************"
             )
 
         # Make the file executable
