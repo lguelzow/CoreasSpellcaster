@@ -26,6 +26,7 @@ How to run:
 import sys
 import os 
 import numpy as np
+import random
 
 from utils.FileWriter import FileWriter
 from utils.SimulationMaker import SimulationMaker
@@ -140,14 +141,13 @@ def mainCorsikaSim(args):
         # If so, it will spawn the next one
         submitter.checkRunningProcesses()
 
-    def generate_azimuth_values(start, end, step):
-            current_azimuth = start
-            while current_azimuth <= end:
-                print(f"Using azimuth {current_azimuth}")
-                yield current_azimuth
-                current_azimuth += step
+    def generate_azimuth_values(start, end, num_values):
+        azimuth_values = [random.uniform(start, end) for _ in range(num_values)]
+        rounded_azimuth_values = np.round(azimuth_values, 2)  # Round to two decimal places to avoid issues with starshapes
+        return rounded_azimuth_values
 
-    azimuth_values = generate_azimuth_values(args.azimuthStart, args.azimuthEnd, args.azimuthStep)
+    num_values = args.endNumber - args.startNumber
+    azimuth_values = generate_azimuth_values(args.azimuthStart, args.azimuthEnd, num_values)
 
     for azimuth in azimuth_values:
         process_with_azimuth(azimuth)
