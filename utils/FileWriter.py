@@ -27,7 +27,6 @@ class FileWriter:
                                         # and values the arbitrary numbering used in this script for all primary particle. 
         
         obslev,                         # Observation level in cm
-        pathStarshapes,                 # Path to starshapes
         pathAntennas,                   # Path to antennas
         azimuth,                        # zenith angle
         zenith,                         # azimuth angle
@@ -42,7 +41,6 @@ class FileWriter:
         self.azimuth = azimuth
         self.zenith = zenith
         self.obslev = obslev
-        self.pathStarshapes = pathStarshapes
         self.pathAntennas = pathAntennas
 
 
@@ -137,7 +135,6 @@ class FileWriter:
             directory = self.directories["inp"],
             runNumber = runNumber,
             log10_E1 = log10_E1,
-            pathStarshapes = self.pathStarshapes,
             pathAntennas = self.pathAntennas,
             zenith = self.zenith,
             azimuth = self.azimuth,

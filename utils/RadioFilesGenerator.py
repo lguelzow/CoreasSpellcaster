@@ -23,7 +23,6 @@ class RadioFilesGenerator:
         obslev,                     # Observation level in cm
         runNumber,                  
         log10_E1,
-        pathStarshapes,             # the path to the starshapes.list file
         pathAntennas,               # the path to the antennas.list file (the detector antennas)
         zenith,
         azimuth,
@@ -33,7 +32,6 @@ class RadioFilesGenerator:
         self.obslev = obslev
         self.runNumber = runNumber
         self.log10_E1 = log10_E1
-        self.pathStarshapes = pathStarshapes
         self.pathAntennas = pathAntennas
         self.zenith = zenith
         self.azimuth = azimuth
@@ -145,8 +143,9 @@ class RadioFilesGenerator:
         """
         # * * * * * * * * * * * * * *
 
-        radiotools_azimuth = self.azimuth + 270 
         # TODO: put in a proper path for the starshapes. But this works, so it's fine for now.
+
+        radiotools_azimuth = self.azimuth + 270 
         corsika_azimuth = create_stshp_list(self.zenith, radiotools_azimuth, filename=f"{self.directory}/{self.log10_E1}/SIM{self.runNumber}.list", 
                         obslevel=int(self.obslev), # for Dunhuang, in cm for corsika
                         obsplane = "gp",
