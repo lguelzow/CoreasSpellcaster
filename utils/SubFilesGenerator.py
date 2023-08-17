@@ -107,7 +107,7 @@ class SubFilesGenerator:
                 + f"rm -r {inpdir}/../../data/ \n" # remove the obsolete data directory
                 + f"rm -r {inpdir}/../../temp/ \n" # remove the obsolete temp directory
                 + f"rm -r {inpdir}/../../starshapes/ \n" # remove the obsolete starshapes directory # TODO: figure out where this comes from and get rid of it
-                + f"echo ================== Enchantment Successfully Executed ==================n"
+                + f"echo ================== Enchantment Successfully Executed ==================\n"
             )
 
         # Make the file executable
