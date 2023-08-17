@@ -73,12 +73,17 @@ class SimulationMaker:
         It yields the key and the String to submit
         The yield function returns every time a different value as the for loop proceeds
         """
-        # Create a list of azimuth values from the given range and round to two decimals
+        
+        # ! azimuth list here
+        # Create a list of azimuth values from the given range
         azimuth_values = np.arange(self.azimuthStart, self.azimuthEnd + self.azimuthStep, self.azimuthStep)
-        azimuth_values = np.around(azimuth_values, decimals=2).tolist()  # Round to two decimal places and convert to list
+        # Repeat each value ten times -> that way we get each azimuth for each energy bin
+        azimuth_repeated = np.repeat(azimuth_values, 10)
+        # Round to two decimal places and convert to list
+        azimuth_list = np.around(azimuth_repeated, decimals=2).tolist()
+        print("azimuthvals", azimuth_list)
 
 
-        print("azimuthvals", azimuth_values)
         # This is a loop over all energies and gives the low and high limit values.
         # Eg. 5.0 and 5.1
         for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
@@ -87,10 +92,12 @@ class SimulationMaker:
 
             # It loops over all the unique numbers 
             for runIndex in range(self.startNumber, self.endNumber, 10):
+                 # ! azimuth loop here
                 # Get the next azimuth value from the list
-                azimuth=azimuth_values.pop(0)
+                azimuth=azimuth_list.pop(0)
                 print("SimMaker using azimuth", azimuth)
-                # Creates the file name for the simulation
+
+                # Create the file name for the simulation
                 particleID = self.runNumGen.getPrimaryID(self.primary_particle)
                 zenithID = self.runNumGen.getZenithID(self.zenith)
                 azimuthID = self.runNumGen.getAzimuthID(azimuth) 
