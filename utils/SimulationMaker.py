@@ -93,19 +93,19 @@ class SimulationMaker:
                 self.fW.makeFolders(log10_E1)
 
                 # It loops over all the unique numbers 
-                for runIndex in range(self.startNumber, self.endNumber, 10):
+                for runIndex in range(self.startNumber, self.endNumber, 1):
                     # ! azimuth loop here
                     # Get the next azimuth value from the list
                     azimuth=azimuth_list.pop(0)
                     print("SimMaker using azimuth", azimuth)
+                    print("runIndex", runIndex)
 
                     # Create the file name for the simulation
                     particleID = self.runNumGen.getPrimaryID(self.primary_particle)
                     zenithID = self.runNumGen.getZenithID(self.zenith)
                     azimuthID = self.runNumGen.getAzimuthID(azimuth) 
-                    print(particleID, azimuthID, runIndex)
                     runNumber = format(int(particleID * 1E5 + zenithID * 1E4 + azimuthID * 1E3 + runIndex), '06d')
-                    print(runNumber)
+                    print("runNumber", runNumber)
                     
                     # Check if this COREAS (!) simulation is not in inp. 
                     # If so, this simulation was already created
