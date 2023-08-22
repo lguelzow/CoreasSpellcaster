@@ -18,6 +18,7 @@ and then run those separately using submit_jobs.py
 
 """
 import numpy as np
+import random
 import os
 import stat
 from utils.runNumberGenerator import runNumberGenerator
@@ -45,7 +46,7 @@ class SimulationMaker:
                  fW, 
                  pathCorsika, 
                  corsikaExe, 
-                 zenith, 
+                #  zenith, 
                  azimuthStart,
                  azimuthEnd,
                  azimuthStep, 
@@ -58,7 +59,7 @@ class SimulationMaker:
         self.fW = fW
         self.pathCorsika = pathCorsika
         self.corsikaExe = corsikaExe
-        self.zenith = zenith
+        # self.zenith = zenith
         self.azimuthStart = azimuthStart
         self.azimuthEnd = azimuthEnd
         self.azimuthStep = azimuthStep
@@ -96,13 +97,21 @@ class SimulationMaker:
                 for runIndex in range(self.startNumber, self.endNumber, 1):
                     # ! azimuth loop here
                     # Get the next azimuth value from the list
-                    azimuth=azimuth_list.pop(0)
+                    azimuth = azimuth_list.pop(0)
                     print("SimMaker using azimuth", azimuth)
+
+                    #! zenith here
+                    # Get zenith
+                    a = round(random.uniform(0, 1), 2)
+                    zenith = round(np.rad2deg(np.arccos(1-a)),2)
+                    print("SimMaker using zenith", zenith)
+
+                    # print runIndex (as double check)
                     print("runIndex", runIndex)
 
                     # Create the file name for the simulation
                     particleID = self.runNumGen.getPrimaryID(self.primary_particle)
-                    zenithID = self.runNumGen.getZenithID(self.zenith)
+                    zenithID = self.runNumGen.getZenithID(zenith)
                     azimuthID = self.runNumGen.getAzimuthID(azimuth) 
                     runNumber = format(int(particleID * 1E5 + zenithID * 1E4 + azimuthID * 1E3 + runIndex), '06d')
                     print("runNumber", runNumber)
@@ -115,7 +124,7 @@ class SimulationMaker:
 
                     ):
                         # It writes the Corsika input file 
-                        self.fW.writeFile(runNumber, log10_E1, log10_E2, azimuth)
+                        self.fW.writeFile(runNumber, log10_E1, log10_E2, azimuth, zenith)
                         # The unique key for the the Submitter is created as followed. 
                         # It has not practical use, but MUST be unique 
                         key = f"{log10_E1}_{runNumber}"

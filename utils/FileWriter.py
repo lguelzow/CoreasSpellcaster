@@ -32,7 +32,7 @@ class FileWriter:
         azimuthStart,
         azimuthEnd,
         azimuthStep,  
-        zenith,                         # zenith angle
+        # zenith,                         # zenith angle
     ):
         self.username = username
         self.primary = primary
@@ -43,7 +43,7 @@ class FileWriter:
         self.azimuthStart = azimuthStart,
         self.azimuthEnd = azimuthEnd,
         self.azimuthStep = azimuthStep,
-        self.zenith = zenith
+        # self.zenith = zenith
         self.obslev = obslev
         self.pathAntennas = pathAntennas
 
@@ -63,7 +63,7 @@ class FileWriter:
     # TODO: get rid of data and temp
 
 
-    def writeFile(self, runNumber, log10_E1, log10_E2, azimuth):
+    def writeFile(self, runNumber, log10_E1, log10_E2, azimuth, zenith):
         """
         Creates and writes a Corsika inp file that can be used as Corsika input
         """
@@ -93,7 +93,7 @@ class FileWriter:
         par = 1E-3
         
         print("Filewriter using azimuth", azimuth)
-
+        print("Filewriter using zenith", zenith)
 
         # Opening and writing in the file 
         with open(inp_name, "w") as file:
@@ -110,7 +110,7 @@ class FileWriter:
                 + f"NSHOW   1\n"
                 + f"PRMPAR  {self.primary}\n"
                 + f"ERANGE  {en1:.11E}    {en1:.11E}\n"  # in GeV
-                + f"THETAP  {self.zenith}    {self.zenith}\n"  
+                + f"THETAP  {zenith}    {zenith}\n"  
                 + f"PHIP    {azimuth} {azimuth}\n"  
                 + f"ECUTS   3.0E-01 1.0E-02 2.5E-04 2.5E-04\n"
                 + f"PARALLEL 1E3 {par * en1:.11E} 1 F\n" # ECTMAX like Felix did
@@ -141,7 +141,7 @@ class FileWriter:
             runNumber = runNumber,
             log10_E1 = log10_E1,
             pathAntennas = self.pathAntennas,
-            zenith = self.zenith,
+            zenith = zenith,
             azimuth = azimuth,
             # azimuthStart = self.azimuthStart,
             # azimuthEnd = self.azimuthEnd,
@@ -157,7 +157,7 @@ class FileWriter:
             logdir = self.directories["log"],
             runNumber = runNumber,
             log10_E1 = log10_E1,
-            zenith = self.zenith,
+            zenith = zenith,
             pathCorsika = "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/",
             corsikaExe = "/mpi_corsika77420Linux_SIBYLL_urqmd_thin_coreas_parallel_runner",
         )

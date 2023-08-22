@@ -113,7 +113,7 @@ def mainCorsikaSim(args):
         azimuthEnd = args.azimuthEnd,
         azimuthStep = args.azimuthStep,
         
-        zenith =args.zenith,
+        # zenith =args.zenith,
         obslev =args.obslev,
 
         pathAntennas=args.pathAntennas,
@@ -127,7 +127,7 @@ def mainCorsikaSim(args):
         pathCorsika = args.pathCorsika,
         corsikaExe = args.corsikaExe,
 
-        zenith = args.zenith,
+        # zenith = args.zenith,
         azimuthStart = args.azimuthStart,
         azimuthEnd = args.azimuthEnd,
         azimuthStep = args.azimuthStep,
@@ -246,12 +246,12 @@ if __name__ == "__main__":
         help="Step size for azimuth range"
     )
 
-    parser.add_argument(
-        "--zenith", 
-        type=float, 
-        default=65.00000000, 
-        help="Value of zenith (do not change unless you know what you are doing)"
-    )
+    # parser.add_argument(
+    #     "--zenith", 
+    #     type=float, 
+    #     default=65.00000000, 
+    #     help="Value of zenith (do not change unless you know what you are doing)"
+    # )
 
     parser.add_argument(
         "--obslev", 
