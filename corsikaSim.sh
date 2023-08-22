@@ -28,4 +28,3 @@ $PYTHON $SCRIPT \
                 --zenith 65.00000000 \
                 --obslev 156400 \
                 --logDirProcesses "/home/hk-project-radiohfi/bg5912/work/sims/GRAND/magicsims/logs/" \
-                --parallelSim 1

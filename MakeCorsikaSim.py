@@ -276,8 +276,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--parallelSim",
         type=int,
-        default=100,
-        help="Number of parallel simulation processes",
+        default=1,
+        help="Number of parallel simulation processes - DO NOT USE WITH MPI",
     )
 
     args = parser.parse_args()
