@@ -148,11 +148,16 @@ class RadioFilesGenerator:
         # * * * * * * * * * * * * * *
 
         radiotools_azimuth = self.azimuth + 270 
+
+        antenna_rings = get_starshaped_pattern_radii(self.zenith, self.obslev, atm_model=41)
+        # atm_model = 41: Dunhuang, China
+
         corsika_azimuth = create_stshp_list(self.zenith, radiotools_azimuth, filename=f"{self.directory}/{self.log10_E1}/{sim}_starshape.list", 
                         obslevel=int(self.obslev), # for Dunhuang, in cm for corsika
                         obsplane = "gp",
                         inclination=61.60523, # for Dunhuang
-                        vxB_plot=False
+                        vxB_plot=False,
+                        antenna_rings = antenna_rings
                         )
         
         # check if self.azimuth is the same as the corsika_azimuth from the starshapes
