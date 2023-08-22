@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# source /home/hk-project-pevradio/rn8463/.bashrc
+# for Horeka, make sure these exact modules are loaded:
 # module load compiler/gnu/10.2
 # module load mpi/openmpi/4.1
 PYTHON=/home/hk-project-radiohfi/bg5912/virtual_env/bin/python3
