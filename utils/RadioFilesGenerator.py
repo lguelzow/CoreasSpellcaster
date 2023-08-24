@@ -105,7 +105,7 @@ class RadioFilesGenerator:
         We want to randomly move the antennas, but also not too far from the core.
         Therefore, generate random numbers within a radius of the approximate size of the array.
         """
-        print("Summoning GP13 antennas")
+        
         # generate random numbers for shifting the antenna positions
         R_GP13 = 2000 # approximate size of GP13 in m
         alpha = 2 * np.pi * random.randint(0,R_GP13) # random angle
@@ -164,7 +164,7 @@ class RadioFilesGenerator:
         # if it is: yay!
         if self.azimuth == corsika_azimuth:
             print(f"Shower azimuth = starshape azimuth: {corsika_azimuth}")
-            print(f"Summoning starshapes with azimuth {corsika_azimuth}.")
+            print(f"***** Summoning starshapes ***** with azimuth {corsika_azimuth}.")
         # if it isn't, we have a problem:
         else:
             print(f"Shower azimuth {self.azimuth}")
@@ -199,6 +199,7 @@ class RadioFilesGenerator:
             for i in range(self.starshapeInfo["x"].shape[0]):
                 f.write(f"AntennaPosition = {self.starshapeInfo['x'][i]} {self.starshapeInfo['y'][i]} {self.starshapeInfo['z'][i]} {self.starshapeInfo['name'][i]}\n") 
             # write the positions (x, y, z) and names of the detector's antennas to the .list file
+            # print("***** Summoning GP13 antennas *****")
             # for i in range(self.antennaInfo["x"].shape[0]):
             #     f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} {self.antennaInfo['z'][i]} {self.antennaInfo['name'][i]}\n") 
             
