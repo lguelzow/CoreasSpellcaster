@@ -13,7 +13,7 @@ the detector antennas are moved at random for each run.
 
 import numpy as np
 import random
-from miniradiotools.starshapes import create_stshp_list
+from miniradiotools.starshapes import create_stshp_list, get_starshaped_pattern_radii
 import sys
 
 class RadioFilesGenerator:
