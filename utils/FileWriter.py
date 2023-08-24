@@ -29,10 +29,8 @@ class FileWriter:
         
         obslev,                         # Observation level in cm
         pathAntennas,                   # Path to antennas
-        azimuthStart,
-        azimuthEnd,
-        azimuthStep,  
-        # zenith,                         # zenith angle
+        zenithStart,
+        zenithEnd,
     ):
         self.username = username
         self.primary = primary
@@ -40,10 +38,8 @@ class FileWriter:
         self.directories = {"sim":dirSimulations}
         self.primIdDict= primIdDict
         
-        self.azimuthStart = azimuthStart,
-        self.azimuthEnd = azimuthEnd,
-        self.azimuthStep = azimuthStep,
-        # self.zenith = zenith
+        self.zenithStart = zenithStart
+        self.zenithEnd = zenithEnd
         self.obslev = obslev
         self.pathAntennas = pathAntennas
 
