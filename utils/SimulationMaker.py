@@ -85,7 +85,7 @@ class SimulationMaker:
         # ! zenith list here
         # Create a list of zenith values from the given range
 
-        zenith_list = theta
+        zenith_list = theta.tolist()
         print("zenithvals", zenith_list)
 
         # loop for as long as there are values inside azimuth_list:
