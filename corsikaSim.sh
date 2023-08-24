@@ -22,12 +22,9 @@ $PYTHON $SCRIPT \
                 --startNumber 0 \
                 --endNumber 10 \
                 --energyStart 8.0 \
-                --energyEnd 9.0 \
-                --energyStep 0.1 \
-                --azimuthStart 0 \
-                --azimuthEnd 360 \
-                --azimuthStep 45 \
+                --energyEnd 10.2 \
+                --energyStep 0.2 \
+                --zenithStart 55 \
+                --zenithEnd 87 \
                 --obslev 156400 \
                 --logDirProcesses "/home/hk-project-radiohfi/bg5912/work/sims/GRAND/magicsims/logs/" \
-
-# TODO add option to fix zenith. now it's random (which is good, but both should be possible)

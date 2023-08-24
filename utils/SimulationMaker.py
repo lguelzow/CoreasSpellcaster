@@ -46,10 +46,8 @@ class SimulationMaker:
                  fW, 
                  pathCorsika, 
                  corsikaExe, 
-                #  zenith, 
-                 azimuthStart,
-                 azimuthEnd,
-                 azimuthStep, 
+                 zenithStart,
+                 zenithEnd,
                  primary_particle
     ):
         
@@ -59,10 +57,8 @@ class SimulationMaker:
         self.fW = fW
         self.pathCorsika = pathCorsika
         self.corsikaExe = corsikaExe
-        # self.zenith = zenith
-        self.azimuthStart = azimuthStart
-        self.azimuthEnd = azimuthEnd
-        self.azimuthStep = azimuthStep
+        self.zenithStart = zenithStart
+        self.zenithEnd = zenithEnd
         self.primary_particle = primary_particle
         self.runNumGen = runNumberGenerator()
 
@@ -74,18 +70,26 @@ class SimulationMaker:
         It yields the key and the String to submit
         The yield function returns every time a different value as the for loop proceeds
         """
-        
-        # ! azimuth list here
-        # Create a list of azimuth values from the given range
-        azimuth_values = np.arange(self.azimuthStart, self.azimuthEnd + self.azimuthStep, self.azimuthStep)
-        # Repeat each value ten times -> that way we get each azimuth for each energy bin
-        azimuth_repeated = np.repeat(azimuth_values, 10)
-        # Round to two decimal places and convert to list
-        azimuth_list = np.around(azimuth_repeated, decimals=2).tolist()
-        print("azimuthvals", azimuth_list)
+        intervals = 12 # how many bins
+
+        # prepare list for azimuths
+        theta = np.zeros(intervals)
+        for i in range(intervals):
+            start = 1 / np.cos(np.deg2rad(self.zenithStart))
+            end   = 1 / np.cos(np.deg2rad(self.zenithEnd))
+            int_size  = (end - start)/(intervals - 1)
+            cos = (start + i * int_size) 
+            # get angle theta from 1/cos distribution, convert from rad to deg, round to 2 decimals
+            theta[i] = np.round(np.rad2deg(np.arccos(1/cos)),2)
+
+        # ! zenith list here
+        # Create a list of zenith values from the given range
+
+        zenith_list = theta
+        print("zenithvals", zenith_list)
 
         # loop for as long as there are values inside azimuth_list:
-        while azimuth_list:
+        while zenith_list:
 
             # This is a loop over all energies and gives the low and high limit values.
             # Eg. 5.0 and 5.1
@@ -95,16 +99,15 @@ class SimulationMaker:
 
                 # It loops over all the unique numbers 
                 for runIndex in range(self.startNumber, self.endNumber, 1):
-                    # ! azimuth loop here
+                    # ! zenith loop here
                     # Get the next azimuth value from the list
-                    azimuth = azimuth_list.pop(0)
-                    print("SimMaker using azimuth", azimuth)
-
-                    #! zenith here
-                    # Get zenith
-                    a = round(random.uniform(0, 1), 2)
-                    zenith = round(np.rad2deg(np.arccos(1-a)),2)
+                    zenith = zenith_list.pop(0)
                     print("SimMaker using zenith", zenith)
+
+                    #! azimuth here
+                    # Get random azimuth
+                    azimuth = round(random.uniform(0, 360), 2)
+                    print("SimMaker using azimuth", azimuth)
 
                     # print runIndex (as double check)
                     print("runIndex", runIndex)

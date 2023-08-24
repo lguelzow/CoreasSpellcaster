@@ -108,10 +108,8 @@ def mainCorsikaSim(args):
         dataset=args.dataset,                   # changed on 28 Jan 2020 according to IC std: 13000.0 +000 H, +100 He, +200 O, +300 Fe, +400 Gamma
         primIdDict = args.primIdDict,
 
-        # azimuth = azimuth,
-        azimuthStart = args.azimuthStart,
-        azimuthEnd = args.azimuthEnd,
-        azimuthStep = args.azimuthStep,
+        zenithStart = args.zenithStart,
+        zenithEnd = args.zenithEnd,
         
         # zenith =args.zenith,
         obslev =args.obslev,
@@ -128,9 +126,8 @@ def mainCorsikaSim(args):
         corsikaExe = args.corsikaExe,
 
         # zenith = args.zenith,
-        azimuthStart = args.azimuthStart,
-        azimuthEnd = args.azimuthEnd,
-        azimuthStep = args.azimuthStep,
+        zenithStart = args.zenithStart,
+        zenithEnd = args.zenithEnd,
 
         primary_particle = args.primary,
     )
@@ -226,32 +223,18 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "--azimuthStart", 
+        "--zenithStart", 
         type=float, 
-        default=0.00000000, 
-        help="Start value of azimuth range (do not change unless you know what you are doing)"
+        default=55.00000000, 
+        help="Start value of zenith range (do not change unless you know what you are doing)"
     )
 
     parser.add_argument(
-        "--azimuthEnd", 
+        "--zenithEnd", 
         type=float, 
-        default=315.00000000, 
-        help="End value of azimuth range (do not change unless you know what you are doing)"
+        default=87.00000000, 
+        help="End value of zenith range (do not change unless you know what you are doing)"
     )
-
-    parser.add_argument(
-        "--azimuthStep", 
-        type=int, 
-        default=45, 
-        help="Step size for azimuth range"
-    )
-
-    # parser.add_argument(
-    #     "--zenith", 
-    #     type=float, 
-    #     default=65.00000000, 
-    #     help="Value of zenith (do not change unless you know what you are doing)"
-    # )
 
     parser.add_argument(
         "--obslev", 
