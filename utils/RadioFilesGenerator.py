@@ -149,6 +149,8 @@ class RadioFilesGenerator:
 
         radiotools_azimuth = self.azimuth + 270 
 
+        print("* * * * * * * * * * * * * *")
+        print("* casting starshape pattern *")
         antenna_rings = get_starshaped_pattern_radii(self.zenith, self.obslev, atm_model=41)
         # atm_model = 41: Dunhuang, China
 
@@ -159,7 +161,7 @@ class RadioFilesGenerator:
                         vxB_plot=False,
                         antenna_rings = antenna_rings
                         )
-        
+        print("* * * * * * * * * * * * * *")
         # check if self.azimuth is the same as the corsika_azimuth from the starshapes
         # if it is: yay!
         if self.azimuth == corsika_azimuth:
