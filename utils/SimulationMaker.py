@@ -70,9 +70,10 @@ class SimulationMaker:
         It yields the key and the String to submit
         The yield function returns every time a different value as the for loop proceeds
         """
-        intervals = 12 # how many bins
+        intervals = 12 # number of bins
 
-        # prepare list for azimuths
+        # ! zenith list here
+        # prepare list for azimuths using the given range
         theta = np.zeros(intervals)
         for i in range(intervals):
             start = 1 / np.cos(np.deg2rad(self.zenithStart))
@@ -82,15 +83,17 @@ class SimulationMaker:
             # get angle theta from 1/cos distribution, convert from rad to deg, round to 2 decimals
             theta[i] = np.round(np.rad2deg(np.arccos(1/cos)),2)
 
-        # ! zenith list here
         # Create a list of zenith values from the given range
-
-        zenith_list = theta.tolist()
+        zenith_values = theta
+        # Repeat list by number of intervals, so each of the 12 energies gets 12 zeniths as well
+        zenith_repeated = np.repeat(zenith_values, intervals) 
+        # Round to two decimal places and convert to list
+        zenith_list = np.around(zenith_repeated, decimals=2).tolist()
+        
         print("zenithvals", zenith_list)
 
         # loop for as long as there are values inside azimuth_list:
         while zenith_list:
-
             # This is a loop over all energies and gives the low and high limit values.
             # Eg. 5.0 and 5.1
             for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
@@ -104,7 +107,7 @@ class SimulationMaker:
                     zenith = zenith_list.pop(0)
                     print("SimMaker using zenith", zenith)
 
-                    #! azimuth here
+                    #! random azimuth here
                     # Get random azimuth
                     azimuth = round(random.uniform(0, 360), 2)
                     print("SimMaker using azimuth", azimuth)
