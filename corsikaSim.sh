@@ -25,6 +25,6 @@ $PYTHON $SCRIPT \
                 --energyEnd 11.0 \
                 --energyStep 0.2 \
                 --zenithStart 55 \
-                --zenithEnd 87 \
+                --zenithEnd 85 \
                 --obslev 156400 \
                 --logDirProcesses "/home/hk-project-radiohfi/bg5912/work/sims/GRAND/magicsims/logs/" \
