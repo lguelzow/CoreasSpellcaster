@@ -70,7 +70,7 @@ class SimulationMaker:
         It yields the key and the String to submit
         The yield function returns every time a different value as the for loop proceeds
         """
-        intervals = 12 # number of bins
+        intervals = 16 # number of bins
 
         # ! zenith list here
         # prepare list for azimuths using the given range
@@ -120,6 +120,7 @@ class SimulationMaker:
                     zenithID = self.runNumGen.getZenithID(zenith)
                     azimuthID = self.runNumGen.getAzimuthID(azimuth) 
                     runNumber = format(int(particleID * 1E5 + zenithID * 1E4 + azimuthID * 1E3 + runIndex), '06d')
+                    
                     print("runNumber", runNumber)
                     
                     # Check if this COREAS (!) simulation is not in inp. 
