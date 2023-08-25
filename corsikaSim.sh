@@ -20,7 +20,7 @@ $PYTHON $SCRIPT \
                 --pathCorsika "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/" \
                 --corsikaExe "/mpi_corsika77420Linux_SIBYLL_urqmd_thin_coreas_parallel_runner" \
                 --startNumber 0 \
-                --endNumber 10 \
+                --endNumber 15 \
                 --energyStart 8.0 \
                 --energyEnd 10.2 \
                 --energyStep 0.2 \
