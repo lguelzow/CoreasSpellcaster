@@ -76,12 +76,12 @@ class SimulationMaker:
         # prepare list for azimuths using the given range
         theta = np.zeros(intervals)
         for i in range(intervals):
-            start = 1 / np.cos(np.deg2rad(self.zenithStart))
-            end   = 1 / np.cos(np.deg2rad(self.zenithEnd))
+            start = self.zenithStart
+            end   = self.zenithEnd
             int_size  = (end - start)/(intervals - 1)
-            cos = (start + i * int_size) 
-            # get angle theta from 1/cos distribution, convert from rad to deg, round to 2 decimals
-            theta[i] = np.round(np.rad2deg(np.arccos(1/cos)),2)
+            # round to 2 decimals
+            theta[i] = np.round((start + i * int_size),2)
+            
 
         # Create a list of zenith values from the given range
         zenith_values = theta
