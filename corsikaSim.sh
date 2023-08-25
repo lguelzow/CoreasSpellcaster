@@ -22,7 +22,7 @@ $PYTHON $SCRIPT \
                 --startNumber 0 \
                 --endNumber 15 \
                 --energyStart 8.0 \
-                --energyEnd 10.2 \
+                --energyEnd 11.0 \
                 --energyStep 0.2 \
                 --zenithStart 55 \
                 --zenithEnd 87 \
