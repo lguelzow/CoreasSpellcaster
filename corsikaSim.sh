@@ -13,10 +13,12 @@ cd /home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/
 # specifically:
 #TODO check paths in dirSimulations and logDirProcesses
 #TODO check corsikaExe
+#! TODO: make sure energy start, end, step matches the bin size in SimulationMaker.py
+
 $PYTHON $SCRIPT \
                 --username bg5912 \
                 --primary 14 \
-                --dirSimulations "/home/hk-project-radiohfi/bg5912/work/sims/GRAND/magicsims/sim_storage/" \
+                --dirSimulations "/hkfs/work/workspace/scratch/bg5912-radiosims/magicsims_set04/sim_storage/" \
                 --pathCorsika "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/" \
                 --corsikaExe "/mpi_corsika77420Linux_SIBYLL_urqmd_thin_coreas_parallel_runner" \
                 --startNumber 0 \
@@ -27,4 +29,4 @@ $PYTHON $SCRIPT \
                 --zenithStart 55 \
                 --zenithEnd 85 \
                 --obslev 156400 \
-                --logDirProcesses "/home/hk-project-radiohfi/bg5912/work/sims/GRAND/magicsims/logs/" \
+                --logDirProcesses "/hkfs/work/workspace/scratch/bg5912-radiosims/magicsims_set04/logs/" \
