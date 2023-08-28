@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=mpi
+#SBATCH --job-name=sub
 #SBATCH --output=/hkfs/work/workspace/scratch/bg5912-radiosims/magicsims_set04/logs/_log%j.out
 #SBATCH --error=/hkfs/work/workspace/scratch/bg5912-radiosims/magicsims_set04/logs/_log%j.err
 #SBATCH --nodes=2
