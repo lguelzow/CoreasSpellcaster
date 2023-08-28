@@ -71,7 +71,7 @@ class SimulationMaker:
         It yields the key and the String to submit
         The yield function returns every time a different value as the for loop proceeds
         """
-        intervals = 16 # number of bins
+        intervals = 16 # number of bins #! make sure this matches cosrikaSim.sh
 
         # ! zenith list here
         # prepare list for azimuths using the given range
