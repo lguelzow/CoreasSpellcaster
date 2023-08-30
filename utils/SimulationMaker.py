@@ -71,7 +71,7 @@ class SimulationMaker:
         It yields the key and the String to submit
         The yield function returns every time a different value as the for loop proceeds
         """
-        intervals = self.endNumber - self.startNumber # number of bins
+        intervals = self.endNumber - self.startNumber + 1# number of bins
 
         # ! zenith list here
         # prepare list for azimuths using the given range
@@ -90,15 +90,15 @@ class SimulationMaker:
         zenith_repeated = np.tile(zenith_values, intervals) 
         # Round to two decimal places and convert to list
         zenith_list = np.around(zenith_repeated, decimals=2).tolist()
-        
+        print("bins", intervals)
         print("zenithvals", zenith_list)
 
         # loop for as long as there are values inside azimuth_list:
         if zenith_list:
-            while zenith_list:
+            for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
                 # This is a loop over all energies and gives the low and high limit values.
                 # Eg. 5.0 and 5.1
-                for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
+                while zenith_list:
                     # Creates "data", "temp", "log", "inp" folders and energy subfolder
                     self.fW.makeFolders(log10_E1)
 
