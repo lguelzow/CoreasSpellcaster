@@ -71,7 +71,7 @@ class SimulationMaker:
         It yields the key and the String to submit
         The yield function returns every time a different value as the for loop proceeds
         """
-        intervals = 16 # number of bins #! make sure this matches corsikaSim.sh
+        intervals = self.endNumber - self.startNumber # number of bins
 
         # ! zenith list here
         # prepare list for azimuths using the given range
@@ -103,7 +103,7 @@ class SimulationMaker:
                     self.fW.makeFolders(log10_E1)
 
                     # It loops over all the unique numbers 
-                    for runIndex in range(self.startNumber, self.endNumber, 1):
+                    for runIndex in range(intervals):
                         # ! zenith loop here
                         # Get the next azimuth value from the list
                         zenith = zenith_list.pop(0)
