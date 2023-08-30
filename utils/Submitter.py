@@ -60,8 +60,8 @@ class Submitter:
             key, processString = next(self.key_processString_generator, (None, None))
 
         if (key is not None) and (processString is not None):
-            print("\n==================== Conjuring Cosmic Shower ====================")
             print("Process key:", key)
+            print("\n==================== Conjuring Cosmic Shower ====================")
             self.processDict[key] = subprocess.Popen(
                 processString.split(),
                 stderr=subprocess.PIPE,
