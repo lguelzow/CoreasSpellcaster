@@ -13,7 +13,6 @@ cd /home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/
 # specifically:
 #TODO check paths in dirSimulations and logDirProcesses
 #TODO check corsikaExe
-#! TODO: make sure energy start, end, step matches the bin size in SimulationMaker.py
 
 $PYTHON $SCRIPT \
                 --username bg5912 \
