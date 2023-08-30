@@ -267,7 +267,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     mainCorsikaSim(args)
 
-    print("Final incantation: All cosmic portals explored, program's journey ends...")
+    print("Final incantation complete: All cosmic portals explored, program's journey ends...")
     subprocess.run("rm -r {options.dirSimulations}/data/", check=True)
     subprocess.run("rm -r {options.dirSimulations}/temp/", check=True)
     
