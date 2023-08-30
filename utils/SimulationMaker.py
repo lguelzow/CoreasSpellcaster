@@ -121,7 +121,8 @@ class SimulationMaker:
                         particleID = self.runNumGen.getPrimaryID(self.primary_particle)
                         zenithID = self.runNumGen.getZenithID(zenith)
                         azimuthID = self.runNumGen.getAzimuthID(azimuth) 
-                        runNumber = format(int(particleID * 1E5 + zenithID * 1E4 + azimuthID * 1E3 + runIndex), '06d')
+                        energyID = self.runNumGen.getEnergyID(log10_E1)
+                        runNumber = format(int(particleID * 1E5 + zenithID * 1E4 + azimuthID * 1E3 + energyID * 1E2 + runIndex), '06d')
                         
                         print("runNumber", runNumber)
                         
