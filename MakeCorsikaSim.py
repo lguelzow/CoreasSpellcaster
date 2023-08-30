@@ -268,7 +268,7 @@ if __name__ == "__main__":
     mainCorsikaSim(args)
 
     print("Final incantation complete: All cosmic portals explored, program's journey ends...")
-    subprocess.run("rm -r {options.dirSimulations}/data/", check=True)
     subprocess.run("rm -r {options.dirSimulations}/temp/", check=True)
+    subprocess.run("rm -r {options.dirSimulations}/starshapes/", check=True)
     
     print("-------------------- Program finished --------------------")
