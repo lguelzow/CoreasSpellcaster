@@ -27,6 +27,7 @@ import sys
 import os 
 import numpy as np
 import random
+import subprocess
 
 from utils.FileWriter import FileWriter
 from utils.SimulationMaker import SimulationMaker
@@ -177,6 +178,7 @@ if __name__ == "__main__":
         type=str,
         default="/home/hk-project-radiohfi/bg5912/work/sims/GRAND/mpitest/sim_storage/",
         help="Directory where the simulation are stored",
+        dest="dirs",
     )
     parser.add_argument(
         "--pathCorsika",
@@ -265,5 +267,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     mainCorsikaSim(args)
-
+    
+    print("Final incantation: All cosmic portals explored, program's journey ends...")
+    subprocess.run("rm -r {options.dest}/data/", check=True)
+    subprocess.run("rm -r {options.dest}/temp/", check=True)
+    
     print("-------------------- Program finished --------------------")
