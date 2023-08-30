@@ -18,7 +18,7 @@ cd /home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/
 $PYTHON $SCRIPT \
                 --username bg5912 \
                 --primary 14 \
-                --dirSimulations "/hkfs/work/workspace/scratch/bg5912-radiosims/magicsims_set04/sim_storage/" \
+                --dirSimulations "/hkfs/work/workspace/scratch/bg5912-mysims/proton/sim_storage/" \
                 --pathCorsika "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/" \
                 --corsikaExe "/mpi_corsika77420Linux_SIBYLL_urqmd_thin_coreas_parallel_runner" \
                 --startNumber 0 \
@@ -29,4 +29,4 @@ $PYTHON $SCRIPT \
                 --zenithStart 55 \
                 --zenithEnd 85 \
                 --obslev 156400 \
-                --logDirProcesses "/hkfs/work/workspace/scratch/bg5912-radiosims/magicsims_set04/logs/" \
+                --logDirProcesses "/hkfs/work/workspace/scratch/bg5912-mysims/proton/logs/" \
