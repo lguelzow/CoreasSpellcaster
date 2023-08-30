@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=sub
-#SBATCH --output=/hkfs/work/workspace/scratch/bg5912-mysims/proton/logs/_log%j.out
-#SBATCH --error=/hkfs/work/workspace/scratch/bg5912-mysims/proton/logs/_log%j.err
+#SBATCH --output=/hkfs/work/workspace/scratch/bg5912-mysims/iron/logs/_log%j.out
+#SBATCH --error=/hkfs/work/workspace/scratch/bg5912-mysims/iron/logs/_log%j.err
 #SBATCH --nodes=2
 #SBATCH --cpus-per-task=12
 #SBATCH --time=03:00:00
