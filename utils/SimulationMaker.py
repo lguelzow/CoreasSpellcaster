@@ -142,7 +142,7 @@ class SimulationMaker:
                             stringToSubmit = self.makeStringToSubmit(log10_E1, runNumber)
                             yield (key, stringToSubmit)
         else:
-            sys.exit("Final incantation: All zenith portals explored, program's journey ends...")
+            sys.exit("Exiting...")
 
 
 
