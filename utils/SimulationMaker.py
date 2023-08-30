@@ -71,7 +71,7 @@ class SimulationMaker:
         It yields the key and the String to submit
         The yield function returns every time a different value as the for loop proceeds
         """
-        intervals = 16 # number of bins #! make sure this matches cosrikaSim.sh
+        intervals = 16 # number of bins #! make sure this matches corsikaSim.sh
 
         # ! zenith list here
         # prepare list for azimuths using the given range
@@ -86,7 +86,7 @@ class SimulationMaker:
 
         # Create a list of zenith values from the given range
         zenith_values = theta
-        # Repeat list by number of intervals, so each of the 12 energies gets 12 zeniths as well
+        # Repeat list by number of intervals, so each of the x energies gets x zeniths as well
         zenith_repeated = np.repeat(zenith_values, intervals) 
         # Round to two decimal places and convert to list
         zenith_list = np.around(zenith_repeated, decimals=2).tolist()
