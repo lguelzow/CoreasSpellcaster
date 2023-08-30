@@ -87,7 +87,7 @@ class SimulationMaker:
         # Create a list of zenith values from the given range
         zenith_values = theta
         # Repeat list by number of intervals, so each of the x energies gets x zeniths as well
-        zenith_repeated = np.repeat(zenith_values, intervals) 
+        zenith_repeated = np.tile(zenith_values, intervals) 
         # Round to two decimal places and convert to list
         zenith_list = np.around(zenith_repeated, decimals=2).tolist()
         
