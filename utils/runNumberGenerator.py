@@ -58,13 +58,13 @@ class runNumberGenerator:
         
         
         self.azimuthDict = {
-                             (0.0, 44.9)  : 0,
-                             (45, 89.9) : 1,
-                             (90.0, 134.9) : 2,
-                             (135.0, 179.9): 3,
-                             (180.0, 224.9): 4,
-                             (225.0, 269.9): 5,
-                             (270.0, 314.9): 6,
+                             (0.0, 44.99)  : 0,
+                             (45, 89.99) : 1,
+                             (90.0, 134.99) : 2,
+                             (135.0, 179.99): 3,
+                             (180.0, 224.99): 4,
+                             (225.0, 269.99): 5,
+                             (270.0, 314.99): 6,
                              (315.0, 360): 7,
                              (-0.1, -180) : 8,
                              (-180.1, -360) : 9,
@@ -76,6 +76,15 @@ class runNumberGenerator:
                             5626: 1,      # Iron (Fe) - get ID 1
                                     }
 
+
+        self.energyDict = {
+                             (7.0,7.9) : 0,
+                             (8.0,8.9) : 1,
+                             (9.0,9.9) : 2,
+                             (10.0,10.9) : 3,
+                             (11.0,11.9) : 4,
+                             (12.0,12.9) : 5,
+                            }
 
 
     def getZenithID(self, zenith_angle):
@@ -97,4 +106,10 @@ class runNumberGenerator:
 
     def getPrimaryID(self, primary_particle):
         return self.primaryDict[primary_particle]
+    
+    def getEnergyID(self, log10_E1):
+        for (lower, upper), category in self.energyDict.items():
+            if lower <= log10_E1 <= upper:
+                return category
+        raise ValueError("Energy not found in any runNumber category")
     
