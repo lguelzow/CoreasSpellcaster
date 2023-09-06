@@ -71,6 +71,7 @@ class SimulationMaker:
         It yields the key and the String to submit
         The yield function returns every time a different value as the for loop proceeds
         """
+        print("Conjuring energies in log10 GeV of", self.energies)
         intervals = self.endNumber - self.startNumber + 1# number of bins
 
         # ! zenith list here
@@ -95,7 +96,8 @@ class SimulationMaker:
 
         # loop for as long as there are values inside azimuth_list:
         if zenith_list:
-            for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
+            for log10_E1 in self.energies:
+                print("Casting energy of ", log10_E1)
                 # This is a loop over all energies and gives the low and high limit values.
                 # Eg. 5.0 and 5.1
                 while zenith_list:

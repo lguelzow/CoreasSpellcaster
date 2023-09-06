@@ -59,7 +59,7 @@ class FileWriter:
     # TODO: get rid of data and temp
 
 
-    def writeFile(self, runNumber, log10_E1, log10_E2, azimuth, zenith):
+    def writeFile(self, runNumber, log10_E1, azimuth, zenith):
         """
         Creates and writes a Corsika inp file that can be used as Corsika input
         """
