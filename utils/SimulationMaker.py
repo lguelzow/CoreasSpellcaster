@@ -96,16 +96,15 @@ class SimulationMaker:
 
         # loop for as long as there are values inside azimuth_list:
         if zenith_list:
-            for log10_E1 in self.energies:
-                print("Casting energy of ", log10_E1)
+            while zenith_list:
                 # This is a loop over all energies and gives the low and high limit values.
                 # Eg. 5.0 and 5.1
-                while zenith_list:
+                for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
                     # Creates "data", "temp", "log", "inp" folders and energy subfolder
                     self.fW.makeFolders(log10_E1)
 
                     # It loops over all the unique numbers 
-                    for runIndex in range(intervals):
+                    for runIndex in range(self.startNumber, self.endNumber, 1):
                         # ! zenith loop here
                         # Get the next azimuth value from the list
                         zenith = zenith_list.pop(0)
@@ -123,8 +122,7 @@ class SimulationMaker:
                         particleID = self.runNumGen.getPrimaryID(self.primary_particle)
                         zenithID = self.runNumGen.getZenithID(zenith)
                         azimuthID = self.runNumGen.getAzimuthID(azimuth) 
-                        energyID = self.runNumGen.getEnergyID(log10_E1)
-                        runNumber = format(int(particleID * 1E5 + zenithID * 1E4 + azimuthID * 1E3 + energyID * 1E2 + runIndex), '06d')
+                        runNumber = format(int(particleID * 1E5 + zenithID * 1E4 + azimuthID * 1E3 + runIndex), '06d')
                         
                         print("runNumber", runNumber)
                         
