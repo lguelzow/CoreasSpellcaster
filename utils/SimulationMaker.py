@@ -136,7 +136,7 @@ class SimulationMaker:
 
                         ):
                             # It writes the Corsika input file 
-                            self.fW.writeFile(runNumber, log10_E1, log10_E2, azimuth, zenith)
+                            self.fW.writeFile(runNumber, log10_E1, azimuth, zenith)
                             # The unique key for the the Submitter is created as followed. 
                             # It has not practical use, but MUST be unique 
                             key = f"{log10_E1}_{runNumber}"
