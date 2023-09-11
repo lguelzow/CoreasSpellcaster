@@ -90,7 +90,7 @@ class SimulationMaker:
         # Repeat list by number of intervals, so each of the x energies gets x zeniths as well
         zenith_repeated = np.tile(zenith_values, intervals) 
         # Round to two decimal places and convert to list
-        zenith_list = np.around(zenith_values, decimals=2).tolist()
+        zenith_list = np.around(zenith_repeated, decimals=2).tolist()
         print("bins", intervals)
         print("zenithvals", zenith_list)
 
