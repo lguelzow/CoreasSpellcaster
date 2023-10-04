@@ -159,7 +159,8 @@ class RadioFilesGenerator:
                         obsplane = "gp",
                         inclination=61.60523, # for Dunhuang
                         vxB_plot=False,
-                        antenna_rings = antenna_rings
+                        # n_rings = 20 # for 160 antennas
+                        antenna_rings = antenna_rings # for 240 antennas
                         )
         print("* * * * * * * * * * * * * *")
         # check if self.azimuth is the same as the corsika_azimuth from the starshapes
@@ -201,9 +202,9 @@ class RadioFilesGenerator:
             for i in range(self.starshapeInfo["x"].shape[0]):
                 f.write(f"AntennaPosition = {self.starshapeInfo['x'][i]} {self.starshapeInfo['y'][i]} {self.starshapeInfo['z'][i]} {self.starshapeInfo['name'][i]}\n") 
             # write the positions (x, y, z) and names of the detector's antennas to the .list file
-            # print("***** Summoning GP13 antennas *****")
-            # for i in range(self.antennaInfo["x"].shape[0]):
-            #     f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} {self.antennaInfo['z'][i]} {self.antennaInfo['name'][i]}\n") 
+            print("***** Summoning GP13 antennas *****")
+            for i in range(self.antennaInfo["x"].shape[0]):
+                f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} {self.antennaInfo['z'][i]} {self.antennaInfo['name'][i]}\n") 
             
 
     def writeReasList(self):
