@@ -16,8 +16,8 @@ cd /home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/
 
 $PYTHON $SCRIPT \
                 --username bg5912 \
-                --primary 5626 \
-                --dirSimulations "/hkfs/work/workspace/scratch/bg5912-mysims/iron/sim_storage/" \
+                --primary 14 \
+                --dirSimulations "/hkfs/work/workspace/scratch/bg5912-mysims/GP300/proton/run01/sim_storage/" \
                 --pathCorsika "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/" \
                 --corsikaExe "/mpi_corsika77420Linux_SIBYLL_urqmd_thin_coreas_parallel_runner" \
                 --startNumber 0 \
@@ -27,7 +27,8 @@ $PYTHON $SCRIPT \
                 --energyStep 0.2 \
                 --zenithStart 55 \
                 --zenithEnd 85 \
-                --obslev 156400 \
-                --logDirProcesses "/hkfs/work/workspace/scratch/bg5912-mysims/iron/logs/" \
+                --obslev 120000 \
+                --logDirProcesses "/hkfs/work/workspace/scratch/bg5912-mysims/GP300/proton/run01/logs/" \
 
 # proton 14, iron 5626
+# obslev Dunhuang 120000 m 

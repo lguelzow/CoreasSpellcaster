@@ -73,8 +73,8 @@ class RadioFilesGenerator:
                 + f"CoreCoordinateWest = 0                ; in cm\n"
                 + f"CoreCoordinateVertical = {self.obslev}      ; in cm\n"
                 + f"# parameters setting up the temporal observer configuration:\n"
-                + f"TimeResolution = 2e-10                ; in s\n"
-                + f"AutomaticTimeBoundaries = 1e-07            ; 0: off, x: automatic boundaries with width x in s\n"
+                + f"TimeResolution = 5e-10                ; in s\n"
+                + f"AutomaticTimeBoundaries = 4e-07            ; 0: off, x: automatic boundaries with width x in s\n"
                 + f"TimeLowerBoundary = -1                ; in s, only if AutomaticTimeBoundaries set to 0\n"
                 + f"TimeUpperBoundary = 1                ; in s, only if AutomaticTimeBoundaries set to 0\n"
                 + f"ResolutionReductionScale = 0            ; 0: off, x: decrease time resolution linearly every x cm in radius\n"
@@ -99,7 +99,7 @@ class RadioFilesGenerator:
 
     def get_antennaPositions(self):
         """
-        Get gp13 positions from gp13.list and move them in x and y.
+        Get gp300 positions from gp00.list and move them in x and y.
         .list files are structured like "AntennaPosition = x y z name"
         
         We want to randomly move the antennas, but also not too far from the core.
@@ -121,7 +121,7 @@ class RadioFilesGenerator:
         # get the x, y and z positions
         self.antennaInfo["x"] = file[:,2].astype(float) + dx
         self.antennaInfo["y"] = file[:,3].astype(float) + dy
-        self.antennaInfo["z"] = file[:,4].astype(float)
+        self.antennaInfo["z"] = abs(file[:,4].astype(float))
         # get the names of the antennas
         self.antennaInfo["name"] = file[:,5]
 
@@ -199,18 +199,20 @@ class RadioFilesGenerator:
         # Opening and writing in the file
         with open(list_name, 'w') as f:
             # write the positions (x, y, z) and names of the starshape antennas to the .list file
-            for i in range(self.starshapeInfo["x"].shape[0]):
-                f.write(f"AntennaPosition = {self.starshapeInfo['x'][i]} {self.starshapeInfo['y'][i]} {self.starshapeInfo['z'][i]} {self.starshapeInfo['name'][i]}\n") 
+            # for i in range(self.starshapeInfo["x"].shape[0]):
+            #     f.write(f"AntennaPosition = {self.starshapeInfo['x'][i]} {self.starshapeInfo['y'][i]} {self.starshapeInfo['z'][i]} {self.starshapeInfo['name'][i]}\n") 
             # write the positions (x, y, z) and names of the detector's antennas to the .list file
-            print("***** Summoning GP13 antennas *****")
+            # print("***** Summoning GP13 antennas *****")
+            # for i in range(self.antennaInfo["x"].shape[0]):
+            #     f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} {self.antennaInfo['z'][i]} {self.antennaInfo['name'][i]}\n") 
+            print("***** Summoning GP300 antennas *****")
             for i in range(self.antennaInfo["x"].shape[0]):
-                f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} {self.antennaInfo['z'][i]} {self.antennaInfo['name'][i]}\n") 
-            
+                f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} 120000 {self.antennaInfo['name'][i]}\n") 
 
     def writeReasList(self):
         # define this to make it easier to call the functions
 
         self.reasWriter()
         self.get_antennaPositions()
-        self.get_starshapes()
+        # self.get_starshapes()
         self.listWriter()
