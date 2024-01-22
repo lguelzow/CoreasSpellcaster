@@ -3,7 +3,7 @@ Unleash the magic of simultaneous shower simulations with this Coreas generator.
 
 ### Author
 Jelena Köhler @jelenakhlr\
-@date: August 2023
+@date: January 2024
 
 original version by @fedbont94\
 forked from https://github.com/fedbont94/Horeka
