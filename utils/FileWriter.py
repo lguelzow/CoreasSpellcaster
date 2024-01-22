@@ -101,8 +101,8 @@ class FileWriter:
                 + f"NSHOW   1\n"
                 + f"PRMPAR  {self.primary}\n"
                 + f"ERANGE  {en1:.11E}    {en1:.11E}\n"  # in GeV
-                + f"THETAP  {zenith}    {zenith}\n"  
-                + f"PHIP    {azimuth} {azimuth}\n"  
+                + f"THETAP  0    0\n"  
+                + f"PHIP    0 0\n"  
                 + f"ECUTS   3.0E-01 1.0E-02 2.5E-04 2.5E-04\n"
                 + f"ELMFLG  T    T\n"   # Disable NKG since it gets deactivated anyway when CURVED is selected at corsika setup
                 + f"THIN    {thin1} 1.0E+0 1.000E+0\n" # ERANGE * THIN1 = THIN2 # {thin1} {thin1 * en1:.11E} 5.000000e+03\n
