@@ -44,11 +44,11 @@ def __checkInputs(args):
         
     seedValue = int((runNumber + self.primIdDict[self.primary]*1_000_000) % 900_000_001) 
     """
-    if not args.energyEnd > args.energyStart:
-        sys.exit('The energy End value MUST be greater (nor equal) then the starting one!!')
+    # if not args.energyEnd > args.energyStart:
+    #     sys.exit('The energy End value MUST be greater (nor equal) then the starting one!!')
     
-    if not args.energyEnd <= 10_000:
-        sys.exit('The energy End value MUST be less then 10.000!! The seed number is not unique otherwise!')
+    # if not args.energyEnd <= 10_000:
+    #     sys.exit('The energy End value MUST be less then 10.000!! The seed number is not unique otherwise!')
     
     if args.primary not in args.primIdDict.keys():
         sys.exit('The primary chosen is not in the primIdDict in the mainCorsikaSim. \nBe sure that the --primary is correct.\
