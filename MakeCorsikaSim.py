@@ -93,11 +93,12 @@ def mainCorsikaSim(args):
     
     # Defines the energy range given the start, end and step 
     energies = np.around( # Need to round the numpy array otherwise the floating is wrong
-                    np.arange(
-                        args.energyStart, # energy starting point
-                        args.energyEnd + args.energyStep, # energy end point plus one step in order to include last step
-                        args.energyStep, # step in energies
-                        ),
+                    args.energyStart,
+                    # np.arange(
+                    #     args.energyStart, # energy starting point
+                    #     args.energyEnd + args.energyStep, # energy end point plus one step in order to include last step
+                    #     args.energyStep, # step in energies
+                        # ),
                 decimals=1 # the rounding has to have one single decimal point for the folder. 
     )
     
