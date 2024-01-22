@@ -30,7 +30,7 @@ class FileWriter:
         obslev,                         # Observation level in cm
         pathAntennas,                   # Path to antennas
         zenithStart,
-        zenithEnd,
+        azimuthStart,
     ):
         self.username = username
         self.primary = primary
@@ -39,7 +39,7 @@ class FileWriter:
         self.primIdDict= primIdDict
         
         self.zenithStart = zenithStart
-        self.zenithEnd = zenithEnd
+        self.azimuthStart = azimuthStart
         self.obslev = obslev
         self.pathAntennas = pathAntennas
 

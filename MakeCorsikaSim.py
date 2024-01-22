@@ -232,6 +232,13 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
+        "--azimuthStart", 
+        type=float, 
+        default=0.00000000, 
+        help="Start value of azimuth range (do not change unless you know what you are doing)"
+    )
+
+    parser.add_argument(
         "--zenithEnd", 
         type=float, 
         default=87.00000000, 
