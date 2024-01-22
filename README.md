@@ -11,7 +11,7 @@ forked from https://github.com/fedbont94/Horeka
 ## Before you start
 1. Select the proper branch\
 _"radio-mpi"_ for the mpi version\
-_"radio-non-mpi"_ for the non-mpi version
+_"radio_classic"_ for the non-mpi version
 
 2. Compile the version of Corsika you need\
 for mpi: Make sure to use the **PARALLEL** option and to compile with **MPILIBRARY**\
@@ -20,7 +20,9 @@ for mpi: Make sure to use the **PARALLEL** option and to compile with **MPILIBRA
 For more info, see the **Corsika** manual: https://web.iap.kit.edu/corsika/usersguide/usersguide.pdf \
 and the **Coreas** manual: https://web.ikp.kit.edu/huege/downloads/coreas-manual.pdf
 
-4. Download **miniradiotools** from https://github.com/jelenakhlr/miniradiotools
+4. Make sure you have all relevant python packages
+You can get **miniradiotools** from https://github.com/jelenakhlr/miniradiotools
+(only needed to _create_ starshapes. You can also load antenna positions directly from a file instead.)
 
 5. Check paths:\
 When using these scripts, make sure to modify paths, usernames, etc. in these files:\
@@ -38,7 +40,6 @@ Also check if you need to modify things in\
 
 6. Select your antenna layout\
    Inside _utils/RadioFilesGenerator.py_, select or adapt the antenna layout.\
-   [starshapes under development!]
 
 ## How to run
 ### Submit a whole batch of showers
