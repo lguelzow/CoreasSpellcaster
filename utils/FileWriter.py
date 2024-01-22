@@ -82,11 +82,8 @@ class FileWriter:
         seed2 = seed1 + 1
         seed3 = seed1 + 2
         seed4 = seed1 + 3
-        seed5 = seed1 + 4
-        seed6 = seed1 + 5
 
         thin1 = 1.000E-06
-        par = 1E-3
         
         print("Filewriter using azimuth", azimuth)
         print("Filewriter using zenith", zenith)
@@ -101,26 +98,22 @@ class FileWriter:
                 + f"SEED    {seed2}    0    0\n"  #
                 + f"SEED    {seed3}    0    0\n"  #
                 + f"SEED    {seed4}    0    0\n"  #
-                + f"SEED    {seed5}    0    0\n"  #
-                + f"SEED    {seed6}    0    0\n"  #
                 + f"NSHOW   1\n"
                 + f"PRMPAR  {self.primary}\n"
                 + f"ERANGE  {en1:.11E}    {en1:.11E}\n"  # in GeV
                 + f"THETAP  {zenith}    {zenith}\n"  
                 + f"PHIP    {azimuth} {azimuth}\n"  
                 + f"ECUTS   3.0E-01 1.0E-02 2.5E-04 2.5E-04\n"
-                + f"PARALLEL 1E3 {par * en1:.11E} 1 F\n" # ECTMAX like Felix did
                 + f"ELMFLG  T    T\n"   # Disable NKG since it gets deactivated anyway when CURVED is selected at corsika setup
-                + f"THIN    {thin1} {thin1 * en1:.11E} 5.0E+03\n" # ERANGE * THIN1 = THIN2 # {thin1} {thin1 * en1:.11E} 5.000000e+03\n
-                + f"THINH   1.000E+00 1.000E+02\n"
+                + f"THIN    {thin1} 1.0E+0 1.000E+0\n" # ERANGE * THIN1 = THIN2 # {thin1} {thin1 * en1:.11E} 5.000000e+03\n
                 + f"STEPFC  1.0\n"
-                + f"OBSLEV  {self.obslev}\n"  # 1549700 for Dunhuang?  # 1142.0E2 elevation Dunhuang (hopefully close enough to Xiaodushan, which I can't find)
-                + f"ECTMAP  1.E+15\n"
+                + f"OBSLEV  {self.obslev}\n"
+                + f"ECTMAP  1.E+05\n"
                 + f"MUMULT  T\n"
                 + f"MUADDI  T\n"
                 + f"MAXPRT  1\n"
-                + f"MAGNET  26.860    49.687\n"  # from geomag for Xiaodushan, 400km altitude
-                + f"PAROUT  T  F\n"# erster job: t f, danach f f 
+                + f"MAGNET  50.0    0.0\n"
+                + f"PAROUT  T  F\n"
                 + f"LONGI   T   5.     T       T\n"
                 + f"RADNKG  5.E+05\n"           
                 + f"ATMFILE {self.dirRun}/ATMOSPHERE_20170401120000_Dunhuang.DAT\n"

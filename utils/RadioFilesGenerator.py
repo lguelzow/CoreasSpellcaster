@@ -36,7 +36,7 @@ class RadioFilesGenerator:
         self.zenith = zenith
         self.azimuth= azimuth
         self.antennaInfo = {}
-        self.starshapeInfo = {}
+        # self.starshapeInfo = {}
 
 
         """
@@ -73,13 +73,13 @@ class RadioFilesGenerator:
                 + f"CoreCoordinateWest = 0                ; in cm\n"
                 + f"CoreCoordinateVertical = {self.obslev}      ; in cm\n"
                 + f"# parameters setting up the temporal observer configuration:\n"
-                + f"TimeResolution = 5e-10                ; in s\n"
+                + f"TimeResolution = 1e-10                ; in s\n"
                 + f"AutomaticTimeBoundaries = 4e-07            ; 0: off, x: automatic boundaries with width x in s\n"
                 + f"TimeLowerBoundary = -1                ; in s, only if AutomaticTimeBoundaries set to 0\n"
                 + f"TimeUpperBoundary = 1                ; in s, only if AutomaticTimeBoundaries set to 0\n"
                 + f"ResolutionReductionScale = 0            ; 0: off, x: decrease time resolution linearly every x cm in radius\n"
                 + f"# parameters setting up the simulation functionality:\n"
-                + f"GroundLevelRefractiveIndex = 1.00031200        ; specify refractive index at 0 m asl\n"
+                + f"GroundLevelRefractiveIndex = 1.000327        ; specify refractive index at 0 m asl\n"
                 + f"# event information for Offline simulations:\n"
                 + f"EventNumber = 1\n"
                 + f"RunNumber = {self.runNumber} \n"
@@ -125,11 +125,25 @@ class RadioFilesGenerator:
         # get the names of the antennas
         self.antennaInfo["name"] = file[:,5]
 
+    def get_starshapePositions(self):
+        """
+        Get fixed starshape positions from starshapes_Nikos.list.
+        .list files are structured like "AntennaPosition = x y z name"
+        
+        """
+        
+        file = np.genfromtxt(self.pathAntennas, dtype = "str")
+        self.antennaInfo["x"] = file[:,2].astype(float)
+        self.antennaInfo["y"] = file[:,3].astype(float)
+        self.antennaInfo["z"] = abs(file[:,4].astype(float))
+        # get the names of the antennas
+        self.antennaInfo["name"] = file[:,5]
+
 
 
     def get_starshapes(self):
         """
-        get starshape positions from starshapes.list
+        CREATE starshape positions from miniradiotools.
         .list files are structured like "AntennaPosition = x y z name"
 
         """
@@ -205,14 +219,19 @@ class RadioFilesGenerator:
             # print("***** Summoning GP13 antennas *****")
             # for i in range(self.antennaInfo["x"].shape[0]):
             #     f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} {self.antennaInfo['z'][i]} {self.antennaInfo['name'][i]}\n") 
-            print("***** Summoning GP300 antennas *****")
+            # print("***** Summoning GP300 antennas *****")
+            # for i in range(self.antennaInfo["x"].shape[0]):
+            #     f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} 120000 {self.antennaInfo['name'][i]}\n") 
+            print("***** Summoning Nikos' starshape antennas *****")
             for i in range(self.antennaInfo["x"].shape[0]):
                 f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} 120000 {self.antennaInfo['name'][i]}\n") 
+
 
     def writeReasList(self):
         # define this to make it easier to call the functions
 
         self.reasWriter()
-        self.get_antennaPositions()
+        # self.get_antennaPositions()
+        self.get_starshapePositions()
         # self.get_starshapes()
         self.listWriter()

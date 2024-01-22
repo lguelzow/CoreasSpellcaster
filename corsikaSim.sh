@@ -15,19 +15,19 @@ cd /home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/
 #TODO check corsikaExe
 
 $PYTHON $SCRIPT \
-                --username bg5912 \
-                --primary 14 \
+                --username nikos \
+                --primary 5626 \
                 --dirSimulations "/hkfs/work/workspace/scratch/bg5912-mysims/GP300/proton/run01/sim_storage/" \
                 --pathCorsika "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/" \
                 --corsikaExe "/mpi_corsika77420Linux_SIBYLL_urqmd_thin_coreas_parallel_runner" \
                 --startNumber 0 \
-                --endNumber 15 \
-                --energyStart 8.0 \
-                --energyEnd 11.0 \
-                --energyStep 0.2 \
-                --zenithStart 55 \
-                --zenithEnd 85 \
-                --obslev 120000 \
+                --endNumber 100 \
+                --energyStart 6.0 \
+                --energyEnd 6.0 \
+                --energyStep 0.0 \
+                --zenithStart 0 \
+                --zenithEnd 0 \
+                --obslev 0 \
                 --logDirProcesses "/hkfs/work/workspace/scratch/bg5912-mysims/GP300/proton/run01/logs/" \
 
 # proton 14, iron 5626
