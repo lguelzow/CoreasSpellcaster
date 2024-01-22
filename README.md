@@ -10,7 +10,7 @@ forked from https://github.com/fedbont94/Horeka
 
 ## Before you start
 1. Select the proper branch\
-_"radio-mpi"_ for the mpi version\
+_"radio_mpi"_ for the mpi version\
 _"radio_classic"_ for the non-mpi version
 
 2. Compile the version of Corsika you need\
