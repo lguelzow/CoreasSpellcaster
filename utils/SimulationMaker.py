@@ -99,49 +99,50 @@ class SimulationMaker:
             while zenith_list:
                 # This is a loop over all energies and gives the low and high limit values.
                 # Eg. 5.0 and 5.1
-                for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
+                # for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
                     # Creates "data", "temp", "log", "inp" folders and energy subfolder
-                    self.fW.makeFolders(log10_E1)
+                log10_E1 = self.energies
+                self.fW.makeFolders(log10_E1)
 
-                    # It loops over all the unique numbers 
-                    for runIndex in range(self.startNumber, self.endNumber, 1):
-                        # ! zenith loop here
-                        # Get the next azimuth value from the list
-                        zenith = zenith_list.pop(0)
-                        print("SimMaker using zenith", zenith)
+                # It loops over all the unique numbers 
+                for runIndex in range(self.startNumber, self.endNumber, 1):
+                    # ! zenith loop here
+                    # Get the next azimuth value from the list
+                    zenith = zenith_list.pop(0)
+                    print("SimMaker using zenith", zenith)
 
-                        #! random azimuth here
-                        # Get random azimuth
-                        azimuth = round(random.uniform(0, 360), 2)
-                        print("SimMaker using azimuth", azimuth)
+                    #! random azimuth here
+                    # Get random azimuth
+                    azimuth = round(random.uniform(0, 360), 2)
+                    print("SimMaker using azimuth", azimuth)
 
-                        # print runIndex (as double check)
-                        print("runIndex", runIndex)
+                    # print runIndex (as double check)
+                    print("runIndex", runIndex)
 
-                        # Create the file name for the simulation
-                        particleID = self.runNumGen.getPrimaryID(self.primary_particle)
-                        zenithID = self.runNumGen.getZenithID(zenith)
-                        azimuthID = self.runNumGen.getAzimuthID(azimuth)
-                        energyID = self.runNumGen.getEnergyID(log10_E1)
-                        runNumber = format(int(particleID * 1E5 + zenithID * 1E4 + azimuthID * 1E3 + energyID * 1E2 + runIndex), '06d')
-                        
-                        print("runNumber", runNumber)
-                        
-                        # Check if this COREAS (!) simulation is not in inp. 
-                        # If so, this simulation was already created
-                        # There is thus no need to redo it
-                        if f"SIM{runNumber}_coreas" not in os.listdir(
-                            f"{self.fW.directories['inp']}/{log10_E1}//"
+                    # Create the file name for the simulation
+                    particleID = self.runNumGen.getPrimaryID(self.primary_particle)
+                    zenithID = self.runNumGen.getZenithID(zenith)
+                    azimuthID = self.runNumGen.getAzimuthID(azimuth)
+                    energyID = self.runNumGen.getEnergyID(log10_E1)
+                    runNumber = format(int(particleID * 1E5 + zenithID * 1E4 + azimuthID * 1E3 + energyID * 1E2 + runIndex), '06d')
+                    
+                    print("runNumber", runNumber)
+                    
+                    # Check if this COREAS (!) simulation is not in inp. 
+                    # If so, this simulation was already created
+                    # There is thus no need to redo it
+                    if f"SIM{runNumber}_coreas" not in os.listdir(
+                        f"{self.fW.directories['inp']}/{log10_E1}//"
 
-                        ):
-                            # It writes the Corsika input file 
-                            self.fW.writeFile(runNumber, log10_E1, azimuth, zenith)
-                            # The unique key for the the Submitter is created as followed. 
-                            # It has not practical use, but MUST be unique 
-                            key = f"{log10_E1}_{runNumber}"
-                            # It calls the function to create a sting which will be used for the job execution
-                            stringToSubmit = self.makeStringToSubmit(log10_E1, runNumber)
-                            yield (key, stringToSubmit)
+                    ):
+                        # It writes the Corsika input file 
+                        self.fW.writeFile(runNumber, log10_E1, azimuth, zenith)
+                        # The unique key for the the Submitter is created as followed. 
+                        # It has not practical use, but MUST be unique 
+                        key = f"{log10_E1}_{runNumber}"
+                        # It calls the function to create a sting which will be used for the job execution
+                        stringToSubmit = self.makeStringToSubmit(log10_E1, runNumber)
+                        yield (key, stringToSubmit)
         else:
             sys.exit("Exiting...")
 

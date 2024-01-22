@@ -23,8 +23,6 @@ $PYTHON $SCRIPT \
                 --startNumber 0 \
                 --endNumber 100 \
                 --energyStart 6.0 \
-                --energyEnd 6.0 \
-                --energyStep 0.0 \
                 --obslev 0 \
                 --logDirProcesses "/hkfs/work/workspace/scratch/bg5912-mysims/GP300/proton/run01/logs/" \
 
