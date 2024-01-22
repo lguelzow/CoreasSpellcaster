@@ -13,7 +13,7 @@ the detector antennas are moved at random for each run.
 
 import numpy as np
 import random
-from miniradiotools.starshapes import create_stshp_list, get_starshaped_pattern_radii
+# from miniradiotools.starshapes import create_stshp_list, get_starshaped_pattern_radii
 import sys
 
 class RadioFilesGenerator:
@@ -141,65 +141,65 @@ class RadioFilesGenerator:
 
 
 
-    def get_starshapes(self):
-        """
-        CREATE starshape positions from miniradiotools.
-        .list files are structured like "AntennaPosition = x y z name"
+    # def get_starshapes(self):
+    #     """
+    #     CREATE starshape positions from miniradiotools.
+    #     .list files are structured like "AntennaPosition = x y z name"
 
-        """
-        # create the SIMxxxxxx ID
-        sim = f"SIM{self.runNumber}"
-        # * * * * * * * * * * * * * *
-        """
-        In the best case, you don't need to touch any of this, but here's some explanation on the next few lines of code:
+    #     """
+    #     # create the SIMxxxxxx ID
+    #     sim = f"SIM{self.runNumber}"
+    #     # * * * * * * * * * * * * * *
+    #     """
+    #     In the best case, you don't need to touch any of this, but here's some explanation on the next few lines of code:
 
-        miniradiotools takes (corsika_azimuth - 270) due to coordinate system fun. 
-        create_stshp_list takes that value as input and returns the value you're supposed to use for corsika when using that starshape.list
-        so here we need to take our self.azimuth + 270 as input for create_stshp_list for it to work properly.
-        as double check, we compare the corsika_azimuth the function returns with our self.azimuth.
-        if they're the same, we're good to go!
-        """
-        # * * * * * * * * * * * * * *
+    #     miniradiotools takes (corsika_azimuth - 270) due to coordinate system fun. 
+    #     create_stshp_list takes that value as input and returns the value you're supposed to use for corsika when using that starshape.list
+    #     so here we need to take our self.azimuth + 270 as input for create_stshp_list for it to work properly.
+    #     as double check, we compare the corsika_azimuth the function returns with our self.azimuth.
+    #     if they're the same, we're good to go!
+    #     """
+    #     # * * * * * * * * * * * * * *
 
-        radiotools_azimuth = self.azimuth + 270 
+    #     radiotools_azimuth = self.azimuth + 270 
 
-        print("* * * * * * * * * * * * * *")
-        print("* casting starshape pattern *")
-        antenna_rings = get_starshaped_pattern_radii(self.zenith, self.obslev, atm_model=41)
-        # atm_model = 41: Dunhuang, China
+    #     print("* * * * * * * * * * * * * *")
+    #     print("* casting starshape pattern *")
+    #     antenna_rings = get_starshaped_pattern_radii(self.zenith, self.obslev, atm_model=41)
+    #     # atm_model = 41: Dunhuang, China
 
-        corsika_azimuth = create_stshp_list(self.zenith, radiotools_azimuth, filename=f"{self.directory}/{self.log10_E1}/{sim}_starshape.list", 
-                        obslevel=int(self.obslev), # for Dunhuang, in cm for corsika
-                        obsplane = "gp",
-                        inclination=61.60523, # for Dunhuang
-                        vxB_plot=False,
-                        # n_rings = 20 # for 160 antennas
-                        antenna_rings = antenna_rings # for 240 antennas
-                        )
-        print("* * * * * * * * * * * * * *")
-        # check if self.azimuth is the same as the corsika_azimuth from the starshapes
-        # if it is: yay!
-        if self.azimuth == corsika_azimuth:
-            print(f"Shower azimuth = starshape azimuth: {corsika_azimuth}")
-            print(f"***** Summoning starshapes ***** with azimuth {corsika_azimuth}.")
-        # if it isn't, we have a problem:
-        else:
-            print(f"Shower azimuth {self.azimuth}")
-            print(f"Starshape azimuth {corsika_azimuth}")
-            sys.exit(f"Shower and starshape azimuth are not the same! Please check the inputs and try again.")
+    #     corsika_azimuth = create_stshp_list(self.zenith, radiotools_azimuth, filename=f"{self.directory}/{self.log10_E1}/{sim}_starshape.list", 
+    #                     obslevel=int(self.obslev), # for Dunhuang, in cm for corsika
+    #                     obsplane = "gp",
+    #                     inclination=61.60523, # for Dunhuang
+    #                     vxB_plot=False,
+    #                     # n_rings = 20 # for 160 antennas
+    #                     antenna_rings = antenna_rings # for 240 antennas
+    #                     )
+    #     print("* * * * * * * * * * * * * *")
+    #     # check if self.azimuth is the same as the corsika_azimuth from the starshapes
+    #     # if it is: yay!
+    #     if self.azimuth == corsika_azimuth:
+    #         print(f"Shower azimuth = starshape azimuth: {corsika_azimuth}")
+    #         print(f"***** Summoning starshapes ***** with azimuth {corsika_azimuth}.")
+    #     # if it isn't, we have a problem:
+    #     else:
+    #         print(f"Shower azimuth {self.azimuth}")
+    #         print(f"Starshape azimuth {corsika_azimuth}")
+    #         sys.exit(f"Shower and starshape azimuth are not the same! Please check the inputs and try again.")
 
 
-        # use the starshape file we just generated and read the antenna positions and names from it:
-        file = np.genfromtxt(f"{self.directory}/{self.log10_E1}/{sim}_starshape.list", dtype = "str")
+    #     # use the starshape file we just generated and read the antenna positions and names from it:
+    #     file = np.genfromtxt(f"{self.directory}/{self.log10_E1}/{sim}_starshape.list", dtype = "str")
         
-        # get antenna positions from file
-        # file[:,0] and file[:,1] are useless (they are simply "AntennaPosition" and "=")
-        # get the x and y positions
-        self.starshapeInfo["x"] = file[:,2].astype(float)
-        self.starshapeInfo["y"] = file[:,3].astype(float)
-        self.starshapeInfo["z"] = file[:,4].astype(float)
-        # get the names of the antennas
-        self.starshapeInfo["name"] = file[:,5]
+    #     # get antenna positions from file
+    #     # file[:,0] and file[:,1] are useless (they are simply "AntennaPosition" and "=")
+    #     # get the x and y positions
+    #     self.starshapeInfo["x"] = file[:,2].astype(float)
+    #     self.starshapeInfo["y"] = file[:,3].astype(float)
+    #     self.starshapeInfo["z"] = file[:,4].astype(float)
+    #     # get the names of the antennas
+    #     self.starshapeInfo["name"] = file[:,5]
 
 
     def listWriter(self):
