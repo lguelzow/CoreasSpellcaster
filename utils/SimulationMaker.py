@@ -45,9 +45,12 @@ class SimulationMaker:
         """
         The yield function returns every time a different value as the for loop proceeds
         """ 
+        print(f"Path specified as {self.dirSimulations}")
         for folder in os.scandir(self.dirSimulations): # Efficiently scan directories
             if folder.is_dir():  # Check for subdirectories (simulations)
+                print(f"Found {folder}...")
                 runNumber = folder.name  # Extract run number from folder name
+                print(f"RunNumber: {runNumber}")
                 if len(runNumber) == 6 and runNumber.isdigit():  # Validate format
                     key = f"{runNumber}"
                     stringToSubmit = self.makeStringToSubmit(runNumber)
@@ -64,12 +67,13 @@ class SimulationMaker:
         
         # Makes a temp file for submitting the jobs.
         tempFile = f"{self.dirSimulations}/{runNumber}/temp_{runNumber}.sh"
+        print(f"Creating temp file for {runNumber}")
         with open(tempFile, "w") as f:
             f.write(r"#!/bin/sh") # This shows that the file is an executable
             f.write(
                 f"\n"
                 # + "rm the corsika file \n"
-                + f"{self.pathCorsika} {inpFile} > {logFile}\n" # run corsika
+                + f"{self.pathCorsika}/{self.corsikaExe} {inpFile} > {logFile}\n" # run corsika
                 + f"rm {tempFile}\n"
                 + f"\n"
             )
