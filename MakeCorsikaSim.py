@@ -29,7 +29,6 @@ import numpy as np
 import random
 import subprocess
 
-from utils.FileWriter import FileWriter
 from utils.SimulationMaker import SimulationMaker
 from utils.Submitter import Submitter
 
@@ -102,36 +101,10 @@ def mainCorsikaSim(args):
                 decimals=1 # the rounding has to have one single decimal point for the folder. 
     )
     
-    fW = FileWriter(
-        username=args.username,                 # User name on server
-        dirRun=args.pathCorsika,
-        dirSimulations=args.dirSimulations,
-        primary=args.primary,                   # 1 is gamma, 14 is proton, 402 is He, 1608 is Oxygen, 5626 is Fe
-        dataset=args.dataset,                   # changed on 28 Jan 2020 according to IC std: 13000.0 +000 H, +100 He, +200 O, +300 Fe, +400 Gamma
-        primIdDict = args.primIdDict,
-
-        zenithStart = args.zenithStart,
-        zenithEnd = args.zenithEnd,
-        
-        # zenith =args.zenith,
-        obslev =args.obslev,
-
-        pathAntennas=args.pathAntennas,
-    )
 
     simMaker = SimulationMaker(
-        startNumber=args.startNumber, 
-        endNumber=args.endNumber, 
-        energies=energies, 
-        fW=fW, # The fileWriter class 
         pathCorsika = args.pathCorsika,
         corsikaExe = args.corsikaExe,
-
-        # zenith = args.zenith,
-        zenithStart = args.zenithStart,
-        zenithEnd = args.zenithEnd,
-
-        primary_particle = args.primary,
     )
 
     submitter = Submitter(
@@ -163,21 +136,9 @@ if __name__ == "__main__":
         help="your user name on server"
     )
     parser.add_argument(
-        "--primary",
-        type=int,
-        default=14,
-        help="primary type: 1 is gamma, 14 is proton, 402 is He, 1608 is Oxygen, 5626 is Fe",
-    )
-    parser.add_argument(
-        "--dataset",
-        type=float,
-        default=13000.0,
-        help="dataset number: eg. 13000.0 H, 13100.0 He, 13200.0 Oxygen, 13300.0 Fe, 13400.0 Gamma",
-    )
-    parser.add_argument(
         "--dirSimulations",
         type=str,
-        default="/home/hk-project-radiohfi/bg5912/work/sims/GRAND/mpitest/sim_storage/",
+        default="/home/hk-project-radiohfi/bg5912/work/sims/Max/",
         help="Directory where the simulation are stored",
     )
     parser.add_argument(
@@ -189,80 +150,14 @@ if __name__ == "__main__":
     parser.add_argument(
         "--corsikaExe",
         type=str,
-        default="mpi_corsika77420Linux_SIBYLL_urqmd_thin_coreas_parallel_runner",
+        default="corsika77420Linux_SIBYLL_urqmd_thin_coreas",
         help="the name of the executable of corsika located in the /run directory",
-    )
-    parser.add_argument(
-        "--startNumber",
-        type=int,
-        default=0,
-        help="start number of simulation (e.g. 0 default)",
-    )
-    parser.add_argument(
-        "--endNumber",
-        type=int,
-        default=1000,
-        help="if you startNumber is 0 then it is equal to the total number of simulation per bin (e.g. 667 default)",
-    )
-
-    parser.add_argument(
-        "--energyStart", 
-        type=float, 
-        default=5.0, 
-        help="Lower limit of energy"
-    )
-    parser.add_argument(
-        "--energyEnd", 
-        type=float, 
-        default=7.0, 
-        help="Upper limit of energy"
-    )
-    parser.add_argument(
-        "--energyStep", 
-        type=float, 
-        default=0.1, 
-        help="Step in energy, 0.1 default (do not change unless you know what you are doing)"
-    )
-
-    parser.add_argument(
-        "--zenithStart", 
-        type=float, 
-        default=55.00000000, 
-        help="Start value of zenith range (do not change unless you know what you are doing)"
-    )
-
-    parser.add_argument(
-        "--azimuthStart", 
-        type=float, 
-        default=0.00000000, 
-        help="Start value of azimuth range (do not change unless you know what you are doing)"
-    )
-
-    parser.add_argument(
-        "--zenithEnd", 
-        type=float, 
-        default=87.00000000, 
-        help="End value of zenith range (do not change unless you know what you are doing)"
-    )
-
-    parser.add_argument(
-        "--obslev", 
-        type=float, 
-        default=0, 
-        help="observation level in cm"
-    )
-
-    parser.add_argument(
-        "--pathAntennas",
-        type=str,
-        default="/home/hk-project-radiohfi/bg5912/CoreasSpellcaster/utils/starshapes_Nikos.list",
-        help="the directory where the antenna position file is located"
     )
 
     parser.add_argument(
         "--logDirProcesses",
         type=str,
-        default="/home/hk-project-radiohfi/bg5912/work/sims/logs/",
+        default="/home/hk-project-radiohfi/bg5912/work/sims/Max/logs/",
         help="Directory where log files of the multiple subProcesses are stored",
     )
     parser.add_argument(
