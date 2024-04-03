@@ -57,7 +57,7 @@ class SimulationMaker:
 
     def makeStringToSubmit(self, runNumber):
         # A few paths to files are defined. 
-        inpFile = f"{self.dirSimulations}/{runNumber}/SIM{runNumber}.inp" # input file
+        inpFile = f"{self.dirSimulations}/{runNumber}/RUN{runNumber}.inp" # input file
         logFile = f"{self.dirSimulations}/{runNumber}/DAT{runNumber}.log" # log file 
         listFile = f"{self.dirSimulations}/{runNumber}/SIM{runNumber}.list" # list file
         gdasFile = f"{self.dirSimulations}/{runNumber}/GDAS{runNumber}.dat" #GDAS file

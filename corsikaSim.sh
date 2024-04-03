@@ -16,6 +16,7 @@ cd /home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/
 
 $PYTHON $SCRIPT \
                 --username jelena \
-                --dirSimulations "/home/hk-project-radiohfi/bg5912/work/sims/Max/" \
+                --dirSimulations "/home/hk-project-radiohfi/bg5912/Max/" \
                 --pathCorsika "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/" \
                 --corsikaExe "/corsika77420Linux_SIBYLL_urqmd_thin_coreas" \
+                --parallelSim 1 \

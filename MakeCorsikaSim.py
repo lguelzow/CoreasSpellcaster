@@ -138,7 +138,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--dirSimulations",
         type=str,
-        default="/home/hk-project-radiohfi/bg5912/work/sims/Max/",
+        default="/home/hk-project-radiohfi/bg5912/Max/",
         help="Directory where the simulation are stored",
     )
     parser.add_argument(
@@ -157,14 +157,14 @@ if __name__ == "__main__":
     parser.add_argument(
         "--logDirProcesses",
         type=str,
-        default="/home/hk-project-radiohfi/bg5912/work/sims/Max/logs/",
+        default="/home/hk-project-radiohfi/bg5912/Max/logs/",
         help="Directory where log files of the multiple subProcesses are stored",
     )
     parser.add_argument(
         "--parallelSim",
         type=int,
-        default=1,
-        help="Number of parallel simulation processes - DO NOT USE WITH MPI",
+        default=140,
+        help="Number of parallel simulation processes. Run tests with 1. - DO NOT USE WITH MPI -",
     )
 
     args = parser.parse_args()
