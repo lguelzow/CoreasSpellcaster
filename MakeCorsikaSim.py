@@ -49,18 +49,10 @@ def __checkInputs(args):
     # if not args.energyEnd <= 10_000:
     #     sys.exit('The energy End value MUST be less then 10.000!! The seed number is not unique otherwise!')
     
-    if args.primary not in args.primIdDict.keys():
-        sys.exit('The primary chosen is not in the primIdDict in the mainCorsikaSim. \nBe sure that the --primary is correct.\
-            \nIf so, update the args.primIdDict in the mainCorsikaSim.')
-    
     if not os.path.isfile(f"{args.pathCorsika}/{args.corsikaExe}"): 
         sys.exit('The corsikaExe does not exist or the pathCorsika is wrong.\
             \nCheck them, please!')
     
-    if args.primIdDict[args.primary]*1_000_000 > 900_000_001:
-        import warnings
-        warnings.warn("The program is not stopped, \
-            but aware that the Corsika seed number is exceeding 900.000.000 (the max allowed value)")
     return
 
 
@@ -90,21 +82,11 @@ def mainCorsikaSim(args):
     # Checks if the input given are consistent with the structure of the script
     __checkInputs(args)
     
-    # Defines the energy range given the start, end and step 
-    energies = np.around( # Need to round the numpy array otherwise the floating is wrong
-                    args.energyStart,
-                    # np.arange(
-                    #     args.energyStart, # energy starting point
-                    #     args.energyEnd + args.energyStep, # energy end point plus one step in order to include last step
-                    #     args.energyStep, # step in energies
-                        # ),
-                decimals=1 # the rounding has to have one single decimal point for the folder. 
-    )
-    
 
     simMaker = SimulationMaker(
         pathCorsika = args.pathCorsika,
         corsikaExe = args.corsikaExe,
+        dirSimulations = args.dirSimulations,
     )
 
     submitter = Submitter(
