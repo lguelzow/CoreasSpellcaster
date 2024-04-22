@@ -72,27 +72,33 @@ class SimulationMaker:
         The yield function returns every time a different value as the for loop proceeds
         """
         print("Conjuring energies in log10 GeV of", self.energies)
-        intervals = self.endNumber - self.startNumber + 1# number of bins
 
-        # ! zenith list here
-        # prepare list for azimuths using the given range
-        theta = np.zeros(intervals)
-        for i in range(intervals):
-            start = self.zenithStart
-            end   = self.zenithEnd
-            int_size  = (end - start)/(intervals - 1)
-            # round to 2 decimals
-            theta[i] = np.round((start + i * int_size),2)
-            
+        # Zenith angle range
+        zenith_range = np.arange(self.zenithStart, self.zenithEnd + 0.1, 2.5)  # Creates range with 2.5 increments
 
-        # Create a list of zenith values from the given range
-        zenith_values = theta
-        # Repeat list by number of intervals, so each of the x energies gets x zeniths as well
-        zenith_repeated = np.tile(zenith_values, intervals) 
-        # Round to two decimal places and convert to list
-        zenith_list = np.around(zenith_repeated, decimals=2).tolist()
-        print("bins", intervals)
-        print("zenithvals", zenith_list)
+        # Number of additional values per step
+        num_additional_values = 10
+
+        # Initialize empty list for all zenith values
+        all_zenith_values = []
+
+        for start_angle, end_angle in zip(zenith_range[:-1], zenith_range[1:]):
+            # Calculate cosine values for the current step
+            cos_values = np.linspace(1 / np.cos(np.deg2rad(start_angle)), 1 / np.cos(np.deg2rad(end_angle)), 
+                                     num_additional_values + 1)[1:]  # Exclude first element (start value)
+
+            # Convert cosine values back to zenith angles
+            new_zenith_values = np.rad2deg(np.arccos(cos_values))
+
+            # Add new zenith values to the list
+            all_zenith_values.extend(new_zenith_values)
+
+        # Combine original list with generated values
+        all_zenith_values.extend(zenith_range.tolist())  # Convert range to list
+
+        # Sort the final zenith list
+        zenith_list = sorted(all_zenith_values)
+
 
         # loop for as long as there are values inside azimuth_list:
         if zenith_list:
