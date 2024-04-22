@@ -114,7 +114,7 @@ class RadioFilesGenerator:
             dy = random.uniform(-cherenkov_radius_max, cherenkov_radius_max)
 
             # Check if the distance from (0, 0) is greater than cherenkov_radius_min
-            distance = (x**2 + y**2)**0.5
+            distance = (dx**2 + dy**2)**0.5
             if distance > cherenkov_radius_min:
                 break
 
