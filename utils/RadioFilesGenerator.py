@@ -105,12 +105,25 @@ class RadioFilesGenerator:
         We want to randomly move the antennas, but also not too far from the core.
         Therefore, generate random numbers within a radius of the approximate size of the array.
         """
+        
+        cherenkov_radius_min = 20000 #cm
+        cherenkov_radius_max = 40000 #cm
+        
+        while True:  # Loop until valid coordinates are generated
+            dx = random.uniform(-cherenkov_radius_max, cherenkov_radius_max)
+            dy = random.uniform(-cherenkov_radius_max, cherenkov_radius_max)
+
+            # Check if the distance from (0, 0) is greater than cherenkov_radius_min
+            distance = (x**2 + y**2)**0.5
+            if distance > cherenkov_radius_min:
+                break
+
         file = np.genfromtxt(self.pathAntennas, dtype = "str")
         # get antenna positions from file
         # file[:,0] and file[:,1] are useless (they are simply "AntennaPosition" and "=")
         # get the x, y and z positions
-        self.antennaInfo["x"] = file[:,2].astype(float)
-        self.antennaInfo["y"] = file[:,3].astype(float)
+        self.antennaInfo["x"] = file[:,2].astype(float) + dx
+        self.antennaInfo["y"] = file[:,3].astype(float) + dy
         self.antennaInfo["z"] = abs(file[:,4].astype(float))
         # get the names of the antennas
         self.antennaInfo["name"] = file[:,5]
