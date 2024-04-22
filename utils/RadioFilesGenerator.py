@@ -105,22 +105,12 @@ class RadioFilesGenerator:
         We want to randomly move the antennas, but also not too far from the core.
         Therefore, generate random numbers within a radius of the approximate size of the array.
         """
-        
-        # generate random numbers for shifting the antenna positions
-        R_GP13 = 2000 # approximate size of GP13 in m
-        alpha = 2 * np.pi * random.randint(0,R_GP13) # random angle
-        r = R_GP13 * np.sqrt(random.randint(0,R_GP13)) # random radius # the sqrt is supposed to make it a uniform distribution
-        
-        # calculate the shift in x and y
-        dx = r * np.cos(alpha)
-        dy = r * np.sin(alpha)
-
         file = np.genfromtxt(self.pathAntennas, dtype = "str")
         # get antenna positions from file
         # file[:,0] and file[:,1] are useless (they are simply "AntennaPosition" and "=")
         # get the x, y and z positions
-        self.antennaInfo["x"] = file[:,2].astype(float) + dx
-        self.antennaInfo["y"] = file[:,3].astype(float) + dy
+        self.antennaInfo["x"] = file[:,2].astype(float)
+        self.antennaInfo["y"] = file[:,3].astype(float)
         self.antennaInfo["z"] = abs(file[:,4].astype(float))
         # get the names of the antennas
         self.antennaInfo["name"] = file[:,5]
