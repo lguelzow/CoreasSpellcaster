@@ -9,6 +9,7 @@ import pathlib
 import numpy as np
 from utils.RadioFilesGenerator import RadioFilesGenerator
 from utils.SubFilesGenerator import SubFilesGenerator
+from utils.runNumberGenerator import getAzimuthID, getZenithID
 
 class FileWriter:
     """
@@ -70,7 +71,9 @@ class FileWriter:
         # pprrrrrr where pp is the primary ID (0, 1, 2...) and rrrrrr is the 6-digit run number
         # The seedValue is % 900.000.000 so that it does not exceed the max allowed seed value in Corsika
         # Note underscore do not change anything in the python numbers, they just make them easier to read
-        seedValue = int((int(runNumber) + self.primIdDict[self.primary]*1_000_000) % 900_000_001) 
+        seedValue1 = int((int(runNumber) + self.primIdDict[self.primary]*1_000_000) % 900_000_001)
+        seedValue2 = int((int(runNumber) + getAzimuthID(azimuth)*1_000_000) % 900_000_001)
+        seedValue3 = int((int(runNumber) + getZenithID(zenith)*1_000_000) % 900_000_001)
 
         # create the SIMxxxxxx ID
         sim = f"SIM{runNumber}"
@@ -78,12 +81,12 @@ class FileWriter:
         # This is the inp file, which gets written into the folder
         inp_name = (f"{self.directories['inp']}/{log10_E1}/{sim}.inp")
         
-        seed1 = seedValue  # int(np.random.normal(mu, sigma))#random chosen)  #changed on 28 Jan 2020 according to IC std
-        seed2 = seed1 + 1
-        seed3 = seed1 + 2
+        seed1 = seedValue1
+        seed2 = seedValue2
+        seed3 = seedValue3
         seed4 = seed1 + 3
-        seed5 = seed1 + 4
-        seed6 = seed1 + 5
+        seed5 = seed2 + 4
+        seed6 = seed3 + 5
 
         thin1 = 1.000E-06
         par = 1E-3
