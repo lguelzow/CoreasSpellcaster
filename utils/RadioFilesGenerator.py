@@ -205,9 +205,6 @@ class RadioFilesGenerator:
             # for i in range(self.starshapeInfo["x"].shape[0]):
             #     f.write(f"AntennaPosition = {self.starshapeInfo['x'][i]} {self.starshapeInfo['y'][i]} {self.starshapeInfo['z'][i]} {self.starshapeInfo['name'][i]}\n") 
             # write the positions (x, y, z) and names of the detector's antennas to the .list file
-            # print("***** Summoning GP13 antennas *****")
-            # for i in range(self.antennaInfo["x"].shape[0]):
-            #     f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} {self.antennaInfo['z'][i]} {self.antennaInfo['name'][i]}\n") 
             print("***** Summoning GP300 antennas *****")
             for i in range(self.antennaInfo["x"].shape[0]):
                 f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} 120000 {self.antennaInfo['name'][i]}\n") 
