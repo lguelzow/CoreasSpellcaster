@@ -65,7 +65,7 @@ class FileWriter:
         sim = f"SIM{runNumber}"
 
         # This is the inp file, which gets written into the folder
-        inp_name = (f"{self.directories['inp']}/{log10_E1}/{sim}.inp")
+        inp_name = (f"{self.primary}/{log10_E1}/{zenith}/{runNumber}/{sim}.inp")
         
         seed1 = seedValue1
         seed2 = seedValue2
@@ -128,9 +128,6 @@ class FileWriter:
             pathAntennas = self.pathAntennas,
             zenith = zenith,
             azimuth = azimuth,
-            # azimuthStart = self.azimuthStart,
-            # azimuthEnd = self.azimuthEnd,
-            # azimuthStep = self.azimuthStep,
         )
 
         RadGen.writeReasList()

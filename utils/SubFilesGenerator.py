@@ -12,6 +12,7 @@ class SubFilesGenerator:
         runNumber,                  
         log10_E1,
         zenith,
+        primary,
         pathCorsika = "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/",
         corsikaExe = "/mpi_corsika77420Linux_SIBYLL_urqmd_thin_coreas_parallel_runner",
         
@@ -22,6 +23,7 @@ class SubFilesGenerator:
         self.log10_E1 = log10_E1
 
         self.zenith = zenith
+        self.primary = primary
 
         self.pathCorsika = pathCorsika
         self.corsikaExe = corsikaExe
@@ -35,17 +37,17 @@ class SubFilesGenerator:
         dat = f"DAT{self.runNumber}"
 
         # This is the .sub file, which gets written into the folder
-        sub_file = (f"{self.inpdir}/{self.log10_E1}/{sim}.sub")
+        sub_file = (f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/{sim}.sub")
         # and the corsika files
-        inpFile = f"{self.inpdir}/{self.log10_E1}/{sim}.inp" # input file
-        logFile = f"{self.logdir}/{self.log10_E1}/{dat}.log" # log file
+        inpFile = f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/{sim}.inp" # input file
+        logFile = f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/{dat}.log" # log file
 
 
         # directory containing the simulation files (input + output)
-        inpdir = f"{self.inpdir}/{self.log10_E1}/"
-        logdir = f"{self.logdir}/{self.log10_E1}/"
+        inpdir = f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/"
+        logdir = f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/"
         # create a directory to move all annoying files to after the sim is completed
-        datdir = f"{self.inpdir}/{self.log10_E1}/{dat}/"
+        datdir = f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/{dat}/"
 
 
 

@@ -26,6 +26,7 @@ class RadioFilesGenerator:
         pathAntennas,               # the path to the antennas.list file (the detector antennas)
         zenith,
         azimuth,
+        primary,
 
     ):
         self.directory = directory
@@ -35,6 +36,7 @@ class RadioFilesGenerator:
         self.pathAntennas = pathAntennas
         self.zenith = zenith
         self.azimuth= azimuth
+        self.primary = primary
         self.antennaInfo = {}
         self.starshapeInfo = {}
 
@@ -61,7 +63,7 @@ class RadioFilesGenerator:
         sim = f"SIM{self.runNumber}"
 
         # This is the .reas file, which gets written into the folder
-        reas_name = (f"{self.directory}/{self.log10_E1}/{sim}.reas")  
+        reas_name = (f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/{sim}.reas")  
         
         # Opening and writing in the file 
         with open(reas_name, "w") as file:
@@ -197,7 +199,7 @@ class RadioFilesGenerator:
         sim = f"SIM{self.runNumber}"
 
         # This is the .list file, which gets written into the folder
-        list_name  = (f"{self.directory}/{self.log10_E1}/{sim}.list")  
+        list_name  = (f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/{sim}.list")  
         
         # Opening and writing in the file
         with open(list_name, 'w') as f:
