@@ -151,11 +151,8 @@ class SimulationMaker:
             sys.exit("Exiting...")
 
 
-    #TODO: the temp file is not being used anymore (instead I have SubFilesGenerator.py now), but this part can't simply be removed because of dependency issues
+    #TODO: the temp file is not being used anymore (instead I have SubFilesGenerator.py now), but this part can't simply be removed because of dependency issues (in the function right above)
     def makeStringToSubmit(self, log10_E, runNumber):
-        # A few paths to files are defined. 
-        inpFile = f"{self.fW.directories['inp']}/{log10_E}/SIM{runNumber}.inp" # input file
-        logFile = f"{self.fW.directories['log']}/{log10_E}/DAT{runNumber}.log" # log file 
         
         # Makes a temp file for submitting the jobs.
         tempFile = f"{self.fW.directories['temp']}/{log10_E}/temp_{runNumber}.sh"
@@ -163,9 +160,6 @@ class SimulationMaker:
             f.write(r"#!/bin/sh") # This shows that the file is an executable
             f.write(
                 f"\n"
-                + f"\nrm -r {self.fW.directories['data']}" # not used in radio
-                + f"\n sbatch -p cpuonly -A hk-project-radiohfi --job-name={runNumber} {self.fW.directories['inp']}/{log10_E}/SIM{runNumber}.sub"
-                + f"\n"
             )
 
 
