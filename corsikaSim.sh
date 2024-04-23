@@ -25,7 +25,7 @@ $PYTHON $SCRIPT \
                 --energyStart 8.0 \
                 --energyEnd 11.0 \
                 --energyStep 0.2 \
-                --zenithStart 55 \
+                --zenithStart 65 \
                 --zenithEnd 85 \
                 --obslev 120000 \
                 --logDirProcesses "/hkfs/work/workspace/scratch/bg5912-mysims/GP300/proton/run01/logs/" \
