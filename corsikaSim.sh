@@ -29,4 +29,4 @@ $PYTHON $SCRIPT \
                 --obslev 120000 \
 
 # proton 14, iron 5626
-# obslev Dunhuang 120000 m 
+# obslev Dunhuang 1.2 km -> 1200 m -> 120000 cm 
