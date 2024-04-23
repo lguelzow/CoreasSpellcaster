@@ -67,9 +67,14 @@ class SimulationMaker:
 
     def generator(self):
         """
-        This function generates all possible configuration of energy and file number. 
-        It yields the key and the String to submit
-        The yield function returns every time a different value as the for loop proceeds
+        This function generates configurations for simulations with various energies, zenith angles, and azimuth angles. 
+        It iterates through all possible combinations and yields a unique key and a string 
+        required for submitting each simulation job.
+
+        The folder structure for the simulations is created as:
+            primary_particle/energy/theta/runNumber/
+
+        Each run will have its own folder within the specified energy and zenith angle subdirectories.
         """
         print("Conjuring energies in log10 GeV of", self.energies)
 
@@ -101,17 +106,15 @@ class SimulationMaker:
 
 
         # loop for as long as there are values inside azimuth_list:
+         # loop for as long as there are values inside azimuth_list:
         if zenith_list:
             while zenith_list:
                 # This is a loop over all energies and gives the low and high limit values.
                 # Eg. 5.0 and 5.1
                 for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
-                    # Creates "data", "temp", "log", "inp" folders and energy subfolder
-                    self.fW.makeFolders(log10_E1)
-
-                    # It loops over all the unique numbers 
+                    # loop over all the unique numbers 
                     for runIndex in range(self.startNumber, self.endNumber, 1):
-                        # ! zenith loop here
+                        #! zenith loop here
                         # Get the next azimuth value from the list
                         zenith = zenith_list.pop(0)
                         print("SimMaker using zenith", zenith)
@@ -124,35 +127,31 @@ class SimulationMaker:
                         # print runIndex (as double check)
                         print("runIndex", runIndex)
 
-                        # Create the file name for the simulation
+                        # Create the file name (runNumber) for the simulation
                         particleID = self.runNumGen.getPrimaryID(self.primary_particle)
                         zenithID = self.runNumGen.getZenithID(zenith)
                         azimuthID = self.runNumGen.getAzimuthID(azimuth)
                         energyID = self.runNumGen.getEnergyID(log10_E1)
                         runNumber = format(int(particleID * 1E5 + zenithID * 1E4 + azimuthID * 1E3 + energyID * 1E2 + runIndex), '06d')
-                        
                         print("runNumber", runNumber)
-                        
-                        # Check if this COREAS (!) simulation is not in inp. 
-                        # If so, this simulation was already created
-                        # There is thus no need to redo it
-                        if f"SIM{runNumber}_coreas" not in os.listdir(
-                            f"{self.fW.directories['inp']}/{log10_E1}//"
 
-                        ):
-                            # It writes the Corsika input file 
+                        # Create folders with the structure: primary_particle/energy/theta/runNumber/<files>
+                        folder_path = os.path.join(f"{self.primary_particle}/{log10_E1}/{zenith}/{runNumber}/")
+                        os.makedirs(folder_path, exist_ok=True)  # Create folders if they don't already exist
+
+                        # Check if the simulation already exists
+                        if f"SIM{runNumber}_coreas" not in os.listdir(folder_path):
+                            # Write Corsika input file and generate key/string
                             self.fW.writeFile(runNumber, log10_E1, azimuth, zenith)
-                            # The unique key for the the Submitter is created as followed. 
-                            # It has not practical use, but MUST be unique 
                             key = f"{log10_E1}_{runNumber}"
-                            # It calls the function to create a sting which will be used for the job execution
                             stringToSubmit = self.makeStringToSubmit(log10_E1, runNumber)
                             yield (key, stringToSubmit)
+
         else:
             sys.exit("Exiting...")
 
 
-
+    #TODO: the temp file is not being used anymore (instead I have SubFilesGenerator.py now), but this part can't simply be removed because of dependency issues
     def makeStringToSubmit(self, log10_E, runNumber):
         # A few paths to files are defined. 
         inpFile = f"{self.fW.directories['inp']}/{log10_E}/SIM{runNumber}.inp" # input file
