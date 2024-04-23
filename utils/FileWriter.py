@@ -45,20 +45,6 @@ class FileWriter:
         self.pathAntennas = pathAntennas
 
 
-    def makeFolders(self, log10_E1): 
-        """
-        Creates "data", "temp", "log", "inp" folders and energy subfolder
-        
-        Parameters:
-            log10_E1: the log10 of the Energy value for the subfolder creation        
-        """
-        for folder in ["data", "temp", "log", "inp", "starshapes"]:
-            self.directories[folder] = f"{self.directories['sim']}/{folder}/"
-            # Creates the required directories in case they are not existing
-            pathlib.Path(f"{self.directories[folder]}/{log10_E1}").mkdir(parents=True, exist_ok=True)
-        return
-    # TODO: get rid of data and temp
-
 
     def writeFile(self, runNumber, log10_E1, azimuth, zenith):
         """
