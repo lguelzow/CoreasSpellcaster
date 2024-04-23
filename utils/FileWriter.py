@@ -24,7 +24,6 @@ class FileWriter:
         dirSimulations,                 # Simulations directory where the data temp and log folder will be created
         dirRun,                         # run directory where the corsika executable and atmosphere file are stored
         primary,                        # 1 is gamma, 14 is proton, 402 is He, 1608 is Oxygen, 5626 is Fe
-        dataset,                        # changed on 28 Jan 2020 according to IC std: 13000.0 +000 H, +100 He, +200 O, +300 Fe, +400 Gamma
         primIdDict,                     # This is a dictionary, with keys the Corsika numbering of primary, 
                                         # and values the arbitrary numbering used in this script for all primary particle. 
         
