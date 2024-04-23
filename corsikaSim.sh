@@ -11,15 +11,14 @@ cd /home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/
 
 #TODO Make sure to change the parameters correctly. Documentation in the args of MakeCorsikaSim.py
 # specifically:
-#TODO check paths in dirSimulations and logDirProcesses
 #TODO check corsikaExe
 
 $PYTHON $SCRIPT \
                 --username bg5912 \
                 --primary 14 \
-                --dirSimulations "/hkfs/work/workspace/scratch/bg5912-mysims/GP300/proton/run01/sim_storage/" \
-                --pathCorsika "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/" \
-                --corsikaExe "/mpi_corsika77420Linux_SIBYLL_urqmd_thin_coreas_parallel_runner" \
+                --dirSimulations "/hkfs/work/workspace/scratch/bg5912-radiosims/GP300/" \
+                --pathCorsika "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77550/run/" \
+                --corsikaExe "/mpi_corsika77550Linux_SIBYLL_urqmd_thin_coreas_parallel_runner" \
                 --startNumber 0 \
                 --endNumber 15 \
                 --energyStart 8.0 \
@@ -28,7 +27,6 @@ $PYTHON $SCRIPT \
                 --zenithStart 65 \
                 --zenithEnd 85 \
                 --obslev 120000 \
-                --logDirProcesses "/hkfs/work/workspace/scratch/bg5912-mysims/GP300/proton/run01/logs/" \
 
 # proton 14, iron 5626
 # obslev Dunhuang 120000 m 

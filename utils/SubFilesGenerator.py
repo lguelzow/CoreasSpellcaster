@@ -7,8 +7,6 @@ import stat
 class SubFilesGenerator:
 
     def __init__(self,
-        inpdir,
-        logdir,
         runNumber,                  
         log10_E1,
         zenith,
@@ -17,8 +15,6 @@ class SubFilesGenerator:
         corsikaExe = "/mpi_corsika77420Linux_SIBYLL_urqmd_thin_coreas_parallel_runner",
         
     ):
-        self.inpdir = inpdir
-        self.logdir = logdir
         self.runNumber = runNumber
         self.log10_E1 = log10_E1
 

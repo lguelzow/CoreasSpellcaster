@@ -135,8 +135,6 @@ class FileWriter:
 
         # create the .sub and .sh file for each shower
         SubGen = SubFilesGenerator(
-            inpdir = self.directories["inp"],
-            logdir = self.directories["log"],
             runNumber = runNumber,
             log10_E1 = log10_E1,
             zenith = zenith,

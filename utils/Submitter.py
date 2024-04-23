@@ -28,11 +28,8 @@ class Submitter:
         """
 
         self.key_processString_generator = MakeKeySubString()
-        self.logDir = logDir
         self.parallelRunningSims = parallel_sim
         self.processDict = {}
-        # Creates the log directory if it does not exist yet
-        pathlib.Path(f"{self.logDir}").mkdir(parents=True, exist_ok=True)
 
     def startProcesses(self):
         """

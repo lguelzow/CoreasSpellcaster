@@ -135,7 +135,6 @@ def mainCorsikaSim(args):
 
     submitter = Submitter(
         MakeKeySubString=simMaker.generator,
-        logDir=args.logDirProcesses,
         parallel_sim=args.parallelSim,
     )
 
@@ -251,12 +250,6 @@ if __name__ == "__main__":
         help="the directory where the antenna position file is located"
     )
 
-    parser.add_argument(
-        "--logDirProcesses",
-        type=str,
-        default="/home/hk-project-radiohfi/bg5912/work/sims/logs/",
-        help="Directory where log files of the multiple subProcesses are stored",
-    )
     parser.add_argument(
         "--parallelSim",
         type=int,
