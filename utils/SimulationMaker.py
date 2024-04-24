@@ -82,27 +82,30 @@ class SimulationMaker:
         zenith_range = np.arange(self.zenithStart, self.zenithEnd + 0.1, 2.5)  # Creates range with 2.5 increments
 
         # Number of additional values per step
-        num_additional_values = 10
+        num_additional_values = 80
 
         # Initialize empty list for all zenith values
         all_zenith_values = []
-
-        for start_angle, end_angle in zip(zenith_range[:-1], zenith_range[1:]):
-            # Calculate cosine values for the current step
+        cos = np.zeros(num_additional_values)
+        print("zenith range", zenith_range[0], zenith_range[-1])
+        # Calculate cosine values for the current step
+        for i in range(1,num_additional_values): # start from 1 to exclude the 0
+            start_angle = zenith_range[0]
+            end_angle = zenith_range[-1]
             cos_values = np.linspace(1 / np.cos(np.deg2rad(start_angle)), 1 / np.cos(np.deg2rad(end_angle)), 
-                                     num_additional_values + 1)[1:]  # Exclude first element (start value)
+                                        num_additional_values + 1)[1:]  # Exclude first element (start value)
+            int_size  = (end_angle - start_angle)/(num_additional_values - 1)
+            cos[i] = start_angle + i * int_size
+            all_zenith_values.append(cos[i])
 
-            # Convert cosine values back to zenith angles
-            new_zenith_values = np.rad2deg(np.arccos(cos_values))
-
-            # Add new zenith values to the list
-            all_zenith_values.extend(new_zenith_values)
+        print("zenith vals", all_zenith_values)
 
         # Combine original list with generated values
         all_zenith_values.extend(zenith_range.tolist())  # Convert range to list
 
         # Sort the final zenith list
         zenith_list = sorted(all_zenith_values)
+        print("zenith list", zenith_list)
 
 
         # loop for as long as there are values inside azimuth_list:
