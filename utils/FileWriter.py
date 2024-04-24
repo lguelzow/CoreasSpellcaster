@@ -113,7 +113,7 @@ class FileWriter:
                 + f"LONGI   T   5.     T       T\n"
                 + f"RADNKG  5.E+05\n"           
                 + f"ATMFILE {self.dirRun}/ATMOSPHERE_20170401120000_Dunhuang.DAT\n"
-                + f"DIRECT  {self.directories['inp']}/{log10_E1}/\n"
+                + f"DIRECT  {self.primary}/{log10_E1}/{zenith}/{runNumber}/\n"
                 + f"DATDIR  {self.dirRun}\n"
                 + f"USER    {self.username}\n"
                 + f"EXIT\n")
@@ -122,7 +122,7 @@ class FileWriter:
         # create the radio files
         RadGen = RadioFilesGenerator(
             obslev = self.obslev,
-            directory = self.directories["inp"],
+            directory = self.directories,
             runNumber = runNumber,
             log10_E1 = log10_E1,
             pathAntennas = self.pathAntennas,
@@ -138,8 +138,8 @@ class FileWriter:
             runNumber = runNumber,
             log10_E1 = log10_E1,
             zenith = zenith,
-            pathCorsika = "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/",
-            corsikaExe = "/mpi_corsika77420Linux_SIBYLL_urqmd_thin_coreas_parallel_runner",
+            pathCorsika = "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77550/run/",
+            corsikaExe = "/mpi_corsika77550Linux_SIBYLL_urqmd_thin_coreas_parallel_runner",
         )
 
         SubGen.writeSubFiles()
