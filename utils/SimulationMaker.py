@@ -147,30 +147,19 @@ class SimulationMaker:
                             # Write Corsika input file and generate key/string
                             self.fW.writeFile(runNumber, log10_E1, azimuth, zenith)
                             key = f"{log10_E1}_{runNumber}"
-                            stringToSubmit = self.makeStringToSubmit(log10_E1, runNumber)
+                            stringToSubmit = self.makeStringToSubmit(log10_E1, runNumber, zenith)
                             yield (key, stringToSubmit)
 
         else:
             sys.exit("Exiting...")
 
 
-    #TODO: the temp file is not being used anymore (instead I have SubFilesGenerator.py now), but this part can't simply be removed because of dependency issues (in the function right above)
-    def makeStringToSubmit(self, log10_E, runNumber):
+    # TODO: make this nicer. Figuring out the substring stuff is too much work, so I'm just referring to the subfile created in SubFilesGenerator here.
+    def makeStringToSubmit(self, log10_E1, runNumber, zenith):
         
         # Makes a temp file for submitting the jobs.
-        tempFile = f"{self.fW.directories['temp']}/{log10_E}/temp_{runNumber}.sh"
-        with open(tempFile, "w") as f:
-            f.write(r"#!/bin/sh") # This shows that the file is an executable
-            f.write(
-                f"\n"
-            )
-
-
-        # Make the file executable
-        st = os.stat(tempFile)
-        os.chmod(tempFile, st.st_mode | stat.S_IEXEC)
-
+        sub_file = (f"{self.primary_particle}/{log10_E1}/{zenith}/{runNumber}/SIM{runNumber}.sub")
         # The stringToSubmit is basically the execution of the temporary sh file
-        subString = tempFile
+        subString = sub_file
         return subString
 
