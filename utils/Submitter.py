@@ -18,7 +18,7 @@ class Submitter:
     Classed used for calling multiple scripts in a single submission (eg. on the Horeka cluster)
     """
 
-    def __init__(self, MakeKeySubString, logDir, parallel_sim=50):
+    def __init__(self, MakeKeySubString, parallel_sim=50):
         """
         Parameters:
         key_processString_generator: is a function that yields the key and process string needed for the simulation
