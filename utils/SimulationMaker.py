@@ -131,10 +131,10 @@ class SimulationMaker:
                         # Check if the simulation already exists
                         if f"SIM{runNumber}_coreas" not in os.listdir(folder_path):
                             # Write Corsika input file and generate key/string
-                        self.fW.writeFile(runNumber, log10_E1, azimuth, zenith, folder_path)
-                        key = f"{log10_E1}_{runNumber}"
-                        stringToSubmit = self.makeStringToSubmit(log10_E1, runNumber, zenith, folder_path)
-                        yield (key, stringToSubmit)
+                            self.fW.writeFile(runNumber, log10_E1, azimuth, zenith, folder_path)
+                            key = f"{log10_E1}_{runNumber}"
+                            stringToSubmit = self.makeStringToSubmit(log10_E1, runNumber, zenith, folder_path)
+                            yield (key, stringToSubmit)
 
 
 
