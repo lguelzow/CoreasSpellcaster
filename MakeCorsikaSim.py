@@ -171,7 +171,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--dirSimulations",
         type=str,
-        default="/home/hk-project-radiohfi/bg5912/work/sims/GRAND/mpitest/sim_storage/",
+        default="/hkfs/work/workspace/scratch/bg5912-radiosims/GP300/",
         help="Directory where the simulation are stored",
     )
     parser.add_argument(
