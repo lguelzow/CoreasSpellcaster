@@ -128,6 +128,7 @@ class FileWriter:
             pathAntennas = self.pathAntennas,
             zenith = zenith,
             azimuth = azimuth,
+            primary = self.primary,
         )
 
         RadGen.writeReasList()
@@ -138,6 +139,7 @@ class FileWriter:
             runNumber = runNumber,
             log10_E1 = log10_E1,
             zenith = zenith,
+            primary = self.primary,
             pathCorsika = "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77550/run/",
             corsikaExe = "/mpi_corsika77550Linux_SIBYLL_urqmd_thin_coreas_parallel_runner",
         )
