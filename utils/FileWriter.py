@@ -10,6 +10,7 @@ import numpy as np
 from utils.RadioFilesGenerator import RadioFilesGenerator
 from utils.SubFilesGenerator import SubFilesGenerator
 from utils.runNumberGenerator import runNumberGenerator
+import os
 
 class FileWriter:
     """
@@ -35,7 +36,7 @@ class FileWriter:
         self.username = username
         self.primary = primary
         self.dirRun = dirRun
-        self.directories = {"sim":dirSimulations}
+        self.directory = dirSimulations
         self.primIdDict= primIdDict
         
         self.zenithStart = zenithStart
@@ -45,7 +46,7 @@ class FileWriter:
 
 
 
-    def writeFile(self, runNumber, log10_E1, azimuth, zenith):
+    def writeFile(self, runNumber, log10_E1, azimuth, zenith, folder_path):
         """
         Creates and writes a Corsika inp file that can be used as Corsika input
         """
@@ -64,9 +65,8 @@ class FileWriter:
         # create the SIMxxxxxx ID
         sim = f"SIM{runNumber}"
 
-        # This is the inp file, which gets written into the folder
-        inp_name = (f"{self.primary}/{log10_E1}/{zenith}/{runNumber}/{sim}.inp")
-        
+        inp_name = f"{folder_path}/{sim}.inp"
+
         seed1 = seedValue1
         seed2 = seedValue2
         seed3 = seedValue3
@@ -113,7 +113,7 @@ class FileWriter:
                 + f"LONGI   T   5.     T       T\n"
                 + f"RADNKG  5.E+05\n"           
                 + f"ATMFILE {self.dirRun}/ATMOSPHERE_20170401120000_Dunhuang.DAT\n"
-                + f"DIRECT  {self.primary}/{log10_E1}/{zenith}/{runNumber}/\n"
+                + f"DIRECT  {folder_path}/\n"
                 + f"DATDIR  {self.dirRun}\n"
                 + f"USER    {self.username}\n"
                 + f"EXIT\n")
@@ -122,13 +122,14 @@ class FileWriter:
         # create the radio files
         RadGen = RadioFilesGenerator(
             obslev = self.obslev,
-            directory = self.directories,
+            directory = self.directory,
             runNumber = runNumber,
             log10_E1 = log10_E1,
             pathAntennas = self.pathAntennas,
             zenith = zenith,
             azimuth = azimuth,
             primary = self.primary,
+            folder_path = folder_path
         )
 
         RadGen.writeReasList()
@@ -140,6 +141,8 @@ class FileWriter:
             log10_E1 = log10_E1,
             zenith = zenith,
             primary = self.primary,
+            directory = self.directory,
+            folder_path = folder_path,
             pathCorsika = "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77550/run/",
             corsikaExe = "/mpi_corsika77550Linux_SIBYLL_urqmd_thin_coreas_parallel_runner",
         )

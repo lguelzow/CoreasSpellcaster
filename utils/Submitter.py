@@ -18,7 +18,7 @@ class Submitter:
     Classed used for calling multiple scripts in a single submission (eg. on the Horeka cluster)
     """
 
-    def __init__(self, MakeKeySubString, parallel_sim=50):
+    def __init__(self, MakeKeySubString, logDir, parallel_sim=50):
         """
         Parameters:
         key_processString_generator: is a function that yields the key and process string needed for the simulation
@@ -28,8 +28,11 @@ class Submitter:
         """
 
         self.key_processString_generator = MakeKeySubString()
+        self.logDir = logDir
         self.parallelRunningSims = parallel_sim
         self.processDict = {}
+        # Creates the log directory if it does not exist yet
+        pathlib.Path(f"{self.logDir}").mkdir(parents=True, exist_ok=True)
 
     def startProcesses(self):
         """
@@ -59,8 +62,10 @@ class Submitter:
         if (key is not None) and (processString is not None):
             print("Process key:", key)
             print("\n==================== Conjuring Cosmic Shower ====================")
+            print(processString)
             self.processDict[key] = subprocess.Popen(
-                processString.split(),
+                f"sbatch -p cpuonly {processString}".split(),
+                # processString.split(),
                 stderr=subprocess.PIPE,
                 stdout=subprocess.PIPE,
             )

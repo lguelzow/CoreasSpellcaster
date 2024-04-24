@@ -15,6 +15,7 @@ import numpy as np
 import random
 from miniradiotools.starshapes import create_stshp_list, get_starshaped_pattern_radii
 import sys
+import os
 
 class RadioFilesGenerator:
 
@@ -27,6 +28,7 @@ class RadioFilesGenerator:
         zenith,
         azimuth,
         primary,
+        folder_path,
 
     ):
         self.directory = directory
@@ -37,6 +39,7 @@ class RadioFilesGenerator:
         self.zenith = zenith
         self.azimuth= azimuth
         self.primary = primary
+        self.folder_path = folder_path
         self.antennaInfo = {}
         self.starshapeInfo = {}
 
@@ -62,9 +65,8 @@ class RadioFilesGenerator:
         # create the SIMxxxxxx ID
         sim = f"SIM{self.runNumber}"
 
-        # This is the .reas file, which gets written into the folder
-        reas_name = (f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/{sim}.reas")  
-        
+        reas_name = f"{self.folder_path}/{sim}.reas"
+
         # Opening and writing in the file 
         with open(reas_name, "w") as file:
             ######Things that go into the reas file for CoREAS#######
@@ -199,8 +201,9 @@ class RadioFilesGenerator:
         sim = f"SIM{self.runNumber}"
 
         # This is the .list file, which gets written into the folder
-        list_name  = (f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/{sim}.list")  
-        
+        list_name = f"{self.folder_path}/{sim}.list"
+
+
         # Opening and writing in the file
         with open(list_name, 'w') as f:
             # write the positions (x, y, z) and names of the starshape antennas to the .list file

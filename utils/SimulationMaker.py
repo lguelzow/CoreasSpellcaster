@@ -49,7 +49,8 @@ class SimulationMaker:
                  corsikaExe, 
                  zenithStart,
                  zenithEnd,
-                 primary_particle
+                 primary_particle,
+                 directory,
     ):
         
         self.startNumber = startNumber
@@ -62,6 +63,7 @@ class SimulationMaker:
         self.zenithEnd = zenithEnd
         self.primary_particle = primary_particle
         self.runNumGen = runNumberGenerator()
+        self.directory = directory
 
 
 
@@ -79,47 +81,31 @@ class SimulationMaker:
         print("Conjuring energies in log10 GeV of", self.energies)
 
         # Zenith angle range
-        zenith_range = np.arange(self.zenithStart, self.zenithEnd + 0.1, 2.5)  # Creates range with 2.5 increments
-
+        zenith_range = np.around(np.arange(self.zenithStart, self.zenithEnd + 0.1, 2.5), decimals=1)
         # Number of additional values per step
-        num_additional_values = 80
-
+        intervals = 10
         # Initialize empty list for all zenith values
         all_zenith_values = []
-        cos = np.zeros(num_additional_values)
         print("zenith range", zenith_range[0], zenith_range[-1])
-        # Calculate cosine values for the current step
-        for i in range(1,num_additional_values): # start from 1 to exclude the 0
-            start_angle = zenith_range[0]
-            end_angle = zenith_range[-1]
-            cos_values = np.linspace(1 / np.cos(np.deg2rad(start_angle)), 1 / np.cos(np.deg2rad(end_angle)), 
-                                        num_additional_values + 1)[1:]  # Exclude first element (start value)
-            int_size  = (end_angle - start_angle)/(num_additional_values - 1)
-            cos[i] = start_angle + i * int_size
-            all_zenith_values.append(cos[i])
+            
+            # This is a loop over all energies and gives the low and high limit values.
+            # Eg. 5.0 and 5.1
+        for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
+                # Calculate cosine values for the current step
+            for i, (zenith_start, zenith_end) in enumerate(zip(zenith_range[:-1], zenith_range[1:])):
+                cstart = 1 -np.cos(np.deg2rad(zenith_start))
+                cend = 1 - np.cos(np.deg2rad(zenith_end))
+                cos_value = np.linspace(cstart, cend, intervals, endpoint=False)
+                all_zenith_values = (list(np.rad2deg(np.arccos(1-cos_value))))
+                if i==(len(zenith_range)-2):
+                    all_zenith_values.append(zenith_end)
 
-        print("zenith vals", all_zenith_values)
-
-        # Combine original list with generated values
-        all_zenith_values.extend(zenith_range.tolist())  # Convert range to list
-
-        # Sort the final zenith list
-        zenith_list = sorted(all_zenith_values)
-        print("zenith list", zenith_list)
-
-
-        # loop for as long as there are values inside azimuth_list:
-         # loop for as long as there are values inside azimuth_list:
-        if zenith_list:
-            while zenith_list:
-                # This is a loop over all energies and gives the low and high limit values.
-                # Eg. 5.0 and 5.1
-                for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
+                for zenith in all_zenith_values:
+                    print(zenith)
                     # loop over all the unique numbers 
                     for runIndex in range(self.startNumber, self.endNumber, 1):
                         #! zenith loop here
                         # Get the next azimuth value from the list
-                        zenith = zenith_list.pop(0)
                         print("SimMaker using zenith", zenith)
 
                         #! random azimuth here
@@ -139,26 +125,25 @@ class SimulationMaker:
                         print("runNumber", runNumber)
 
                         # Create folders with the structure: primary_particle/energy/theta/runNumber/<files>
-                        folder_path = os.path.join(f"{self.primary_particle}/{log10_E1}/{zenith}/{runNumber}/")
+                        folder_path = os.path.join(f"{self.primary_particle}/{log10_E1}/{zenith_start}/{runNumber}/")
                         os.makedirs(folder_path, exist_ok=True)  # Create folders if they don't already exist
 
                         # Check if the simulation already exists
                         if f"SIM{runNumber}_coreas" not in os.listdir(folder_path):
                             # Write Corsika input file and generate key/string
-                            self.fW.writeFile(runNumber, log10_E1, azimuth, zenith)
+                            self.fW.writeFile(runNumber, log10_E1, azimuth, zenith, folder_path)
                             key = f"{log10_E1}_{runNumber}"
-                            stringToSubmit = self.makeStringToSubmit(log10_E1, runNumber, zenith)
+                            stringToSubmit = self.makeStringToSubmit(log10_E1, runNumber, zenith, folder_path)
                             yield (key, stringToSubmit)
 
-        else:
-            sys.exit("Exiting...")
 
 
     # TODO: make this nicer. Figuring out the substring stuff is too much work, so I'm just referring to the subfile created in SubFilesGenerator here.
-    def makeStringToSubmit(self, log10_E1, runNumber, zenith):
+    def makeStringToSubmit(self, log10_E1, runNumber, zenith, folder_path):
         
         # Makes a temp file for submitting the jobs.
-        sub_file = (f"{self.primary_particle}/{log10_E1}/{zenith}/{runNumber}/SIM{runNumber}.sub")
+        sub_file = (f"{folder_path}/SIM{runNumber}.sub")
+        print(sub_file)
         # The stringToSubmit is basically the execution of the temporary sh file
         subString = sub_file
         return subString

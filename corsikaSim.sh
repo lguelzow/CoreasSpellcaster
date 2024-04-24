@@ -7,7 +7,7 @@ PYTHON=/home/hk-project-radiohfi/bg5912/virtual_env/bin/python3
 SCRIPT=/home/hk-project-radiohfi/bg5912/CoreasSpellcaster/MakeCorsikaSim.py
 
 #TODO Make sure this is the right corsika path
-cd /home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/
+cd /home/hk-project-radiohfi/bg5912/work/soft/corsika-77550/run/
 
 #TODO Make sure to change the parameters correctly. Documentation in the args of MakeCorsikaSim.py
 # specifically:
@@ -20,7 +20,7 @@ $PYTHON $SCRIPT \
                 --pathCorsika "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77550/run/" \
                 --corsikaExe "/mpi_corsika77550Linux_SIBYLL_urqmd_thin_coreas_parallel_runner" \
                 --startNumber 0 \
-                --endNumber 99 \
+                --endNumber 1 \
                 --energyStart 8.0 \
                 --energyEnd 11.0 \
                 --energyStep 0.2 \

@@ -130,11 +130,13 @@ def mainCorsikaSim(args):
         zenithEnd = args.zenithEnd,
 
         primary_particle = args.primary,
+        directory = args.dirSimulations,
     )
 
     submitter = Submitter(
         MakeKeySubString=simMaker.generator,
         parallel_sim=args.parallelSim,
+        logDir=args.dirSimulations+"/logs",
     )
 
     # Starts the spawn of the simulations
@@ -175,13 +177,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--pathCorsika",
         type=str,
-        default="/home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/",
+        default="/home/hk-project-radiohfi/bg5912/work/soft/corsika-77550/run/",
         help="the /run directory where the executable of corsika is located",
     )
     parser.add_argument(
         "--corsikaExe",
         type=str,
-        default="mpi_corsika77420Linux_SIBYLL_urqmd_thin_coreas_parallel_runner",
+        default="mpi_corsika77550Linux_SIBYLL_urqmd_thin_coreas_parallel_runner",
         help="the name of the executable of corsika located in the /run directory",
     )
     parser.add_argument(

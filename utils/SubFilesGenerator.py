@@ -11,8 +11,10 @@ class SubFilesGenerator:
         log10_E1,
         zenith,
         primary,
-        pathCorsika = "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77420/run/",
-        corsikaExe = "/mpi_corsika77420Linux_SIBYLL_urqmd_thin_coreas_parallel_runner",
+        directory,
+        folder_path,
+        pathCorsika = "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77550/run/",
+        corsikaExe = "/mpi_corsika77550Linux_SIBYLL_urqmd_thin_coreas_parallel_runner",
         
     ):
         self.runNumber = runNumber
@@ -21,6 +23,9 @@ class SubFilesGenerator:
         self.zenith = zenith
         self.primary = primary
 
+
+        self.folder_path = folder_path
+        self.directory = directory
         self.pathCorsika = pathCorsika
         self.corsikaExe = corsikaExe
 
@@ -32,18 +37,19 @@ class SubFilesGenerator:
         # create the DATxxxxxx ID
         dat = f"DAT{self.runNumber}"
 
+        # os.makedirs({self.directory}/{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}, exist_ok=True)
         # This is the .sub file, which gets written into the folder
-        sub_file = (f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/{sim}.sub")
+        sub_file = f"{self.folder_path}/{sim}.sub"
         # and the corsika files
-        inpFile = f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/{sim}.inp" # input file
-        logFile = f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/{dat}.log" # log file
+        inpFile = f"{self.folder_path}/{sim}.inp" # input file
+        logFile = f"{self.folder_path}/{dat}.log" # log file
 
 
         # directory containing the simulation files (input + output)
-        inpdir = f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/"
-        logdir = f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/"
+        inpdir = f"{self.folder_path}/"
+        logdir = f"{self.folder_path}/"
         # create a directory to move all annoying files to after the sim is completed
-        datdir = f"{self.primary}/{self.log10_E1}/{self.zenith}/{self.runNumber}/{dat}/"
+        datdir = f"{self.folder_path}/{dat}/"
 
 
 
