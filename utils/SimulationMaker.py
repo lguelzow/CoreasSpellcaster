@@ -125,7 +125,7 @@ class SimulationMaker:
                         print("runNumber", runNumber)
 
                         # Create folders with the structure: primary_particle/energy/theta/runNumber/<files>
-                        folder_path = os.path.join(f"{self.primary_particle}/{log10_E1}/{zenith_start}/{runNumber}/")
+                        folder_path = os.path.join(f"{self.directory}{self.primary_particle}/{log10_E1}/{zenith_start}/{runNumber}/")
                         os.makedirs(folder_path, exist_ok=True)  # Create folders if they don't already exist
 
                         # Check if the simulation already exists
