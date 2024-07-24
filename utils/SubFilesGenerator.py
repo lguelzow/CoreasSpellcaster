@@ -74,7 +74,8 @@ class SubFilesGenerator:
         with open(sub_file, "w") as file:
             ######Things that go into the sub file for Horeka#######
             file.write(""
-                + f"#!/bin/bash\n" 
+                + f"#!/bin/bash\n"
+                + f"#SBATCH --account=\"hk-project-p0022320\"\n"
                 + f"#SBATCH --job-name={self.runNumber}\n"
                 + f"#SBATCH --output={logdir}_log%j.out\n"
                 + f"#SBATCH --error={logdir}_log%j.err\n"
