@@ -1,13 +1,14 @@
 #!/bin/bash
 #SBATCH --job-name=sub
-#SBATCH --output=/hkfs/work/workspace/scratch/bg5912-radiosims/GP300/_log%j.out
-#SBATCH --error=/hkfs/work/workspace/scratch/bg5912-radiosims/GP300/_log%j.err
+#SBATCH --account="hk-project-p0022320"
+#SBATCH --output=/hkfs/work/workspace/scratch/bj4908-corsika_sims/china_stshps/logs/_log%j.out
+#SBATCH --error=/hkfs/work/workspace/scratch/bj4908-corsika_sims/china_stshps/logs/_log%j.err
 #SBATCH --nodes=2
 #SBATCH --cpus-per-task=12
-#SBATCH --time=03:00:00
+#SBATCH --time=08:00:00
 #SBATCH --tasks=2
 ######SBATCH --mem=50gb
 ######SBATCH --export=NONE
 #######################SBATCH --gres=gpu:4
 
-/home/hk-project-radiohfi/bg5912/CoreasSpellcaster/corsikaSim.sh
+/home/hk-project-radiohfi/bj4908/software/CoreasSpellcaster/corsikaSim.sh

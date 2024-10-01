@@ -143,7 +143,7 @@ class FileWriter:
             primary = self.primary,
             directory = self.directory,
             folder_path = folder_path,
-            pathCorsika = "/home/hk-project-radiohfi/bg5912/work/soft/corsika-77550/run/",
+            pathCorsika = "/home/hk-project-radiohfi/bj4908/software/corsika-77550/run/",
             corsikaExe = "/mpi_corsika77550Linux_SIBYLL_urqmd_thin_coreas_parallel_runner",
         )
 

@@ -158,7 +158,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--username", 
         type=str, 
-        default="bg5912", 
+        default="bj4908", 
         help="your user name on server"
     )
     parser.add_argument(
@@ -172,12 +172,12 @@ if __name__ == "__main__":
         "--dirSimulations",
         type=str,
         default="/hkfs/work/workspace/scratch/bg5912-radiosims/GP300/",
-        help="Directory where the simulation are stored",
+        help="Directory where the simulations are stored after running",
     )
     parser.add_argument(
         "--pathCorsika",
         type=str,
-        default="/home/hk-project-radiohfi/bg5912/work/soft/corsika-77550/run/",
+        default="/home/hk-project-radiohfi/bj4908/software/corsika-77550/run/",
         help="the /run directory where the executable of corsika is located",
     )
     parser.add_argument(
@@ -215,7 +215,7 @@ if __name__ == "__main__":
         "--energyStep", 
         type=float, 
         default=0.1, 
-        help="Step in energy, 0.1 default (do not change unless you know what you are doing)"
+        help="Step in energy, 0.1 default (do not change unless you know what you are doing). Enter as 0.0 to make energies continuous"
     )
 
     parser.add_argument(
@@ -242,7 +242,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--pathAntennas",
         type=str,
-        default="/home/hk-project-radiohfi/bg5912/CoreasSpellcaster/utils/gp300.list",
+        default="/home/hk-project-radiohfi/bj4908/software/CoreasSpellcaster/utils/gp300.list",
         help="the directory where the antenna position file is located"
     )
 

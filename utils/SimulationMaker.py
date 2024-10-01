@@ -87,7 +87,10 @@ class SimulationMaker:
         # Initialize empty list for all zenith values
         all_zenith_values = []
         print("zenith range", zenith_range[0], zenith_range[-1])
-            
+
+        # print("list of energies", self.energies)
+        # print("list of zeniths", zenith_range[1:])
+
             # This is a loop over all energies and gives the low and high limit values.
             # Eg. 5.0 and 5.1
         for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
@@ -99,6 +102,8 @@ class SimulationMaker:
                 all_zenith_values = (list(np.rad2deg(np.arccos(1-cos_value))))
                 if i==(len(zenith_range)-2):
                     all_zenith_values.append(zenith_end)
+                
+                # print(all_zenith_values)
 
                 for zenith in all_zenith_values:
                     print(zenith)
@@ -121,7 +126,7 @@ class SimulationMaker:
                         zenithID = self.runNumGen.getZenithID(zenith)
                         azimuthID = self.runNumGen.getAzimuthID(azimuth)
                         energyID = self.runNumGen.getEnergyID(log10_E1)
-                        runNumber = format(int(particleID * 1E5 + zenithID * 1E4 + azimuthID * 1E3 + energyID * 1E2 + runIndex), '06d')
+                        runNumber = format(int(particleID * 1E5 + energyID * 1E4 + zenithID * 1E3 + azimuthID * 1E2 + runIndex), '06d')
                         print("runNumber", runNumber)
 
                         # Create folders with the structure: primary_particle/energy/theta/runNumber/<files>
