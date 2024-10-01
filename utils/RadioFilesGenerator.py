@@ -13,7 +13,8 @@ the detector antennas are moved at random for each run.
 
 import numpy as np
 import random
-from miniradiotools.starshapes import create_stshp_list, get_starshaped_pattern_radii
+# from miniradiotools.starshapes import create_stshp_list, get_starshaped_pattern_radii
+from radiotools.coreas.generate_coreas_sim import write_list_star_pattern, get_starshaped_pattern_radii
 import sys
 import os
 
@@ -157,14 +158,15 @@ class RadioFilesGenerator:
         radiotools_azimuth = self.azimuth + 270 
 
         print("* * * * * * * * * * * * * *")
-        print("* casting starshape pattern *")
-        antenna_rings = get_starshaped_pattern_radii(self.zenith, self.obslev, atm_model=41)
+        print("* Casting starshape pattern *")
+        antenna_rings = get_starshaped_pattern_radii(np.deg2rad(self.zenith), self.obslev / 100, n0=1.0002734814461, atm_model=41)
         # atm_model = 41: Dunhuang, China
+        # n0_Dunhuang = 1.0002734814461
 
-        corsika_azimuth = create_stshp_list(self.zenith, radiotools_azimuth, filename=f"{self.directory}/{self.log10_E1}/{sim}_starshape.list", 
-                        obslevel=int(self.obslev), # for Dunhuang, in cm for corsika
-                        obsplane = "gp",
-                        inclination=61.60523, # for Dunhuang
+        corsika_azimuth = write_list_star_pattern(filename=f"{self.directory}/{self.primary}/{self.log10_E1}/{sim}_starshape.list", zenith=np.deg2rad(self.zenith), azimuth=np.deg2rad(radiotools_azimuth), 
+                        obs_level=int(self.obslev / 100), # for Dunhuang, in m for radiotools function
+                        ground_plane=True,
+                        inclination=np.deg2rad(61.60523), # for Dunhuang
                         vxB_plot=False,
                         # n_rings = 20 # for 160 antennas
                         antenna_rings = antenna_rings # for 240 antennas
@@ -183,7 +185,7 @@ class RadioFilesGenerator:
 
 
         # use the starshape file we just generated and read the antenna positions and names from it:
-        file = np.genfromtxt(f"{self.directory}/{self.log10_E1}/{sim}_starshape.list", dtype = "str")
+        file = np.genfromtxt(f"{self.directory}/{self.primary}/{self.log10_E1}/{sim}_starshape.list", dtype = "str")
         
         # get antenna positions from file
         # file[:,0] and file[:,1] are useless (they are simply "AntennaPosition" and "=")
@@ -207,17 +209,17 @@ class RadioFilesGenerator:
         # Opening and writing in the file
         with open(list_name, 'w') as f:
             # write the positions (x, y, z) and names of the starshape antennas to the .list file
-            # for i in range(self.starshapeInfo["x"].shape[0]):
-            #     f.write(f"AntennaPosition = {self.starshapeInfo['x'][i]} {self.starshapeInfo['y'][i]} {self.starshapeInfo['z'][i]} {self.starshapeInfo['name'][i]}\n") 
+            for i in range(self.starshapeInfo["x"].shape[0]):
+                f.write(f"AntennaPosition = {self.starshapeInfo['x'][i]} {self.starshapeInfo['y'][i]} {self.starshapeInfo['z'][i]} {self.starshapeInfo['name'][i]}\n") 
             # write the positions (x, y, z) and names of the detector's antennas to the .list file
             print("***** Summoning GP300 antennas *****")
-            for i in range(self.antennaInfo["x"].shape[0]):
-                f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} 120000 {self.antennaInfo['name'][i]}\n") 
+            # for i in range(self.antennaInfo["x"].shape[0]):
+            #    f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} 120000 {self.antennaInfo['name'][i]}\n") 
 
     def writeReasList(self):
         # define this to make it easier to call the functions
 
         self.reasWriter()
-        self.get_antennaPositions()
-        # self.get_starshapes()
+        # self.get_antennaPositions()
+        self.get_starshapes()
         self.listWriter()
