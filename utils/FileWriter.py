@@ -129,7 +129,8 @@ class FileWriter:
             zenith = zenith,
             azimuth = azimuth,
             primary = self.primary,
-            folder_path = folder_path
+            folder_path = folder_path,
+            random_core = True
         )
 
         RadGen.writeReasList()

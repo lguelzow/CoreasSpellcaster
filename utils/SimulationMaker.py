@@ -83,66 +83,106 @@ class SimulationMaker:
         """
         print("Conjuring energies in log10 GeV of", self.energies)
 
-        # Zenith angle range
-        zenith_range = np.around(np.arange(self.zenithStart, self.zenithEnd + 0.1, 2.5), decimals=1)
-        # Number of additional values per step
-        intervals = 10
-        # Initialize empty list for all zenith values
-        all_zenith_values = []
-        print("zenith range", zenith_range[0], zenith_range[-1])
+        # continuous case
+        if self.simAmount != 0:
+            # loop over all simulations to generate
+            for i in range(self.simAmount):
 
-        # print("list of energies", self.energies)
-        # print("list of zeniths", zenith_range[1:])
+                # randomly generate the simulation properties
+
+                # take previously generated energy
+                log10_E1 = self.energies[i]
+
+                # zenith between start and end value (flat distribution)
+                zenith = round(random.uniform(self.zenithStart, self.zenithEnd), ndigits=2)
+
+                # flat azimuth distribution
+                azimuth = round(random.uniform(0, 360), ndigits=2)
+
+                print("SimMaker using zenith", zenith)
+                print("SimMaker using azimuth", azimuth)
+
+                # get particleID for simID
+                particleID = self.runNumGen.getPrimaryID(self.primary_particle)
+
+                # Create the file name (runNumber) for the simulation
+                particleID = self.runNumGen.getPrimaryID(self.primary_particle)
+                # TODO: change simnumber generation to a better way
+                simNumber = format(int(particleID * 1E5 + 4 + i), '06d') # gives 6-digit number with primary as first number and 
+                print("simNumber", simNumber)
+
+                # Create a folder for every sim in the directory
+                folder_path = os.path.join(f"{self.directory}/{simNumber}")
+                os.makedirs(folder_path, exist_ok=True)  # Create folders if they don't already exist
+
+                # Check if the simulation already exists
+                if f"SIM{simNumber}_coreas" not in os.listdir(folder_path):
+                    # Write Corsika input file and generate key/string
+                    self.fW.writeFile(simNumber, log10_E1, azimuth, zenith, folder_path)
+                    key = f"{log10_E1}_{simNumber}"
+                    stringToSubmit = self.makeStringToSubmit(log10_E1, simNumber, zenith, folder_path)
+                    yield (key, stringToSubmit)
+
+
+        else:
+            # Zenith angle range
+            zenith_range = np.around(np.arange(self.zenithStart, self.zenithEnd + 0.1, 2.5), decimals=1)
+            # Number of additional values per step
+            intervals = 10
+            # Initialize empty list for all zenith values
+            all_zenith_values = []
+            print("zenith range", zenith_range[0], zenith_range[-1])
+
 
             # This is a loop over all energies and gives the low and high limit values.
             # Eg. 5.0 and 5.1
-        for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
-                # Calculate cosine values for the current step
-            for i, (zenith_start, zenith_end) in enumerate(zip(zenith_range[:-1], zenith_range[1:])):
-                cstart = 1 -np.cos(np.deg2rad(zenith_start))
-                cend = 1 - np.cos(np.deg2rad(zenith_end))
-                cos_value = np.linspace(cstart, cend, intervals, endpoint=False)
-                all_zenith_values = (list(np.rad2deg(np.arccos(1-cos_value))))
-                if i==(len(zenith_range)-2):
-                    all_zenith_values.append(zenith_end)
-                
-                # print(all_zenith_values)
+            for log10_E1, log10_E2 in zip(self.energies[:-1], self.energies[1:]):
+                    # Calculate cosine values for the current step
+                for i, (zenith_start, zenith_end) in enumerate(zip(zenith_range[:-1], zenith_range[1:])):
+                    cstart = 1 - np.cos(np.deg2rad(zenith_start))
+                    cend = 1 - np.cos(np.deg2rad(zenith_end))
+                    cos_value = np.linspace(cstart, cend, intervals, endpoint=False)
+                    all_zenith_values = (list(np.rad2deg(np.arccos(1 - cos_value))))
+                    if i==(len(zenith_range)-2):
+                        all_zenith_values.append(zenith_end)
+                    
+                    # print(all_zenith_values)
 
-                for zenith in all_zenith_values:
-                    print(zenith)
-                    # loop over all the unique numbers 
-                    for runIndex in range(self.startNumber, self.endNumber, 1):
-                        #! zenith loop here
-                        # Get the next azimuth value from the list
-                        print("SimMaker using zenith", zenith)
+                    for zenith in all_zenith_values:
+                        print(zenith)
+                        # loop over all the unique numbers 
+                        for runIndex in range(self.startNumber, self.endNumber, 1):
+                            #! zenith loop here
+                            # Get the next azimuth value from the list
+                            print("SimMaker using zenith", zenith)
 
-                        #! random azimuth here
-                        # Get random azimuth
-                        azimuth = round(random.uniform(0, 360), 2)
-                        print("SimMaker using azimuth", azimuth)
+                            #! random azimuth here
+                            # Get random azimuth
+                            azimuth = round(random.uniform(0, 360), 2)
+                            print("SimMaker using azimuth", azimuth)
 
-                        # print runIndex (as double check)
-                        print("runIndex", runIndex)
+                            # print runIndex (as double check)
+                            print("runIndex", runIndex)
 
-                        # Create the file name (runNumber) for the simulation
-                        particleID = self.runNumGen.getPrimaryID(self.primary_particle)
-                        zenithID = self.runNumGen.getZenithID(zenith)
-                        azimuthID = self.runNumGen.getAzimuthID(azimuth)
-                        energyID = self.runNumGen.getEnergyID(log10_E1)
-                        runNumber = format(int(particleID * 1E5 + energyID * 1E4 + zenithID * 1E3 + azimuthID * 1E2 + runIndex), '06d')
-                        print("runNumber", runNumber)
+                            # Create the file name (runNumber) for the simulation
+                            particleID = self.runNumGen.getPrimaryID(self.primary_particle)
+                            zenithID = self.runNumGen.getZenithID(zenith)
+                            azimuthID = self.runNumGen.getAzimuthID(azimuth)
+                            energyID = self.runNumGen.getEnergyID(log10_E1)
+                            runNumber = format(int(particleID * 1E5 + energyID * 1E4 + zenithID * 1E3 + azimuthID * 1E2 + runIndex), '06d')
+                            print("runNumber", runNumber)
 
-                        # Create folders with the structure: primary_particle/energy/theta/runNumber/<files>
-                        folder_path = os.path.join(f"{self.directory}{self.primary_particle}/{log10_E1}/{zenith_start}/{runNumber}/")
-                        os.makedirs(folder_path, exist_ok=True)  # Create folders if they don't already exist
+                            # Create folders with the structure: primary_particle/energy/theta/runNumber/<files>
+                            folder_path = os.path.join(f"{self.directory}{self.primary_particle}/{log10_E1}/{zenith_start}/{runNumber}/")
+                            os.makedirs(folder_path, exist_ok=True)  # Create folders if they don't already exist
 
-                        # Check if the simulation already exists
-                        if f"SIM{runNumber}_coreas" not in os.listdir(folder_path):
-                            # Write Corsika input file and generate key/string
-                            self.fW.writeFile(runNumber, log10_E1, azimuth, zenith, folder_path)
-                            key = f"{log10_E1}_{runNumber}"
-                            stringToSubmit = self.makeStringToSubmit(log10_E1, runNumber, zenith, folder_path)
-                            yield (key, stringToSubmit)
+                            # Check if the simulation already exists
+                            if f"SIM{runNumber}_coreas" not in os.listdir(folder_path):
+                                # Write Corsika input file and generate key/string
+                                self.fW.writeFile(runNumber, log10_E1, azimuth, zenith, folder_path)
+                                key = f"{log10_E1}_{runNumber}"
+                                stringToSubmit = self.makeStringToSubmit(log10_E1, runNumber, zenith, folder_path)
+                                yield (key, stringToSubmit)
 
 
 

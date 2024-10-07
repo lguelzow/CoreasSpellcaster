@@ -93,8 +93,9 @@ def mainCorsikaSim(args):
     
 
     # continuous energies if energyStep is defined as 0
-    if args.energyStep == 0.0:
-        energies = 0
+    if args.energyStep == 0:
+        # continuous randomly distributed primary energies between energy boundaries, as many as amount specified
+        energies = np.array([np.round(random.uniform(args.energyStart, args.energyEnd), decimals=2) for i in range(args.simAmount)])
 
     # otherwise keep using discrete energy bins
     else:

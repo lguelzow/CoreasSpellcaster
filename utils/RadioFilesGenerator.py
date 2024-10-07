@@ -15,6 +15,8 @@ import numpy as np
 import random
 # from miniradiotools.starshapes import create_stshp_list, get_starshaped_pattern_radii
 from radiotools.coreas.generate_coreas_sim import write_list_star_pattern, get_starshaped_pattern_radii
+from radiotools.atmosphere.cherenkov_radius import get_cherenkov_radius_from_depth
+from radiotools import coordinatesystems
 import sys
 import os
 
@@ -30,6 +32,7 @@ class RadioFilesGenerator:
         azimuth,
         primary,
         folder_path,
+        random_core=False,
 
     ):
         self.directory = directory
@@ -43,6 +46,25 @@ class RadioFilesGenerator:
         self.folder_path = folder_path
         self.antennaInfo = {}
         self.starshapeInfo = {}
+        self.random_core = random_core
+        
+        self.n0 = 1.00027345
+
+        if self.random_core:
+            #
+            # randomly generate core position for GP300
+            #
+
+            # set boundaries of ranges where core can be generated for GP300 so that it always encompasses most of the array
+            GP300_max_x = 650000 # in cm
+            GP300_min_x = -440000 # in cm
+
+            GP300_max_y = 520000 # in cm
+            GP300_min_y = -1130000 # in cm
+
+            # randomly generate core in the array in the ground plane
+            self.core_north = round(random.uniform(GP300_min_x, GP300_max_x))
+            self.core_west = round(random.uniform(GP300_min_y, GP300_max_y))
 
 
         """
@@ -74,8 +96,8 @@ class RadioFilesGenerator:
             file.write(""
                 + f"# CoREAS V1.4 parameter file\n"
                 + f"# parameters setting up the spatial observer configuration:\n"
-                + f"CoreCoordinateNorth = 0                ; in cm\n"
-                + f"CoreCoordinateWest = 0                ; in cm\n"
+                + f"CoreCoordinateNorth = {self.core_north}          ; in cm\n"
+                + f"CoreCoordinateWest = {self.core_west}          ; in cm\n"
                 + f"CoreCoordinateVertical = {self.obslev}      ; in cm\n"
                 + f"# parameters setting up the temporal observer configuration:\n"
                 + f"TimeResolution = 5e-10                ; in s\n"
@@ -84,7 +106,7 @@ class RadioFilesGenerator:
                 + f"TimeUpperBoundary = 1                ; in s, only if AutomaticTimeBoundaries set to 0\n"
                 + f"ResolutionReductionScale = 0            ; 0: off, x: decrease time resolution linearly every x cm in radius\n"
                 + f"# parameters setting up the simulation functionality:\n"
-                + f"GroundLevelRefractiveIndex = 1.00031200        ; specify refractive index at 0 m asl\n"
+                + f"GroundLevelRefractiveIndex = {self.n0}          ; specify refractive index at 0 m asl\n"
                 + f"# event information for Offline simulations:\n"
                 + f"EventNumber = 1\n"
                 + f"RunNumber = {self.runNumber} \n"
@@ -110,28 +132,70 @@ class RadioFilesGenerator:
         We want to randomly move the antennas, but also not too far from the core.
         Therefore, generate random numbers within a radius of the approximate size of the array.
         """
-        
-        cherenkov_radius_min = 20000 #cm
-        cherenkov_radius_max = 40000 #cm
-        
-        while True:  # Loop until valid coordinates are generated
-            dx = random.uniform(-cherenkov_radius_max, cherenkov_radius_max)
-            dy = random.uniform(-cherenkov_radius_max, cherenkov_radius_max)
 
-            # Check if the distance from (0, 0) is greater than cherenkov_radius_min
-            distance = (dx**2 + dy**2)**0.5
-            if distance > cherenkov_radius_min:
-                break
+        if self.random_core:
+            # use randomly generated core in the array in the ground plane
+            core_gp = np.array([self.core_north, self.core_west, self.obslev])
 
-        file = np.genfromtxt(self.pathAntennas, dtype = "str")
-        # get antenna positions from file
-        # file[:,0] and file[:,1] are useless (they are simply "AntennaPosition" and "=")
-        # get the x, y and z positions
-        self.antennaInfo["x"] = file[:,2].astype(float) + dx
-        self.antennaInfo["y"] = file[:,3].astype(float) + dy
-        self.antennaInfo["z"] = abs(file[:,4].astype(float))
-        # get the names of the antennas
-        self.antennaInfo["name"] = file[:,5]
+            #
+            # only select antennas within 4 cherenkov radii of core in shower plane
+            #
+            # estimate cherenkov radius in shower plane for antenna selection (hard-coded xmax, n0 and atm_model)
+            # and multiply by 4 to get reasonable distance from core, also transform to cm, obslev is taken in m here
+            rmax = 4 * get_cherenkov_radius_from_depth(zenith=np.deg2rad(self.zenith), depth=750, obs_level=self.obslev / 100, n0=self.n0, model=41) * 100
+
+            # compute the B field in Corsika system (x direction = North, y direction = West) from inclination of geomagnetic field given in input
+            B_field = np.array([np.cos(np.deg2rad(61.60523)), 0, -np.sin(np.deg2rad(61.60523))])
+
+            # define shower plane coordinate system from given geometry, flip azimuth bc corsika conventions
+            cs = coordinatesystems.cstrafo(np.deg2rad(self.zenith), np.deg2rad(self.azimuth + 180), magnetic_field_vector=B_field)
+
+            # calculate core position in shower plane
+            core_sp = cs.transform_to_vxB_vxvxB(np.array(core_gp))
+
+            # read GP300 layout file
+            file = np.genfromtxt(self.pathAntennas, dtype = "str")
+            # read out ground plane antenna positions
+            antenna_positions = np.array([[file[i, 2].astype(float) * 100, file[i, 3].astype(float) * 100, self.obslev + file[i, 4].astype(float) * 100] for i in range(len(file))])
+            
+            # antenna positions in shower plane
+            pos_showerplane = cs.transform_to_vxB_vxvxB(np.array(antenna_positions))
+
+            # select only antennas that are close to core
+            mask = ((pos_showerplane[:, 0] - core_sp[0]) ** 2 + (pos_showerplane[:, 1] - core_sp[1]) ** 2) ** 0.5 < rmax
+
+            # save antenna info for the list files
+            self.antennaInfo["x"] = file[:, 2][mask].astype(float) * 100
+            self.antennaInfo["y"] = file[:, 3][mask].astype(float) * 100
+            self.antennaInfo["z"] = file[:, 4][mask].astype(float) * 100 + self.obslev
+
+            self.antennaInfo["name"] = file[:,1][mask]
+
+
+
+        else:
+            # instead, vary whole antenna array
+            cherenkov_radius_min = 20000 #cm
+            cherenkov_radius_max = 40000 #cm
+            
+            while True:  # Loop until valid coordinates are generated
+                dx = random.uniform(-cherenkov_radius_max, cherenkov_radius_max)
+                dy = random.uniform(-cherenkov_radius_max, cherenkov_radius_max)
+
+                # Check if the distance from (0, 0) is greater than cherenkov_radius_min
+                distance = (dx ** 2 + dy ** 2) ** 0.5
+                if distance > cherenkov_radius_min:
+                    break
+
+            file = np.genfromtxt(self.pathAntennas, dtype = "str")
+            # get antenna positions from file
+            # file[:,0] and file[:,1] are useless (they are simply "AntennaPosition" and "=")
+            # get the x, y and z positions
+            self.antennaInfo["x"] = file[:, 2].astype(float) * 100 + dx
+            self.antennaInfo["y"] = file[:, 3].astype(float) * 100 + dy
+            self.antennaInfo["z"] = file[:, 4].astype(float) * 100
+            # get the names of the antennas
+            self.antennaInfo["name"] = file[:,1]
 
 
 
@@ -192,7 +256,7 @@ class RadioFilesGenerator:
         # get the x and y positions
         self.starshapeInfo["x"] = file[:,2].astype(float)
         self.starshapeInfo["y"] = file[:,3].astype(float)
-        self.starshapeInfo["z"] = file[:,4].astype(float)
+        self.starshapeInfo["z"] = file[:,4].astype(float) + self.obslev
         # get the names of the antennas
         self.starshapeInfo["name"] = file[:,5]
 
@@ -209,17 +273,17 @@ class RadioFilesGenerator:
         # Opening and writing in the file
         with open(list_name, 'w') as f:
             # write the positions (x, y, z) and names of the starshape antennas to the .list file
-            for i in range(self.starshapeInfo["x"].shape[0]):
-                f.write(f"AntennaPosition = {self.starshapeInfo['x'][i]} {self.starshapeInfo['y'][i]} {self.starshapeInfo['z'][i]} {self.starshapeInfo['name'][i]}\n") 
+            # for i in range(self.starshapeInfo["x"].shape[0]):
+            #     f.write(f"AntennaPosition = {self.starshapeInfo['x'][i]} {self.starshapeInfo['y'][i]} {self.starshapeInfo['z'][i]} {self.starshapeInfo['name'][i]}\n") 
             # write the positions (x, y, z) and names of the detector's antennas to the .list file
             print("***** Summoning GP300 antennas *****")
-            # for i in range(self.antennaInfo["x"].shape[0]):
-            #    f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} 120000 {self.antennaInfo['name'][i]}\n") 
+            for i in range(self.antennaInfo["x"].shape[0]):
+                f.write(f"AntennaPosition = {self.antennaInfo['x'][i]} {self.antennaInfo['y'][i]} {self.antennaInfo['z'][i]} {self.antennaInfo['name'][i]}\n") 
 
     def writeReasList(self):
         # define this to make it easier to call the functions
 
         self.reasWriter()
-        # self.get_antennaPositions()
-        self.get_starshapes()
+        self.get_antennaPositions()
+        # self.get_starshapes()
         self.listWriter()
