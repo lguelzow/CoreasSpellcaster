@@ -82,7 +82,7 @@ class SubFilesGenerator:
                 + f"#SBATCH --nodes=1\n"
                 + f"#SBATCH --ntasks-per-node=76\n"
                 + f"#SBATCH --cpus-per-task=1\n"
-                + f"#SBATCH --time=2-00:00:00\n" #{self.runtime}
+                + f"#SBATCH --time=08:00:00\n"
                 + f"\n"
                 + f"# Load MPI module (if necessary)\n"
                 + f"# module load mpi\n"

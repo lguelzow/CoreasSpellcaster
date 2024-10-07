@@ -138,6 +138,8 @@ def mainCorsikaSim(args):
 
         primary_particle = args.primary,
         directory = args.dirSimulations,
+
+        simAmount=args.simAmount,
     )
 
     submitter = Submitter(
@@ -193,6 +195,14 @@ if __name__ == "__main__":
         default="mpi_corsika77550Linux_SIBYLL_urqmd_thin_coreas_parallel_runner",
         help="the name of the executable of corsika located in the /run directory",
     )
+
+    parser.add_argument(
+        "--simAmount",
+        type=int,
+        default=0,
+        help="Number of simulations to generate (e.g. 0 default)",
+    )
+
     parser.add_argument(
         "--startNumber",
         type=int,

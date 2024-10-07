@@ -34,10 +34,11 @@ class SimulationMaker:
         startNumber:    the start of the simulation (eg. integer default value 0)
         endNumber:      the end of the simulation (eg. integer default value if startNumber is 0, 
                         it is the total number of simulations.
-        energies:       the array binned in energies for the simulation
+        energies:       the array of energies for the simulation
         fW:             the file writer class. In order to use some of the functions in this class
         pathCorsika:    the path where Corsika is installed
         corsikaExe:     the name of the Corsika executable that needs to be used
+        simAmount:      number of sims to generate
     
     """
     def __init__(self, 
@@ -51,6 +52,7 @@ class SimulationMaker:
                  zenithEnd,
                  primary_particle,
                  directory,
+                 simAmount,
     ):
         
         self.startNumber = startNumber
@@ -64,6 +66,7 @@ class SimulationMaker:
         self.primary_particle = primary_particle
         self.runNumGen = runNumberGenerator()
         self.directory = directory
+        self.simAmount = simAmount
 
 
 

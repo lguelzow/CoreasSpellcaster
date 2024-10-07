@@ -16,21 +16,24 @@ cd /home/hk-project-radiohfi/bj4908/software/corsika-77550/run/
 $PYTHON $SCRIPT \
                 --username bj4908 \
                 --primary 14 \
-                --dirSimulations "/hkfs/work/workspace/scratch/bj4908-corsika_sims/china_stshps/" \
+                --dirSimulations "/hkfs/work/workspace/scratch/bj4908-corsika_sims/DC2_test" \
                 --pathCorsika "/home/hk-project-radiohfi/bj4908/software/corsika-77550/run/" \
+                --pathAntennas "/home/hk-project-radiohfi/bj4908/software/CoreasSpellcaster/utils/GP300-80_june2024.dat" \
                 --corsikaExe "/mpi_corsika77550Linux_SIBYLL_urqmd_thin_coreas_parallel_runner" \
-                --startNumber 3 \
-                --endNumber 4 \
-                --energyStart 9.4 \
-                --energyEnd 11.2 \
-                --energyStep 0.2 \
+                --simAmount 3 \
+                --startNumber 0 \
+                --endNumber 1 \
+                --energyStart 9.0 \
+                --energyEnd 11.0 \
+                --energyStep 0 \
                 --zenithStart 65 \
                 --zenithEnd 85 \
-                --obslev 114200 \
+                --obslev 126554.24 \
 
                  
 
 # proton 14, iron 5626
-# obslev Dunhuang 1.2 km -> 1200 m -> 120000 cm 
+# obslev GP300 126554.24 cm 
 # if startNumber is 0, endnumber equals number of sims per bin 
 # energy in log10 of GeV
+# start and end numbers do not matter if energyStep=0, since then the simAmount parameter governs the continuously generated simulation amount
