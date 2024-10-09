@@ -20,7 +20,7 @@ $PYTHON $SCRIPT \
                 --pathCorsika "/home/hk-project-radiohfi/bj4908/software/corsika-77550/run/" \
                 --pathAntennas "/home/hk-project-radiohfi/bj4908/software/CoreasSpellcaster/utils/GP300-80_june2024.dat" \
                 --corsikaExe "/mpi_corsika77550Linux_SIBYLL_urqmd_thin_coreas_parallel_runner" \
-                --simAmount 3 \
+                --simAmount 1000 \
                 --startNumber 0 \
                 --endNumber 1 \
                 --energyStart 9.0 \

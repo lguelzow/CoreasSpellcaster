@@ -108,7 +108,7 @@ class SimulationMaker:
                 # Create the file name (runNumber) for the simulation
                 particleID = self.runNumGen.getPrimaryID(self.primary_particle)
                 # TODO: change simnumber generation to a better way
-                simNumber = format(int(particleID * 1E5 + 4 + i), '06d') # gives 6-digit number with primary as first number and 
+                simNumber = format(int(particleID * 1E5 + 0 + i), '06d') # gives 6-digit number with primary as first number and 
                 print("simNumber", simNumber)
 
                 # Create a folder for every sim in the directory
